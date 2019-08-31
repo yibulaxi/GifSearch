@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.allever.app.template">
 
     <application
@@ -8,14 +9,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        android:theme="@style/FullScreenStyle"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AboutActivity"
+                  android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="UMENG_APPKEY"
