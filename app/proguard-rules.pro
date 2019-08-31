@@ -73,7 +73,7 @@ public static final int *;
 
 # 友盟特有-----------------------------------------------------------------------------------------------------------------
 # 填应用包名
--keep public class [com.allever.security.photo.browser].R$*{
+-keep public class [com.allever.app.template].R$*{
     public static final int *;
 }
 
@@ -98,7 +98,7 @@ public static final int *;
   public *;
 }
 
-# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-# Glide----------------------------------------------------------------------------------
+## for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+## Glide----------------------------------------------------------------------------------
 
