@@ -9,7 +9,7 @@ class MyApp: App() {
         super.onCreate()
 
         com.android.absbase.App.setContext(this)
-
+        BuildConfig.UMENG_APP_KEY
         //初始化友盟
         UMeng.init(this, channel = "text")
     }
