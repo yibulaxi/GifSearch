@@ -19,40 +19,41 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-#LitePal 数据库---------------------------------------------------------------------------------
--keep class org.litepal.** {
-    *;
-}
-
--keep class * extends org.litepal.crud.DataSupport {
-    *;
-}
-#LitePal 数据库---------------------------------------------------------------------------------
-
-
-# Gson-----------------------------------------------------------------------------------------
--keep class com.google.gson.stream.** { *; }
--keepattributes EnclosingMethod
-# 需要替换实体类包名路径
--keep class com.zf.lose.weight.dengyq.bean.** { *; }
-# Gson--------------------------------------------------------------------------
-
-# eventbus------------------------------------------------------------------
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
-# eventbus------------------------------------------------------------------
-
-
-#com.haibin:calendarview 日历控件------------------------------------------------------------------
--keepclasseswithmembers class * {
-    public <init>(android.content.Context);
-}
-#com.haibin:calendarview 日历控件------------------------------------------------------------------
-
+#
+##LitePal 数据库---------------------------------------------------------------------------------
+#-keep class org.litepal.** {
+#    *;
+#}
+#
+#-keep class * extends org.litepal.crud.DataSupport {
+#    *;
+#}
+##LitePal 数据库---------------------------------------------------------------------------------
+#
+#
+## Gson-----------------------------------------------------------------------------------------
+#-keep class com.google.gson.stream.** { *; }
+#-keepattributes EnclosingMethod
+## 需要替换实体类包名路径
+#-keep class com.zf.lose.weight.dengyq.bean.** { *; }
+## Gson--------------------------------------------------------------------------
+#
+## eventbus------------------------------------------------------------------
+#-keepattributes *Annotation*
+#-keepclassmembers class ** {
+#    @org.greenrobot.eventbus.Subscribe <methods>;
+#}
+#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+## eventbus------------------------------------------------------------------
+#
+#
+##com.haibin:calendarview 日历控件------------------------------------------------------------------
+#-keepclasseswithmembers class * {
+#    public <init>(android.content.Context);
+#}
+##com.haibin:calendarview 日历控件------------------------------------------------------------------
+#
+#
 
 # 友盟------------------------------------------------------------------------------------------------
 -keep class com.umeng.** {*;}
@@ -64,41 +65,43 @@
     public static ** valueOf(java.lang.String);
 }
 
-# 这里需要替换包名
--keep public class [com.zf.lose.weight].R$*{
-public static final int *;
-}
-
-# 友盟------------------------------------------------------------------------------------------------
-
 # 友盟特有-----------------------------------------------------------------------------------------------------------------
 # 填应用包名
 -keep public class [com.allever.app.template].R$*{
     public static final int *;
 }
+#
+## EventBus--------------------------------------------------------------------------------------------------------------
+#-keepattributes *Annotation*
+#-keepclassmembers class * {
+#    @org.greenrobot.eventbus.Subscribe <methods>;
+#}
+#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#
+## Only required if you use AsyncExecutor
+#-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+#    <init>(java.lang.Throwable);
+#}
+## EventBus----------------------------------------------------------------------------------
+#
+## Glide----------------------------------------------------------------------------------------------------------------
+#-keep public class * implements com.bumptech.glide.module.GlideModule
+#-keep public class * extends com.bumptech.glide.module.AppGlideModule
+#-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+#  **[] $VALUES;
+#  public *;
+#}
+#
+### for DexGuard only
+##-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+### Glide----------------------------------------------------------------------------------
+#
 
-# EventBus--------------------------------------------------------------------------------------------------------------
--keepattributes *Annotation*
--keepclassmembers class * {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
-# Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
-# EventBus----------------------------------------------------------------------------------
-
-# Glide----------------------------------------------------------------------------------------------------------------
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
-## for DexGuard only
-#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-## Glide----------------------------------------------------------------------------------
-
+# 奇葩问题
+# Process: com.allever.app.virtual.call, PID: 28185
+#    java.lang.NoSuchMethodError: No static method asAttributeSet(Lg/a/a/a;)Landroid/util/AttributeSet; in class Landroid/util/Xml; or its super classes (declaration of 'android.util.Xml' appears in /system/framework/framework.jar)
+# https://www.jianshu.com/p/48c56e9048e7
+-dontwarn org.xmlpull.v1.XmlPullParser
+-dontwarn org.xmlpull.v1.XmlSerializer
+-keep class org.xmlpull.v1.* {*;}
