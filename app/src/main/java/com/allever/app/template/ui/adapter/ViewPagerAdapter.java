@@ -15,12 +15,10 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragmentList;
-    private Context mContext;
 
-    public ViewPagerAdapter(FragmentManager fragmentManager, Context context, List<Fragment> fragmentList) {
+    public ViewPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragmentList) {
         super(fragmentManager);
         mFragmentList = fragmentList;
-        mContext = context;
     }
 
     @Override
