@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.TextView
+import com.allever.app.template.BuildConfig
 import com.allever.app.template.R
 import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.mvp.presenter.AboutPresenter
 import com.allever.app.template.ui.mvp.view.AboutView
-import com.allever.app.template.util.SystemUtils
-import com.allever.lib.common.app.App
 
 class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 
@@ -20,7 +19,7 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
         findViewById<View>(R.id.about_privacy).setOnClickListener(this)
         findViewById<View>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.about)
-
+        findViewById<TextView>(R.id.about_app_version).text = BuildConfig.VERSION_NAME
     }
 
     override fun initData() {
