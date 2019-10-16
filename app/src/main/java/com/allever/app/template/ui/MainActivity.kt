@@ -7,8 +7,6 @@ import com.allever.app.template.R
 import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.mvp.presenter.MainPresenter
 import com.allever.app.template.ui.mvp.view.MainView
-import com.allever.app.template.util.FeedbackHelper
-import com.allever.lib.common.util.ToastUtils
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnClickListener {
 

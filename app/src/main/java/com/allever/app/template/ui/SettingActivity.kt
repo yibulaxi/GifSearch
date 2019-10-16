@@ -9,8 +9,8 @@ import com.allever.app.template.R
 import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.mvp.presenter.SettingPresenter
 import com.allever.app.template.ui.mvp.view.SettingView
-import com.allever.app.template.util.FeedbackHelper
 import com.allever.app.template.util.SystemUtils
+import com.allever.lib.common.util.FeedbackHelper
 
 class SettingActivity: BaseActivity<SettingView, SettingPresenter>(), SettingView, View.OnClickListener {
     override fun getContentView(): Any = R.layout.activity_setting

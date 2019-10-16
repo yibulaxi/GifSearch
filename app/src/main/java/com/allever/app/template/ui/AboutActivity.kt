@@ -30,12 +30,12 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.iv_right -> {
+            R.id.iv_left -> {
                 finish()
             }
             R.id.about_privacy -> {
-                val privacyUrl = "https://plus.google.com/116794250597377070773/posts/SYoEZWDm77x"
-                SystemUtils.startWebView(App.context, privacyUrl)
+//                val privacyUrl = "https://plus.google.com/116794250597377070773/posts/SYoEZWDm77x"
+//                SystemUtils.startWebView(App.context, privacyUrl)
             }
         }
     }

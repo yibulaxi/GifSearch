@@ -276,7 +276,7 @@ object SystemUtils {
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_TEXT, msg)
         shareIntent.type = "text/plain"
-        return Intent.createChooser(shareIntent, context.resources.getString(R.string.share_to))
+        return Intent.createChooser(shareIntent, context.resources.getString(R.string.common_share_to))
     }
 
 
