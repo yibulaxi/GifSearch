@@ -12,14 +12,12 @@ import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.adapter.ViewPagerAdapter
 import com.allever.app.template.ui.mvp.presenter.MainPresenter
 import com.allever.app.template.ui.mvp.view.MainView
-import com.allever.app.template.ui.widget.tab.TabLayout
 import com.allever.app.template.util.DisplayUtils
+import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 
 class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     TabLayout.OnTabSelectedListener, View.OnClickListener {
-
-
     private lateinit var mVp: ViewPager
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
     private lateinit var mTab: TabLayout

@@ -65,7 +65,7 @@
         android:layout_above="@+id/tab_layout"
         android:background="#cccccc" />
 
-    <com.allever.app.template.ui.widget.tab.TabLayout
+    <com.allever.lib.common.ui.widget.tab.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
