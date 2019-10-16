@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.allever.app.template">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.allever.app.template">
 
     <application
         android:name=".app.MyApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/FullScreenStyle"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.AboutActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AboutActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="${UMENG_APP_KEY}"/>
+            android:value="${UMENG_APP_KEY}" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />

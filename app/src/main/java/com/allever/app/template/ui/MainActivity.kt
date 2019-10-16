@@ -1,5 +1,7 @@
 package com.allever.app.template.ui
 
+import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -36,6 +38,17 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnC
                 SettingActivity.start(this)
             }
 
+        }
+    }
+
+    override fun onBackPressed() {
+        checkExit()
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
         }
     }
 }
