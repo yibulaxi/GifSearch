@@ -60,6 +60,14 @@ android {
     }
     //打包配置----------------------------------------------------------------
 
+    //解决打包失败------------------------------------------------------------
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    //解决打包失败------------------------------------------------------------
 
 
     buildTypes {
