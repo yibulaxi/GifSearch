@@ -61,7 +61,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     private fun initViewPagerData() {
         mFragmentList.add(MainFragment())
         mFragmentList.add(TwoFragment())
-        mFragmentList.add(ThreeFragment())
+        mFragmentList.add(SettingFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
 

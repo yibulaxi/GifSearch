@@ -50,7 +50,7 @@ internal object TabModel {
          */
         MAIN(MainFragment::class.java, R.drawable.ic_setting, R.string.app_name),
         TWO(TwoFragment::class.java, R.drawable.ic_setting, R.string.setting),
-        THREE(ThreeFragment::class.java, R.drawable.ic_setting, R.string.setting);
+        SETTING(SettingFragment::class.java, R.drawable.ic_setting, R.string.setting);
 
         val fragmentClassName: String
         var drawable: Drawable? = null
