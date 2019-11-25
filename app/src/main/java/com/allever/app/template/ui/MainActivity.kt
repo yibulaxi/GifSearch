@@ -6,12 +6,17 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.allever.app.template.R
+import com.allever.app.template.ad.AdConstants
 import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.mvp.presenter.MainPresenter
 import com.allever.app.template.ui.mvp.view.MainView
+import com.allever.lib.ad.chain.AdChainHelper
+import com.allever.lib.ad.chain.AdChainListener
+import com.allever.lib.ad.chain.IAd
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnClickListener {
 
+    private var mInsertAd: IAd? = null
 
     override fun getContentView(): Any = R.layout.activity_main
 
@@ -41,9 +46,10 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnC
         }
     }
 
-    override fun onBackPressed() {
-        checkExit()
-    }
+
+
+
+
 
     companion object {
         fun start(context: Context) {

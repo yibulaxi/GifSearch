@@ -13,6 +13,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName "${rootProject.ext.versionName}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         //BuildConfig添加的字段
         //buildConfigField "int", "TEXT_FIELD", "2"
@@ -20,7 +21,8 @@ android {
 
         //在Manifest.xml中使用的值
         manifestPlaceholders += [
-                UMENG_APP_KEY: rootProject.ext.umengAppKey
+                UMENG_APP_KEY: rootProject.ext.umengAppKey,
+                ADMOB_APP_ID: rootProject.ext.admobAppId
         ]
     }
 
@@ -103,6 +105,7 @@ dependencies {
     implementation project(':permission')
     implementation project(':common')
     implementation project(':umeng')
+    implementation project(':admob')
     implementation(name: "Toolkit-1.1", ext: 'aar')
 
 }

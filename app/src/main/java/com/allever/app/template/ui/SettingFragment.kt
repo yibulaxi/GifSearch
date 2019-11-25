@@ -5,10 +5,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.allever.app.template.R
+import com.allever.app.template.ad.AdConstants
 import com.allever.app.template.app.BaseFragment
 import com.allever.app.template.ui.mvp.presenter.SettingPresenter
 import com.allever.app.template.ui.mvp.view.SettingView
 import com.allever.app.template.util.SystemUtils
+import com.allever.lib.ad.chain.AdChainHelper
+import com.allever.lib.ad.chain.AdChainListener
+import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FeedbackHelper
 import com.allever.lib.common.util.toast
@@ -17,9 +21,10 @@ import com.allever.lib.permission.PermissionUtil
 class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingView,
     View.OnClickListener {
 
-    private lateinit var mBannerContainer: ViewGroup
-//    private  var mAdWorker: IAdWorker? = null
-//    private var mVideoAdWorker: IRewardVideoAdWorker? = null
+    private var mBannerContainer: ViewGroup? = null
+    private var mVideoAd: IAd? = null
+    private var mBannerAd: IAd? = null
+    private var mInsertAd: IAd? = null
 
     override fun getContentView(): Int = R.layout.fragment_setting
 
@@ -29,12 +34,13 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
         root.findViewById<TextView>(R.id.setting_tv_about).setOnClickListener(this)
         root.findViewById<TextView>(R.id.setting_tv_permission).setOnClickListener(this)
         root.findViewById<TextView>(R.id.setting_tv_support).setOnClickListener(this)
-
-//        mBannerContainer = root.findViewById(R.id.banner_container)
-//        mAdWorker = AdHelper.loadAndShowBanner(AdContract.SETTING_BANNER, mBannerContainer, null)
+        mBannerContainer = root.findViewById<ViewGroup>(R.id.banner_container)
     }
 
     override fun initData() {
+        mHandler.postDelayed({
+            loadAndShowBanner()
+        }, 9000)
     }
 
     override fun createPresenter(): SettingPresenter = SettingPresenter()
@@ -62,36 +68,71 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
     }
 
     override fun onDestroy() {
-//        AdHelper.destroy(mAdWorker)
-//        AdHelper.destroyVideo(mVideoAdWorker)
         super.onDestroy()
+        mBannerAd?.destroy()
+        mVideoAd?.destroy()
+        mInsertAd?.destroy()
+    }
+
+    private fun loadAndShowBanner() {
+        mHandler.postDelayed({
+            AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, mBannerContainer, object :
+                AdChainListener {
+                override fun onLoaded(ad: IAd?) {
+                    mBannerAd = ad
+                }
+                override fun onFailed(msg: String) {}
+                override fun onShowed() {}
+                override fun onDismiss() {}
+
+            })
+        }, 3000)
     }
 
     private fun supportUs() {
-//        AlertDialog.Builder(activity!!)
-//            .setTitle("温馨提示")
-//            .setMessage("该操作会消耗一定的数据流量，您要观看吗?")
-//            .setPositiveButton("立即观看") { dialog, which ->
-//                dialog.dismiss()
-//                //todo 加载视频
-//                AdHelper.destroyVideo(mVideoAdWorker)
-//                mVideoAdWorker = AdHelper.loadRewardVideo(AdContract.SUPPORT_ENCOURAGE, object : AdListener {
-//                    override fun onLoaded() {
-//                        AdHelper.showVideo(mVideoAdWorker)
-//                    }
-//                    override fun onShowed() {}
-//                    override fun onDismiss() {}
-//                    override fun onFailed() {
-//                        //失败时显示插屏
-//                        toast("获取视频失败, 您可以点击小广告，也是对我们的一种支持.")
-//                    }
-//                })
-//            }
-//            .setNegativeButton("残忍拒绝") { dialog, which ->
-//                dialog.dismiss()
-//                toast("您可以点击小广告，也是对我们的一种支持.")
-//            }
-//            .create()
-//            .show()
+        AlertDialog.Builder(activity!!)
+            .setTitle("温馨提示")
+            .setMessage("该操作会消耗一定的数据流量，您要观看吗?")
+            .setPositiveButton("立即观看") { dialog, which ->
+                dialog.dismiss()
+                AdChainHelper.loadAd(AdConstants.AD_NAME_VIDEO, null, object : AdChainListener {
+                    override fun onLoaded(ad: IAd?) {
+                        mVideoAd = ad
+                        ad?.show()
+                    }
+                    override fun onFailed(msg: String) {
+                        loadInsertAd()
+                    }
+                    override fun onShowed() {}
+                    override fun onDismiss() {}
+
+                })
+            }
+            .setNegativeButton("残忍拒绝") { dialog, which ->
+                dialog.dismiss()
+                toast("您可以点击小广告，也是对我们的一种支持.")
+            }
+            .create()
+            .show()
+    }
+
+    private fun loadInsertAd() {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, null, object : AdChainListener {
+            override fun onLoaded(ad: IAd?) {
+                mInsertAd = ad
+                mInsertAd?.show()
+            }
+
+            override fun onFailed(msg: String) {
+                toast("暂时没有视频，您可以点击小广告，也是对我们的一种支持.")
+            }
+
+            override fun onShowed() {
+            }
+
+            override fun onDismiss() {
+            }
+
+        })
     }
 }

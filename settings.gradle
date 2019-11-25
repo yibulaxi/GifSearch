@@ -7,3 +7,9 @@ project(':common').projectDir = new File(settingsDir, '../AndroidDependencyLib/c
 include ':umeng'
 project(':umeng').projectDir = new File(settingsDir, '../AndroidDependencyLib/umeng')
 
+include ':adlib'
+project(':adlib').projectDir = new File(settingsDir, '../AndroidAdLibs/adlib')
+include ':admob'
+project(':admob').projectDir = new File(settingsDir, '../AndroidAdLibs/admob')
+
+

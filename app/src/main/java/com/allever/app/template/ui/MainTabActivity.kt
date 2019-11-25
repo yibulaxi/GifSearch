@@ -3,15 +3,20 @@ package com.allever.app.template.ui
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.allever.app.template.R
+import com.allever.app.template.ad.AdConstants
 import com.allever.app.template.app.BaseActivity
 import com.allever.app.template.ui.adapter.ViewPagerAdapter
 import com.allever.app.template.ui.mvp.presenter.MainPresenter
 import com.allever.app.template.ui.mvp.view.MainView
+import com.allever.lib.ad.chain.AdChainHelper
+import com.allever.lib.ad.chain.AdChainListener
+import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
@@ -27,6 +32,8 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
 
     private var mFragmentList = mutableListOf<Fragment>()
 
+
+    private var mInsertAd: IAd? = null
 
     override fun getContentView(): Any = R.layout.activity_main_tab
 
@@ -54,6 +61,9 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     }
 
     override fun initData() {
+        mHandler.postDelayed({
+            loadInsertAd()
+        }, 5000)
     }
 
     override fun createPresenter(): MainPresenter = MainPresenter()
@@ -162,7 +172,38 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
         return view
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mInsertAd?.destroy()
+    }
+
     override fun onBackPressed() {
-        checkExit()
+        if (mIsAdLoaded) {
+            mInsertAd?.show()
+            mIsAdLoaded = false
+        } else {
+            checkExit()
+        }
+    }
+
+
+    private var mIsAdLoaded = false
+    private fun loadInsertAd() {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, window.decorView as ViewGroup, object : AdChainListener {
+            override fun onLoaded(ad: IAd?) {
+                mInsertAd = ad
+                mIsAdLoaded = true
+            }
+
+            override fun onFailed(msg: String) {
+            }
+
+            override fun onShowed() {
+            }
+
+            override fun onDismiss() {
+            }
+
+        })
     }
 }
