@@ -70,7 +70,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
 
     private fun initViewPagerData() {
         mFragmentList.add(MainFragment())
-        mFragmentList.add(TwoFragment())
+        mFragmentList.add(GuideFragment())
         mFragmentList.add(SettingFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
@@ -93,7 +93,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
                         mTvTitle.text = getString(R.string.app_name)
                     }
                     1 -> {
-                        mTvTitle.text = "Two"
+                        mTvTitle.text = getString(R.string.tab_guide)
                     }
                     2 -> {
                         mTvTitle.text = getString(R.string.setting)
