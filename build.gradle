@@ -9,7 +9,7 @@ ext{
     versionName = "1.0"
 
     umengAppKey = "5da6c299570df31978000f59"
-    admobAppId = "ca-app-pub-8815582923430605~2604321696"
+    admobAppId = "ca-app-pub-5576030072710638~7900912228"
 
     //C:\Users\Allever\AndroidStudioProjects/com.allever.app.jks
     signingStoreFile = '../../com.allever.app.jks'
