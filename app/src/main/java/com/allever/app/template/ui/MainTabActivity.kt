@@ -20,6 +20,7 @@ import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
+import com.allever.lib.recommend.RecommendActivity
 
 class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     TabLayout.OnTabSelectedListener, View.OnClickListener {
@@ -55,7 +56,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.iv_right -> {
-                ActivityCollector.startActivity(this, SettingActivity::class.java)
+                ActivityCollector.startActivity(this, RecommendActivity::class.java)
             }
         }
     }

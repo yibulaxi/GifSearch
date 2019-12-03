@@ -12,4 +12,10 @@ project(':adlib').projectDir = new File(settingsDir, '../AndroidAdLibs/adlib')
 include ':admob'
 project(':admob').projectDir = new File(settingsDir, '../AndroidAdLibs/admob')
 
+include ':recommend'
+project(':recommend').projectDir = new File(settingsDir, '../AndroidDependencyLib/recommend')
+include ':httpsglide'
+project(':httpsglide').projectDir = new File(settingsDir, '../AndroidDependencyLib/httpsglide')
+
+
 

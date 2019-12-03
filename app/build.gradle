@@ -24,6 +24,11 @@ android {
                 UMENG_APP_KEY: rootProject.ext.umengAppKey,
                 ADMOB_APP_ID: rootProject.ext.admobAppId
         ]
+
+        //解决D8: Resource 'META-INF/MANIFEST.MF' already exists.
+        packagingOptions {
+            exclude 'META-INF/library_release.kotlin_module'
+        }
     }
 
     //友盟多渠道----------------------------------------------------------------------------------------------------------
@@ -105,6 +110,7 @@ dependencies {
     implementation project(':permission')
     implementation project(':common')
     implementation project(':umeng')
+    implementation project(':recommend')
     implementation project(':admob')
     implementation(name: "Toolkit-1.1", ext: 'aar')
 
