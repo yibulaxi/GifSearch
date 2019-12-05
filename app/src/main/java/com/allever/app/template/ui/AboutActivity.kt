@@ -19,7 +19,14 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
         findViewById<View>(R.id.about_privacy).setOnClickListener(this)
         findViewById<View>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.about)
-        findViewById<TextView>(R.id.about_app_version).text = BuildConfig.VERSION_NAME
+        val last = if (BuildConfig.DEBUG) {
+            "(Debug)"
+        } else {
+            ""
+        }
+        findViewById<TextView>(R.id.about_app_version).text = "v${BuildConfig.VERSION_NAME}$last"
+        findViewById<TextView>(R.id.about_right).text =
+            String.format(getString(R.string.about_right), getString(R.string.app_name))
     }
 
     override fun initData() {
