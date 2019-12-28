@@ -21,6 +21,7 @@ import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
 import com.allever.lib.recommend.RecommendActivity
+import com.allever.lib.umeng.UMeng
 
 class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     TabLayout.OnTabSelectedListener, View.OnClickListener {
@@ -56,7 +57,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.iv_right -> {
-                ActivityCollector.startActivity(this, RecommendActivity::class.java)
+                RecommendActivity.start(this, UMeng.getChannel())
             }
         }
     }

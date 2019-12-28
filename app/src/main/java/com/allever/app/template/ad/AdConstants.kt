@@ -6,9 +6,9 @@ import com.allever.lib.ad.AdBusiness
 object AdConstants {
 
     private val APPID = ""
-    private const val COMMON_BANNER = "ca-app-pub-5576030072710638/7114444166"
-    private const val COMMON_INSERT = "ca-app-pub-5576030072710638/8257819654"
-    private const val COMMON_VIDEO = "ca-app-pub-5576030072710638/8639278822"
+    private const val COMMON_BANNER = "ca-app-pub-8815582923430605/1795988120"
+    private const val COMMON_INSERT = "ca-app-pub-8815582923430605/1544706681"
+    private const val COMMON_VIDEO = "ca-app-pub-8815582923430605/9291334763"
 
     val AD_NAME_INSERT = "AD_NAME_INSERT"
 
