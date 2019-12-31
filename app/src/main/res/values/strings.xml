@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">应用模板</string>
+    <string name="app_name">Gif图浏览</string>
 
     <!-- 设置 -->
     <string name="setting">设置</string>

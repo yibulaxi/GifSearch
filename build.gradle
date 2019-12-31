@@ -1,14 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 ext{
-    applicationId = "com.allever.app.template"
+    applicationId = "com.allever.app.giffun"
     minSdkVersion = 19
     compileSdkVersion = 28
     targetSdkVersion = 28
     versionCode = 1
     versionName = "1.0"
 
-    umengAppKey = "5da6c299570df31978000f59"
+    umengAppKey = "5da6c299570df31978000f5a"
     admobAppId = "ca-app-pub-8815582923430605~2604321696"
 
     //C:\Users\Allever\AndroidStudioProjects/com.allever.app.jks

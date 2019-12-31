@@ -67,7 +67,7 @@
 
 # 友盟特有-----------------------------------------------------------------------------------------------------------------
 # 填应用包名
--keep public class [com.allever.app.template].R$*{
+-keep public class [com.allever.app.giffun].R$*{
     public static final int *;
 }
 #
