@@ -12,7 +12,7 @@ object Global {
     val saveDir = Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + "GifFunny"
 
     //缓存下载完成后复制到的目录 /sdcard/{packageName}/temp/XXX
-    val tempDir = Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + App.context.packageName + File.separator + "GifFunny"
+    val tempDir = Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + App.context.packageName + File.separator + ".temp"
 
     //缓存时的路径,浏览时自动下载 /data/data/cache/gif/XXX
     val cacheDir = App.context.cacheDir.absolutePath + File.separator +"gif"

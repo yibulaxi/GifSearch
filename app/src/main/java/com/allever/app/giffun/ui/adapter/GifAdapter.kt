@@ -2,6 +2,7 @@ package com.allever.app.giffun.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PorterDuff
 import android.text.TextUtils
 import android.view.View
 import android.view.View.GONE
@@ -20,10 +21,7 @@ import com.allever.app.giffun.util.MD5
 import com.allever.lib.common.ui.widget.custom.CircleImageView
 import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
-import com.allever.lib.common.util.FileUtil
-import com.allever.lib.common.util.FileUtils
-import com.allever.lib.common.util.ToastUtils
-import com.allever.lib.common.util.log
+import com.allever.lib.common.util.*
 import com.bumptech.glide.Glide
 
 import pl.droidsonroids.gif.GifDrawable
@@ -48,6 +46,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val fileName = MD5.getMD5Str(item.id) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val cachePath = "${Global.cacheDir}${File.separator}$fileName"
+        val savePath = "${Global.saveDir}${File.separator}$fileName"
         var drawable: GifDrawable? = null
         var downloaded = FileUtils.checkExist(tempPath)
 
@@ -70,6 +69,11 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val ivShare = holder.getView<ImageView>(R.id.ivShare)
         val ivDownload = holder.getView<ImageView>(R.id.ivDownload)
         val ivMore = holder.getView<ImageView>(R.id.ivMore)
+        if (FileUtils.checkExist(savePath)) {
+            ivDownload?.setColorFilter(mContext.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+        } else {
+            ivDownload?.colorFilter = null
+        }
 
         val downloadCallback = object : DownloadCallback {
             override fun onStart() {
@@ -154,7 +158,20 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivDownload?.setOnClickListener {
-            ToastUtils.show("保存")
+//            ToastUtils.show("保存")
+            if (FileUtils.checkExist(savePath)) {
+                ToastUtils.show("已下载")
+                return@setOnClickListener
+            }
+            if (FileUtils.checkExist(tempPath)) {
+                FileUtil.createNewFile(savePath, false)
+                com.android.absbase.utils.FileUtils.copyFile(tempPath, savePath, true)
+                ToastUtils.show("已保存到：\n$savePath")
+                ivDownload.setColorFilter(mContext.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+            } else {
+                toast("文件不存在")
+            }
+
         }
 
         ivMore?.setOnClickListener {
