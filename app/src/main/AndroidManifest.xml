@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.allever.app.giffun">
 
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name="com.allever.app.giffun.app.MyApp"
         android:allowBackup="false"
@@ -12,7 +15,7 @@
         android:theme="@style/FullScreenStyle"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.allever.app.giffun.ui.SplashActivity"
+            android:name="com.allever.app.giffun.ui.GifMainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name="com.allever.app.giffun.ui.GifMainActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name="com.allever.app.giffun.ui.MainActivity"
             android:launchMode="singleTask"

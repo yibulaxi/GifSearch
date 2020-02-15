@@ -5,6 +5,10 @@ import com.allever.app.giffun.ad.AdFactory
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.common.app.App
 import com.allever.lib.umeng.UMeng
+import com.giphy.sdk.core.network.api.GPHApiClient
+import com.giphy.sdk.core.network.api.GPHApi
+import com.giphy.sdk.ui.GiphyCoreUI
+
 
 class MyApp: App() {
     override fun onCreate() {
@@ -15,5 +19,8 @@ class MyApp: App() {
         UMeng.init(this)
 
         AdChainHelper.init(this, AdConstants.adData, AdFactory())
+
+//        GiphyCoreUI.configure(this, "ENMowe3QQJBeL3fHproYw7C67ignSnuL")
+
     }
 }

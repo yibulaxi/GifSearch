@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gifRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#11ffffff"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/ivSetting"
+            android:layout_width="@dimen/default_icon_width"
+            android:layout_height="@dimen/default_icon_height"
+            android:src="@drawable/ic_setting"
+            android:scaleType="center"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/ivRecommend"
+            android:layout_width="@dimen/default_icon_width"
+            android:layout_height="@dimen/default_icon_height"
+            android:src="@drawable/recommend_ic_gift"
+            android:scaleType="center"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="推荐"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
