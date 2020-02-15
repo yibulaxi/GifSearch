@@ -14,8 +14,6 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:layout_below="@+id/top_bar"
-		android:paddingStart="20dp"
-		android:paddingEnd="20dp"
 		tools:ignore="RtlSymmetry">
 
 
@@ -23,7 +21,8 @@
 			style="@style/setting_item"
 			android:id="@+id/setting_tv_share"
 			android:text="@string/share"
-			android:drawableEnd="@drawable/ic_feedback"/>
+			android:drawableEnd="@drawable/ic_share"
+			android:visibility="visible"/>
 
 		<include layout="@layout/include_divider_line"/>
 
@@ -43,6 +42,20 @@
 
 		<include layout="@layout/include_divider_line"/>
 
+		<TextView
+			style="@style/setting_item"
+			android:id="@+id/setting_tv_support"
+			android:text="@string/support"
+			android:drawableEnd="@drawable/ic_support"
+			android:visibility="visible"/>
+
+		<include layout="@layout/include_divider_line"/>
+
+
+		<FrameLayout
+			android:id="@+id/bannerContainer"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
 
 	</LinearLayout>
 

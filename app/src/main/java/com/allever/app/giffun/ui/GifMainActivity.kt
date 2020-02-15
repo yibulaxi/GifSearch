@@ -17,14 +17,18 @@ import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
 import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
+import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.ToastUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.permission.PermissionListener
 import com.allever.lib.permission.PermissionManager
+import com.allever.lib.recommend.RecommendActivity
+import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
 import rx.Subscriber
 
-class GifMainActivity: BaseActivity() {
+class GifMainActivity: BaseActivity(), View.OnClickListener {
+
 
     private var mAdapter: GifAdapter? = null
     private var mGifDataList = mutableListOf<DataBean>()
@@ -33,6 +37,9 @@ class GifMainActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_main)
+
+        ivSetting.setOnClickListener(this)
+        ivRecommend.setOnClickListener(this)
 
         mProgressDialog = ProgressDialog(this)
 
@@ -83,6 +90,17 @@ class GifMainActivity: BaseActivity() {
                     })
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.ivSetting -> {
+                ActivityCollector.startActivity(this, SettingActivity::class.java)
+            }
+            R.id.ivRecommend -> {
+                RecommendActivity.start(this, UMeng.getChannel())
+            }
+        }
     }
 
     override fun onDestroy() {

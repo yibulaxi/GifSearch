@@ -9,6 +9,7 @@ import com.allever.app.giffun.R
 import com.allever.app.giffun.app.BaseActivity
 import com.allever.app.giffun.ui.mvp.presenter.AboutPresenter
 import com.allever.app.giffun.ui.mvp.view.AboutView
+import com.allever.lib.umeng.UMeng
 
 class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 
@@ -20,7 +21,7 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
         findViewById<View>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.about)
         val last = if (BuildConfig.DEBUG) {
-            "(Debug)"
+            "(Debug)-${UMeng.getChannel()}"
         } else {
             ""
         }
