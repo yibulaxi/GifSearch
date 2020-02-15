@@ -56,7 +56,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val tvTitle = holder.getView<TextView>(R.id.tvTitle)
         tvTitle?.text = item.title
         val tvDisplayName = holder.getView<TextView>(R.id.tvDisplayName)
-        tvDisplayName?.text = item.user?.display_name
+        tvDisplayName?.text = "@${item.user?.display_name}"
 
         val ivHeader = holder.getView<ImageView>(R.id.ivHeader)
         Glide.with(mContext).load(item.user?.avatar_url).into(ivHeader!!)
