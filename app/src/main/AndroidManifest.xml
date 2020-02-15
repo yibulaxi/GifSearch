@@ -10,7 +10,7 @@
     <application
         android:name="com.allever.app.giffun.app.MyApp"
         android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/FullScreenStyle"
