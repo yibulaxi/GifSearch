@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.allever.app.giffun.R
@@ -34,6 +35,11 @@ class GifMainActivity: BaseActivity() {
         setContentView(R.layout.activity_gif_main)
 
         mProgressDialog = ProgressDialog(this)
+
+        ivRetry?.setOnClickListener {
+            getData()
+            ivRetry?.visibility = View.GONE
+        }
 
         mAdapter = GifAdapter(this, R.layout.item_gif, mGifDataList)
 
@@ -96,10 +102,15 @@ class GifMainActivity: BaseActivity() {
                 log("请求失败")
                 hideLoadingProgressDialog()
                 recyclerViewScrollListener.setLoadDataStatus(false)
+                if (!isLoadMore) {
+                    gifRecyclerView?.visibility = View.GONE
+                    ivRetry?.visibility = View.VISIBLE
+                }
             }
 
             override fun onNext(bean: TrendingResponse) {
                 recyclerViewScrollListener.setLoadDataStatus(false)
+                gifRecyclerView?.visibility = View.VISIBLE
                 hideLoadingProgressDialog()
                 log("请求成功")
                 val data = bean.data
