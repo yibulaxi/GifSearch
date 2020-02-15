@@ -13,6 +13,7 @@ import com.allever.app.giffun.bean.TrendingResponse
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
+import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
 import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.ToastUtils
@@ -27,7 +28,7 @@ class GifMainActivity: BaseActivity() {
     private var mAdapter: GifAdapter? = null
     private var mGifDataList = mutableListOf<DataBean>()
     private lateinit var mProgressDialog: ProgressDialog
-
+    private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_main)
@@ -35,6 +36,22 @@ class GifMainActivity: BaseActivity() {
         mProgressDialog = ProgressDialog(this)
 
         mAdapter = GifAdapter(this, R.layout.item_gif, mGifDataList)
+
+
+        recyclerViewScrollListener = RecyclerViewScrollListener(object :
+            RecyclerViewScrollListener.OnRecycleRefreshListener {
+            override fun refresh() {
+
+            }
+
+            override fun loadMore() {
+                showLoadingProgressDialog("正在加载")
+                getData(true)
+            }
+        })
+
+
+        gifRecyclerView.addOnScrollListener(recyclerViewScrollListener)
 
         gifRecyclerView.layoutManager = LinearLayoutManager(this)
         val pagerSnapHelper = PagerSnapHelper()
@@ -67,7 +84,7 @@ class GifMainActivity: BaseActivity() {
         DownloadManager.getInstance().cancelAllTask()
     }
 
-    private fun getData() {
+    private fun getData(isLoadMore: Boolean = false) {
         val count = 10
         var offset = SpUtils.getString(Global.SP_OFFSET, "0")
         log("offset = $offset")
@@ -78,9 +95,11 @@ class GifMainActivity: BaseActivity() {
                 e.printStackTrace()
                 log("请求失败")
                 hideLoadingProgressDialog()
+                recyclerViewScrollListener.setLoadDataStatus(false)
             }
 
             override fun onNext(bean: TrendingResponse) {
+                recyclerViewScrollListener.setLoadDataStatus(false)
                 hideLoadingProgressDialog()
                 log("请求成功")
                 val data = bean.data
@@ -88,14 +107,18 @@ class GifMainActivity: BaseActivity() {
                     log("trending = ${it.images.original.url}")
                 }
 
-                mGifDataList.clear()
+                if (!isLoadMore) {
+                    mGifDataList.clear()
+                }
+
                 mGifDataList.addAll(data)
+
                 mAdapter?.notifyDataSetChanged()
 
                 offset = if (mGifDataList.size < count) {
                     "0"
                 } else {
-                    (offset.toInt() + count).toString()
+                    (offset.toInt() + count + 1).toString()
                 }
                 SpUtils.putString(Global.SP_OFFSET, offset)
             }
