@@ -2,6 +2,7 @@ package com.allever.app.giffun.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -33,10 +34,7 @@ import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.allever.lib.permission.PermissionListener
 import com.allever.lib.permission.PermissionManager
-import com.allever.lib.recommend.RecommendActivity
-import com.allever.lib.recommend.RecommendDialog
-import com.allever.lib.recommend.RecommendDialogListener
-import com.allever.lib.recommend.RecommendGlobal
+import com.allever.lib.recommend.*
 import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
 import kotlinx.coroutines.GlobalScope
@@ -310,12 +308,12 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showRecommendDialog() {
-        RecommendDialog.create(this, object : RecommendDialogListener {
-            override fun onMore(dialog: AlertDialog?) {
+        val dialog = RecommendDialogHelper.createRecommendDialog(this, object : RecommendDialogListener {
+            override fun onMore(dialog: Dialog?) {
                 dialog?.dismiss()
             }
 
-            override fun onReject(dialog: AlertDialog?) {
+            override fun onReject(dialog: Dialog?) {
                 dialog?.dismiss()
                 GlobalScope.launch {
                     delay(200)
@@ -323,7 +321,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            override fun onBackPress(dialog: AlertDialog?) {
+            override fun onBackPress(dialog: Dialog?) {
                 dialog?.dismiss()
                 GlobalScope.launch {
                     delay(200)
@@ -331,16 +329,17 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
         })
+        RecommendDialogHelper.show(this, dialog)
     }
 
     private var mIsShowComment = false
     private fun showComment() {
-        val dialog = CommentHelper.create(this, object : CommentListener {
-            override fun onComment(dialog: AlertDialog?) {
+        val dialog = CommentHelper.createCommentDialog(this, object : CommentListener {
+            override fun onComment(dialog: Dialog?) {
                 dialog?.dismiss()
             }
 
-            override fun onReject(dialog: AlertDialog?) {
+            override fun onReject(dialog: Dialog?) {
                 dialog?.dismiss()
                 GlobalScope.launch {
                     delay(200)
@@ -348,7 +347,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            override fun onBackPress(dialog: AlertDialog?) {
+            override fun onBackPress(dialog: Dialog?) {
                 dialog?.dismiss()
                 GlobalScope.launch {
                     delay(200)
