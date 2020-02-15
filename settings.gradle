@@ -17,5 +17,7 @@ project(':recommend').projectDir = new File(settingsDir, '../AndroidDependencyLi
 include ':httpsglide'
 project(':httpsglide').projectDir = new File(settingsDir, '../AndroidDependencyLib/httpsglide')
 
+include ':comment'
+project(':comment').projectDir = new File(settingsDir, '../AndroidDependencyLib/comment')
 
 

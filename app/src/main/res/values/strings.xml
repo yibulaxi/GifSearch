@@ -15,4 +15,14 @@
 
     <string name="share_content">【%s】这个应用很不错，推荐一下。获取地址\n%s</string>
 
+    <string name="permission_tips">我们需要
+        \n【存储权限】用于保存一些缓存数据
+        \n【手机信息】以便统计设备信息，做出更好的用户体验
+        \n 拒绝相应的权限将无法使用部分功能</string>
+    <string name="permission_accept">同意</string>
+    <string name="permission_reject">拒绝</string>
+    <string name="reject_permission_tips">拒绝权限将不能使用某些功能</string>
+    <string name="no_wire_store_permission_tips">没有写入存储权限</string>
+    <string name="no_read_store_permission_tips">没有读取存储权限</string>
+
 </resources>

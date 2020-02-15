@@ -10,7 +10,7 @@ class SplashActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         mHandler.postDelayed({
-            ActivityCollector.startActivity(this, MainTabActivity::class.java)
+            ActivityCollector.startActivity(this, GifMainActivity::class.java)
             finish()
         }, 2000)
     }
