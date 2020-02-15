@@ -154,7 +154,11 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivShare?.setOnClickListener {
-            ToastUtils.show("share")
+            if (FileUtils.checkExist(tempPath)) {
+                ShareHelper.shareImage(mContext, tempPath)
+            } else {
+                ToastUtils.show("文件不存在")
+            }
         }
 
         ivDownload?.setOnClickListener {
