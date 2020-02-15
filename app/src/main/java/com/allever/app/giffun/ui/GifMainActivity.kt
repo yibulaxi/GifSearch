@@ -5,13 +5,13 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.allever.app.giffun.R
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.TrendingResponse
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
-import com.allever.app.giffun.ui.adapter.GifTestAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
@@ -37,6 +37,8 @@ class GifMainActivity: BaseActivity() {
         mAdapter = GifAdapter(this, R.layout.item_gif, mGifDataList)
 
         gifRecyclerView.layoutManager = LinearLayoutManager(this)
+        val pagerSnapHelper = PagerSnapHelper()
+        pagerSnapHelper.attachToRecyclerView(gifRecyclerView)
         gifRecyclerView.adapter = mAdapter
 
         PermissionManager.request(object : PermissionListener {
@@ -66,7 +68,7 @@ class GifMainActivity: BaseActivity() {
     }
 
     private fun getData() {
-        val count = 3
+        val count = 10
         var offset = SpUtils.getString(Global.SP_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog("正在加载...")
@@ -90,7 +92,7 @@ class GifMainActivity: BaseActivity() {
                 mGifDataList.addAll(data)
                 mAdapter?.notifyDataSetChanged()
 
-                offset = if (offset.toInt() >= 6) {
+                offset = if (mGifDataList.size < count) {
                     "0"
                 } else {
                     (offset.toInt() + count).toString()

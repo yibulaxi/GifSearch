@@ -1,6 +1,8 @@
 package com.allever.app.giffun.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -33,6 +35,7 @@ import java.lang.Exception
 class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
     BaseRecyclerViewAdapter<DataBean>(context, resId, data) {
 
+    @SuppressLint("SetTextI18n")
     override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {
         //debug
         val progressBarDebug = holder.getView<ProgressBar>(R.id.downloadProgress)
@@ -56,7 +59,9 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val tvTitle = holder.getView<TextView>(R.id.tvTitle)
         tvTitle?.text = item.title
         val tvDisplayName = holder.getView<TextView>(R.id.tvDisplayName)
-        tvDisplayName?.text = "@${item.user?.display_name}"
+        val displayName = item.user?.display_name ?:""
+        tvDisplayName?.text = "@$displayName"
+
 
         val ivHeader = holder.getView<ImageView>(R.id.ivHeader)
         Glide.with(mContext).load(item.user?.avatar_url).into(ivHeader!!)
@@ -66,6 +71,57 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val ivDownload = holder.getView<ImageView>(R.id.ivDownload)
         val ivMore = holder.getView<ImageView>(R.id.ivMore)
 
+        val downloadCallback = object : DownloadCallback {
+            override fun onStart() {
+                tvStatus?.text = "状态：开始下载"
+                progressLoading?.visibility = VISIBLE
+                ivPlay?.visibility = GONE
+                ivRetry?.visibility = GONE
+                gifImageView?.visibility = GONE
+            }
+
+            override fun onConnected(totalLength: Long) {
+                tvStatus?.text = "状态：已连接"
+                progressBarDebug?.max = totalLength.toInt()
+                gifImageView?.visibility = GONE
+            }
+
+            override fun onProgress(current: Long, totalLength: Long) {
+                progressBarDebug?.progress = current.toInt()
+                tvStatus?.text = "状态：下载中: $current"
+            }
+
+            override fun onPause(taskInfo: TaskInfo?) {
+                tvStatus?.text = "状态：暂停下载"
+
+                progressLoading?.visibility = GONE
+                ivPlay?.visibility = GONE
+                ivRetry?.visibility = VISIBLE
+
+            }
+
+            override fun onCompleted(taskInfo: TaskInfo?) {
+                gifImageView?.visibility = VISIBLE
+                tvStatus?.text = "状态：下载完成"
+                FileUtil.createNewFile(tempPath, false)
+                com.android.absbase.utils.FileUtils.copyFile(cachePath, tempPath, true)
+//                val drawable = GifDrawable(tempPath)
+//                gifImageView?.setImageDrawable(drawable)
+                Glide.with(mContext).load(tempPath).into(gifImageView!!)
+                progressLoading?.visibility = GONE
+                ivPlay?.visibility = GONE
+                ivRetry?.visibility = GONE
+            }
+
+            override fun onError(e: Exception?) {
+                tvStatus?.text = "状态：下载出错"
+                progressLoading?.visibility = GONE
+                ivPlay?.visibility = GONE
+                ivRetry?.visibility = VISIBLE
+                gifImageView?.visibility = GONE
+            }
+
+        }
 
         gifImageView?.setOnClickListener {
 
@@ -78,33 +134,15 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 ivRetry?.visibility = GONE
                 drawable?.start()
             } else {
-                download(
-                    fileName,
-                    gifUrl,
-                    cachePath,
-                    tempPath,
-                    gifImageView,
-                    tvTempPath,
-                    tvStatus,
-                    progressBarDebug,
-                    progressLoading, ivPlay, ivRetry
-                )
+                val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+                DownloadManager.getInstance().start(task, downloadCallback, true)
             }
         }
 
         ivRetry?.setOnClickListener {
             ToastUtils.show("重新下载")
-            download(
-                fileName,
-                gifUrl,
-                cachePath,
-                tempPath,
-                gifImageView,
-                tvTempPath,
-                tvStatus,
-                progressBarDebug,
-                progressLoading, ivPlay, ivRetry
-            )
+            val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+            DownloadManager.getInstance().start(task, downloadCallback, true)
         }
 
         ivLike?.setOnClickListener {
@@ -131,91 +169,23 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         if (FileUtils.checkExist(tempPath)) {
             tvStatus?.text = "状态：已下载"
-            drawable = GifDrawable(tempPath)
-            gifImageView?.setImageDrawable(drawable)
+//            drawable = GifDrawable(tempPath)
+//            gifImageView?.setImageDrawable(drawable)
+            Glide.with(mContext).load(tempPath).into(gifImageView!!)
 
-            progressBarDebug?.visibility = GONE
+            progressLoading?.visibility = GONE
             ivPlay?.visibility = GONE
             ivRetry?.visibility = GONE
+            gifImageView.visibility = VISIBLE
 
             return
         }
 
-        download(
-            fileName,
-            gifUrl,
-            cachePath,
-            tempPath,
-            gifImageView,
-            tvTempPath,
-            tvStatus,
-            progressBarDebug,
-            progressLoading,
-            ivPlay,
-            ivRetry
-        )
-    }
 
-    private fun download(
-        fileName: String,
-        gifUrl: String,
-        cachePath: String,
-        tempPath: String,
-        gifImageView: GifImageView?,
-        tvTempPath: TextView?,
-        tvStatus: TextView?,
-        progressBar: ProgressBar?,
-        progressLoading: ProgressBar?, ivPlay: View?, ivRetry: View?
-    ) {
+
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-        tvTempPath?.text = "临时路径：$cachePath"
+        DownloadManager.getInstance().start(task, downloadCallback, true)
 
-        DownloadManager.getInstance().start(task, object : DownloadCallback {
-            override fun onStart() {
-                tvStatus?.text = "状态：开始下载"
-                progressLoading?.visibility = VISIBLE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = GONE
-            }
-
-            override fun onConnected(totalLength: Long) {
-                tvStatus?.text = "状态：已连接"
-                progressBar?.max = totalLength.toInt()
-            }
-
-            override fun onProgress(current: Long, totalLength: Long) {
-                progressBar?.progress = current.toInt()
-                tvStatus?.text = "状态：下载中: $current"
-            }
-
-            override fun onPause(taskInfo: TaskInfo?) {
-                tvStatus?.text = "状态：暂停下载"
-
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = VISIBLE
-
-            }
-
-            override fun onCompleted(taskInfo: TaskInfo?) {
-                tvStatus?.text = "状态：下载完成"
-                FileUtil.createNewFile(tempPath, false)
-                com.android.absbase.utils.FileUtils.copyFile(cachePath, tempPath, true)
-                val drawable = GifDrawable(tempPath)
-                gifImageView?.setImageDrawable(drawable)
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = GONE
-            }
-
-            override fun onError(e: Exception?) {
-                tvStatus?.text = "状态：下载出错"
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = VISIBLE
-            }
-
-        }, true)
     }
 
     companion object {
