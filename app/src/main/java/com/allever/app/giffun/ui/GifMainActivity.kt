@@ -78,7 +78,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun loadMore() {
-                showLoadingProgressDialog("正在加载")
+                showLoadingProgressDialog(getString(R.string.loading))
                 getData(true)
             }
         })
@@ -186,7 +186,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         val count = 10
         var offset = SpUtils.getString(Global.SP_OFFSET, "0")
         log("offset = $offset")
-        showLoadingProgressDialog("正在加载...")
+        showLoadingProgressDialog(getString(R.string.loading))
         RetrofitUtil.trendingGif(offset.toInt(), count, object : Subscriber<TrendingResponse>() {
             override fun onCompleted() {}
             override fun onError(e: Throwable) {

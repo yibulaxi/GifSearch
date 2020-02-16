@@ -1,28 +1,37 @@
 <resources>
-    <string name="app_name">Gif图浏览</string>
+    <string name="app_name">GifFunny</string>
+
+    <string name="recommend">Recommend</string>
 
     <!-- 设置 -->
-    <string name="setting">设置</string>
-    <string name="tab_guide">使用说明</string>
+    <string name="setting">Setting</string>
+    <string name="tab_guide">Guide</string>
 
-    <string name="share">分享</string>
-    <string name="feedback">反馈</string>
-    <string name="about">关于</string>
-    <string name="support">支持我们</string>
-    <string name="privacy">隐私政策</string>
-    <string name="permission_setting">设置权限</string>
-    <string name="about_right">版权所有@2018–2020 %s 保留所有权利</string>
+    <string name="share">Share</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+    <string name="support">Support Us</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="permission_setting">Setting permissions</string>
+    <string name="about_right">Copyright @ 2018–2020 %s All rights reserved</string>
 
-    <string name="share_content">【%s】这个应用很不错，推荐一下。获取地址\n%s</string>
+    <string name="share_content">【%s】This application is very good, recommend it. Get address\n%s</string>
 
-    <string name="permission_tips">我们需要
-        \n【存储权限】用于保存一些缓存数据
-        \n【手机信息】以便统计设备信息，做出更好的用户体验
-        \n 拒绝相应的权限将无法使用部分功能</string>
-    <string name="permission_accept">同意</string>
-    <string name="permission_reject">拒绝</string>
-    <string name="reject_permission_tips">拒绝权限将不能使用某些功能</string>
-    <string name="no_wire_store_permission_tips">没有写入存储权限</string>
-    <string name="no_read_store_permission_tips">没有读取存储权限</string>
+    <string name="permission_tips">We need:
+        \n【Storage permissions】Used to hold some cached data
+        \n【Phone Info】In order to count device information and make a better user experience
+        \n Denying corresponding permissions will not be able to use some features</string>
+    <string name="permission_accept">Accept</string>
+    <string name="permission_reject">Reject</string>
+    <string name="reject_permission_tips">Denying permission will not be able to use certain features</string>
+    <string name="no_wire_store_permission_tips">No write storage permissions</string>
+    <string name="no_read_store_permission_tips">No read storage permissions</string>
+
+    <string name="loading">Loading</string>
+    <string name="searching">Searching</string>
+    <string name="please_input_search_content">Enter search content</string>
+    <string name="file_not_found">file does not exist</string>
+    <string name="already_download">Downloaded</string>
+    <string name="already_save_to">Saved to:</string>
 
 </resources>

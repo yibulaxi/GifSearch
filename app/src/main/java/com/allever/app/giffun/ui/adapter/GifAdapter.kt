@@ -146,7 +146,6 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivRetry?.setOnClickListener {
-            ToastUtils.show("重新下载")
             val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
             DownloadManager.getInstance().start(task, downloadCallback, true)
         }
@@ -159,23 +158,22 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             if (FileUtils.checkExist(tempPath)) {
                 ShareHelper.shareImage(App.context, tempPath)
             } else {
-                ToastUtils.show("文件不存在")
+                toast(R.string.file_not_found)
             }
         }
 
         ivDownload?.setOnClickListener {
-//            ToastUtils.show("保存")
             if (FileUtils.checkExist(savePath)) {
-                ToastUtils.show("已下载")
+                toast(R.string.already_download)
                 return@setOnClickListener
             }
             if (FileUtils.checkExist(tempPath)) {
                 FileUtil.createNewFile(savePath, false)
                 com.android.absbase.utils.FileUtils.copyFile(tempPath, savePath, true)
-                ToastUtils.show("已保存到：\n$savePath")
+                toast("${getString(R.string.already_save_to)}\n$savePath")
                 ivDownload.setColorFilter(App.context.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
             } else {
-                toast("文件不存在")
+                toast(R.string.file_not_found)
             }
 
         }

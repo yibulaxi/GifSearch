@@ -77,7 +77,7 @@ class SearchActivity: BaseActivity() {
             }
 
             override fun loadMore() {
-                showLoadingProgressDialog("正在搜索")
+                showLoadingProgressDialog(getString(R.string.searching))
                 search(mKeyword, true)
             }
         })
@@ -97,7 +97,7 @@ class SearchActivity: BaseActivity() {
 
     private fun search(keyword: String, isLoadMore: Boolean = false) {
         if (keyword == "") {
-            toast("请输入搜索内容")
+            toast(getString(R.string.please_input_search_content))
             return
         }
         hideKeyboard()
@@ -105,7 +105,7 @@ class SearchActivity: BaseActivity() {
         val count = 10
         var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
-        showLoadingProgressDialog("正在搜索...")
+        showLoadingProgressDialog(getString(R.string.searching))
         RetrofitUtil.searchGif(keyword, offset.toInt(), count, object : Subscriber<SearchResponse>() {
             override fun onCompleted() {}
             override fun onError(e: Throwable) {
