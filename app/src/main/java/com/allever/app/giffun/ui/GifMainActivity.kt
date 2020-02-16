@@ -32,8 +32,10 @@ import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.ToastUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
+import com.allever.lib.permission.PermissionCompat
 import com.allever.lib.permission.PermissionListener
 import com.allever.lib.permission.PermissionManager
+import com.allever.lib.permission.PermissionUtil
 import com.allever.lib.recommend.*
 import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
@@ -132,11 +134,21 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
 
                             override fun alwaysDenied(deniedList: MutableList<String>) {
                                 super.alwaysDenied(deniedList)
-                                PermissionManager.jumpPermissionSetting(this@GifMainActivity, 1001,
-                                    DialogInterface.OnClickListener { dialog, which ->
-                                        toast(R.string.reject_permission_tips)
-                                        ivRetry?.visibility = View.VISIBLE
-                                    })
+                                if (
+                                    PermissionCompat.hasPermission(this@GifMainActivity,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                        Manifest.permission.READ_PHONE_STATE)
+                                ) {
+                                    Global.createDir()
+                                    getData()
+                                } else {
+                                    PermissionManager.jumpPermissionSetting(this@GifMainActivity, 1001,
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            toast(R.string.reject_permission_tips)
+                                            ivRetry?.visibility = View.VISIBLE
+                                        })
+                                }
+
                             }
 
                         }, Manifest.permission.READ_PHONE_STATE,
