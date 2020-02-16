@@ -1,12 +1,16 @@
 package com.allever.app.giffun.app
 
+import android.media.Image
 import com.allever.app.giffun.BuildConfig
 import com.allever.app.giffun.ad.AdConstants
 import com.allever.app.giffun.ad.AdFactory
+import com.allever.app.giffun.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.common.app.App
 import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.umeng.UMeng
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MyApp: App() {
@@ -25,5 +29,20 @@ class MyApp: App() {
 
         RecommendGlobal.init(UMeng.getChannel())
 
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        ImageLoader.onLowMemory()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        ImageLoader.clearMemoryCache()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        ImageLoader.onTrimMemroy(level)
     }
 }

@@ -25,6 +25,7 @@ import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
 import com.allever.lib.common.util.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
@@ -60,7 +61,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val tvTitle = holder.getView<TextView>(R.id.tvTitle)
         tvTitle?.text = item.title
         val tvDisplayName = holder.getView<TextView>(R.id.tvDisplayName)
-        val displayName = item.user?.display_name ?:""
+        val displayName = item.user?.display_name ?: ""
         tvDisplayName?.text = "@$displayName"
 
 
@@ -72,7 +73,10 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val ivDownload = holder.getView<ImageView>(R.id.ivDownload)
         val ivMore = holder.getView<ImageView>(R.id.ivMore)
         if (FileUtils.checkExist(savePath)) {
-            ivDownload?.setColorFilter(App.context.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+            ivDownload?.setColorFilter(
+                App.context.resources.getColor(R.color.gray_66),
+                PorterDuff.Mode.SRC_IN
+            )
         } else {
             ivDownload?.colorFilter = null
         }
@@ -113,7 +117,12 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 com.android.absbase.utils.FileUtils.copyFile(cachePath, tempPath, true)
 //                val drawable = GifDrawable(tempPath)
 //                gifImageView?.setImageDrawable(drawable)
-                Glide.with(App.context).load(tempPath).into(gifImageView!!)
+                Glide.with(App.context)
+                    .load(tempPath)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(
+                        DiskCacheStrategy.NONE)
+                    .into(gifImageView!!)
                 progressLoading?.visibility = GONE
                 ivPlay?.visibility = GONE
                 ivRetry?.visibility = GONE
@@ -171,7 +180,10 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 FileUtil.createNewFile(savePath, false)
                 com.android.absbase.utils.FileUtils.copyFile(tempPath, savePath, true)
                 toast("${getString(R.string.already_save_to)}\n$savePath")
-                ivDownload.setColorFilter(App.context.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+                ivDownload.setColorFilter(
+                    App.context.resources.getColor(R.color.gray_66),
+                    PorterDuff.Mode.SRC_IN
+                )
             } else {
                 toast(R.string.file_not_found)
             }
@@ -202,7 +214,12 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             tvStatus?.text = "状态：已下载"
 //            drawable = GifDrawable(tempPath)
 //            gifImageView?.setImageDrawable(drawable)
-            Glide.with(App.context).load(tempPath).into(gifImageView!!)
+            Glide.with(App.context)
+                .load(tempPath)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(
+                DiskCacheStrategy.NONE)
+                .into(gifImageView!!)
 
             progressLoading?.visibility = GONE
             ivPlay?.visibility = GONE
@@ -213,10 +230,18 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
 
-
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
         DownloadManager.getInstance().start(task, downloadCallback, true)
 
+    }
+
+    override fun onViewRecycled(holder: BaseViewHolder) {
+        super.onViewRecycled(holder)
+        log("回收view： ${holder.adapterPosition}")
+        val imageView = holder.getView<GifImageView>(R.id.gifImageView)
+        if (imageView != null) {
+            Glide.with(mContext).clear(imageView)
+        }
     }
 
     companion object {

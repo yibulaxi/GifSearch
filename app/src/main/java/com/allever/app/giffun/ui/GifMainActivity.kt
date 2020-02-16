@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.allever.app.giffun.R
 import com.allever.app.giffun.ad.AdConstants
 import com.allever.app.giffun.app.Global
@@ -21,6 +22,7 @@ import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
+import com.allever.app.giffun.util.ImageLoader
 import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
@@ -87,7 +89,18 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         gifRecyclerView.addOnScrollListener(recyclerViewScrollListener)
 
         gifRecyclerView.layoutManager = LinearLayoutManager(this)
-        val pagerSnapHelper = PagerSnapHelper()
+        val pagerSnapHelper = object : PagerSnapHelper() {
+            override fun findTargetSnapPosition(
+                layoutManager: RecyclerView.LayoutManager,
+                velocityX: Int,
+                velocityY: Int
+            ): Int {
+                val position = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
+                log("当前页： $position")
+                gifRecyclerView.findViewHolderForLayoutPosition(position)
+                return position
+            }
+        }
         pagerSnapHelper.attachToRecyclerView(gifRecyclerView)
         gifRecyclerView.adapter = mAdapter
 
@@ -246,6 +259,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         DownloadManager.getInstance().cancelAllTask()
         mBannerAd?.destroy()
         mExitInsertAd?.destroy()
+        ImageLoader.clearMemoryCache()
     }
 
     private fun loadBanner() {
