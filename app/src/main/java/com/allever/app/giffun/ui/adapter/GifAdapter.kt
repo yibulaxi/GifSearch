@@ -17,7 +17,9 @@ import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.function.download.DownloadCallback
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.function.download.TaskInfo
+import com.allever.app.giffun.ui.SearchActivity
 import com.allever.app.giffun.util.MD5
+import com.allever.lib.common.app.App
 import com.allever.lib.common.ui.widget.custom.CircleImageView
 import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
@@ -63,14 +65,14 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
 
         val ivHeader = holder.getView<ImageView>(R.id.ivHeader)
-        Glide.with(mContext).load(item.user?.avatar_url).into(ivHeader!!)
+        Glide.with(App.context).load(item.user?.avatar_url).into(ivHeader!!)
 
         val ivLike = holder.getView<ImageView>(R.id.ivLike)
         val ivShare = holder.getView<ImageView>(R.id.ivShare)
         val ivDownload = holder.getView<ImageView>(R.id.ivDownload)
         val ivMore = holder.getView<ImageView>(R.id.ivMore)
         if (FileUtils.checkExist(savePath)) {
-            ivDownload?.setColorFilter(mContext.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+            ivDownload?.setColorFilter(App.context.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
         } else {
             ivDownload?.colorFilter = null
         }
@@ -111,7 +113,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 com.android.absbase.utils.FileUtils.copyFile(cachePath, tempPath, true)
 //                val drawable = GifDrawable(tempPath)
 //                gifImageView?.setImageDrawable(drawable)
-                Glide.with(mContext).load(tempPath).into(gifImageView!!)
+                Glide.with(App.context).load(tempPath).into(gifImageView!!)
                 progressLoading?.visibility = GONE
                 ivPlay?.visibility = GONE
                 ivRetry?.visibility = GONE
@@ -155,7 +157,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         ivShare?.setOnClickListener {
             if (FileUtils.checkExist(tempPath)) {
-                ShareHelper.shareImage(mContext, tempPath)
+                ShareHelper.shareImage(App.context, tempPath)
             } else {
                 ToastUtils.show("文件不存在")
             }
@@ -171,7 +173,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 FileUtil.createNewFile(savePath, false)
                 com.android.absbase.utils.FileUtils.copyFile(tempPath, savePath, true)
                 ToastUtils.show("已保存到：\n$savePath")
-                ivDownload.setColorFilter(mContext.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
+                ivDownload.setColorFilter(App.context.resources.getColor(R.color.gray_66),PorterDuff.Mode.SRC_IN)
             } else {
                 toast("文件不存在")
             }
@@ -179,7 +181,17 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivMore?.setOnClickListener {
-            ToastUtils.show("更多")
+            val title = item.title
+            var searchContent: String = ""
+            if (title.contains("GIF")) {
+                val titleArray = title.split("GIF")
+                if (titleArray.isNotEmpty()) {
+                    searchContent = titleArray[0]
+                }
+            }
+
+            log("搜索关键字： $searchContent")
+            SearchActivity.start(App.context, searchContent)
         }
 
 
@@ -192,7 +204,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             tvStatus?.text = "状态：已下载"
 //            drawable = GifDrawable(tempPath)
 //            gifImageView?.setImageDrawable(drawable)
-            Glide.with(mContext).load(tempPath).into(gifImageView!!)
+            Glide.with(App.context).load(tempPath).into(gifImageView!!)
 
             progressLoading?.visibility = GONE
             ivPlay?.visibility = GONE

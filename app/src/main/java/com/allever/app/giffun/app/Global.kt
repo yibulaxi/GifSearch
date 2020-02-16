@@ -21,6 +21,7 @@ object Global {
     const val SP_TYPE = "type"
     const val SP_KEYWORD = "keyword"
     const val SP_OFFSET = "offset"
+    const val SP_SEARCH_OFFSET = "search_offset"
     const val SP_COUNT = "count"
 
 
