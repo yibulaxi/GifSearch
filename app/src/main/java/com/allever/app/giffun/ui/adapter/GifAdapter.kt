@@ -156,7 +156,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         ivShare?.setOnClickListener {
             if (FileUtils.checkExist(tempPath)) {
-                ShareHelper.shareImage(App.context, tempPath)
+                ShareHelper.shareImage(mContext, tempPath)
             } else {
                 toast(R.string.file_not_found)
             }
