@@ -9,6 +9,8 @@ import com.allever.app.giffun.R
 import com.allever.app.giffun.app.BaseActivity
 import com.allever.app.giffun.ui.mvp.presenter.AboutPresenter
 import com.allever.app.giffun.ui.mvp.view.AboutView
+import com.allever.lib.common.app.App
+import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.umeng.UMeng
 
 class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
@@ -41,8 +43,8 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
                 finish()
             }
             R.id.about_privacy -> {
-//                val privacyUrl = "https://plus.google.com/116794250597377070773/posts/SYoEZWDm77x"
-//                SystemUtils.startWebView(App.context, privacyUrl)
+                val privacyUrl = "http://x.xiniubaba.com/x.php/62nmQ3/2705"
+                SystemUtils.startWebView(App.context, privacyUrl)
             }
         }
     }
