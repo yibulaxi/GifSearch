@@ -171,5 +171,33 @@
 # RxJava RxAndroid----------------------------------------------------------------------------------
 
 # Gson-----------------------------------------------------------------------------------------
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }
+
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.allever.app.giffun.bean.** { *; }
+
+
 # Gson--------------------------------------------------------------------------
 
+# Gif drawable-----------------------------------------------------------------------------------
+-keep public class pl.droidsonroids.gif.GifIOException{<init>(int);}
+-keep class pl.droidsonroids.gif.GifInfoHandle{<init>(long,int,int,int);}
+#-----------------------------------------------------------------------------------
+
+
+#okdownload-okhttp3---------------------------------------------------------------
+-keepnames class com.liulishuo.okdownload.core.connection.DownloadOkHttp3Connection
+#okdownload-okhttp3---------------------------------------------------------------
+
+
+#okdownload-sqlite---------------------------------------------------------------
+-keep class com.liulishuo.okdownload.core.breakpoint.BreakpointStoreOnSQLite {
+        public com.liulishuo.okdownload.core.breakpoint.DownloadStore createRemitSelf();
+        public com.liulishuo.okdownload.core.breakpoint.BreakpointStoreOnSQLite(android.content.Context);
+}
+#okdownload-sqlite---------------------------------------------------------------

@@ -119,9 +119,9 @@ dependencies {
 //        transitive=true
 //    }
 
-    implementation ('com.giphy.sdk:ui:1.0.0'){
-        transitive=true
-    }
+//    implementation ('com.giphy.sdk:ui:1.0.0'){
+//        transitive=true
+//    }
 
 //    implementation 'com.felipecsl:gifimageview:2.2.0'
 
