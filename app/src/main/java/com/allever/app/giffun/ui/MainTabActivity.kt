@@ -190,7 +190,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
 
     private var mIsAdLoaded = false
     private fun loadInsertAd() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, window.decorView as ViewGroup, object : AdChainListener {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, window.decorView as ViewGroup, object : AdChainListener {
             override fun onLoaded(ad: IAd?) {
                 mInsertAd = ad
                 mIsAdLoaded = true

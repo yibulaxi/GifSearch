@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.allever.app.giffun.R
+import com.allever.app.giffun.ad.AdConstants
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.SearchResponse
@@ -21,6 +22,9 @@ import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
 import com.allever.app.giffun.util.ImageLoader
 import com.allever.app.giffun.util.SpUtils
+import com.allever.lib.ad.chain.AdChainHelper
+import com.allever.lib.ad.chain.AdChainListener
+import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
@@ -37,6 +41,8 @@ class SearchActivity: BaseActivity() {
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 
     private lateinit var mKeyword: String
+
+    private var mDetailInsertAd: IAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,29 +140,44 @@ class SearchActivity: BaseActivity() {
             }
 
             override fun onNext(bean: SearchResponse) {
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                gifRecyclerView?.visibility = View.VISIBLE
                 hideLoadingProgressDialog()
-                log("搜索成功")
-                val data = bean.data
-                data?.map {
-                    log("trending = ${it.images.original.url}")
+
+                if (mDetailInsertAd != null) {
+                    mHandler.postDelayed({
+                        toast(R.string.loading_ad_tips)
+                        mDetailInsertAd?.show()
+                    }, 200)
                 }
 
-                if (!isLoadMore) {
-                    mGifDataList.clear()
-                }
+                mHandler.postDelayed({
+                    recyclerViewScrollListener.setLoadDataStatus(false)
+                    gifRecyclerView?.visibility = View.VISIBLE
 
-                mGifDataList.addAll(data)
+                    log("搜索成功")
+                    val data = bean.data
+                    data?.map {
+                        log("trending = ${it.images.original.url}")
+                    }
 
-                mAdapter?.notifyDataSetChanged()
+                    if (!isLoadMore) {
+                        mGifDataList.clear()
+                    }
 
-                offset = if (mGifDataList.size < count) {
-                    "0"
-                } else {
-                    (offset.toInt() + count + 1).toString()
-                }
-                SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+                    mGifDataList.addAll(data)
+
+                    mAdapter?.notifyDataSetChanged()
+
+                    offset = if (mGifDataList.size < count) {
+                        "0"
+                    } else {
+                        (offset.toInt() + count + 1).toString()
+                    }
+                    SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+
+                    loadDetailInsert()
+                }, 500)
+
+
             }
         })
     }
@@ -165,6 +186,22 @@ class SearchActivity: BaseActivity() {
         super.onDestroy()
         DownloadManager.getInstance().cancelAllTask()
         ImageLoader.clearMemoryCache()
+        mDetailInsertAd?.destroy()
+    }
+
+    private fun loadDetailInsert() {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
+            override fun onLoaded(ad: IAd?) {
+                mDetailInsertAd = ad
+            }
+
+            override fun onFailed(msg: String) {}
+            override fun onShowed() {
+            }
+
+            override fun onDismiss() {}
+
+        })
     }
 
     private fun showLoadingProgressDialog(msg: String) {

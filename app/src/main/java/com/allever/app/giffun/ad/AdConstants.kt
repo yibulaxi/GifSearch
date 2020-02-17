@@ -5,12 +5,15 @@ import com.allever.lib.ad.AdBusiness
 
 object AdConstants {
 
-    private val APPID = ""
-    private const val COMMON_BANNER = "ca-app-pub-8815582923430600/1795988120"
-    private const val COMMON_INSERT = "ca-app-pub-8815582923430600/1544706681"
-    private const val COMMON_VIDEO = "ca-app-pub-8815582923430600/9291334763"
+    private val APPID = "ca-app-pub-1877583433745305~9111733724"
+    private const val COMMON_BANNER = "ca-app-pub-1877583433745305/2354753688"
+    private const val EXIT_INSERT = "ca-app-pub-1877583433745305/8728590345"
+    private const val DETAIL_INSERT = "ca-app-pub-1877583433745305/1905351068"
+    private const val COMMON_VIDEO = ""
 
-    val AD_NAME_INSERT = "AD_NAME_INSERT"
+    val AD_NAME_EXIT_INSERT = "AD_NAME_EXIT_INSERT"
+
+    val AD_NAME_DETAIL_INSERT = "AD_NAME_DETAIL_INSERT"
 
     val AD_NAME_BANNER = "AD_NAME_BANNER"
 
@@ -27,12 +30,22 @@ object AdConstants {
             "  ],\n" +
             "  \"adConfig\": [\n" +
             "    {\n" +
-            "      \"name\": \"$AD_NAME_INSERT\",\n" +
+            "      \"name\": \"$AD_NAME_EXIT_INSERT\",\n" +
             "      \"type\": \"${ADType.INSERT}\",\n" +
             "      \"chain\": [\n" +
             "        {\n" +
             "          \"business\": \"${AdBusiness.A}\",\n" +
-            "          \"adPosition\": \"$COMMON_INSERT\"\n" +
+            "          \"adPosition\": \"$EXIT_INSERT\"\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"name\": \"$AD_NAME_DETAIL_INSERT\",\n" +
+            "      \"type\": \"${ADType.INSERT}\",\n" +
+            "      \"chain\": [\n" +
+            "        {\n" +
+            "          \"business\": \"${AdBusiness.A}\",\n" +
+            "          \"adPosition\": \"$DETAIL_INSERT\"\n" +
             "        }\n" +
             "      ]\n" +
             "    },\n" +

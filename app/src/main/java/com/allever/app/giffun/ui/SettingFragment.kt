@@ -117,7 +117,7 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
     }
 
     private fun loadInsertAd() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, null, object : AdChainListener {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, null, object : AdChainListener {
             override fun onLoaded(ad: IAd?) {
                 mInsertAd = ad
                 mInsertAd?.show()

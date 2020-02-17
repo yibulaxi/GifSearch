@@ -34,4 +34,6 @@
     <string name="already_download">Downloaded</string>
     <string name="already_save_to">Saved to:</string>
 
+    <string name="loading_ad_tips">Great content loading, please wait</string>
+
 </resources>

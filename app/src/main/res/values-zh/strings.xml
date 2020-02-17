@@ -34,4 +34,6 @@
     <string name="already_download">已下载</string>
     <string name="already_save_to">已保存到： </string>
 
+    <string name="loading_ad_tips">精彩内容正在加载，请稍后</string>
+
 </resources>

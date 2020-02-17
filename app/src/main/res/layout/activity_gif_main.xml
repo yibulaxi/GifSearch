@@ -19,6 +19,7 @@
         android:visibility="gone"/>
 
     <RelativeLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="#11ffffff"
@@ -53,5 +54,12 @@
 
 
     </RelativeLayout>
+
+    <com.allever.lib.ad.chain.BannerLayout
+        android:id="@+id/bannerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar"
+        android:visibility="gone"/>
 
 </RelativeLayout>

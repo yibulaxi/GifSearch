@@ -143,7 +143,7 @@ class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
     }
 
     private fun loadInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, window?.decorView as ViewGroup, object :
+        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, window?.decorView as ViewGroup, object :
             AdChainListener {
             override fun onLoaded(ad: IAd?) {
                 mInsertAd = ad

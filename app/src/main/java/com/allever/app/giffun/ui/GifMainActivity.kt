@@ -1,7 +1,6 @@
 package com.allever.app.giffun.ui
 
 import android.Manifest
-import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -31,13 +30,11 @@ import com.allever.lib.comment.CommentHelper
 import com.allever.lib.comment.CommentListener
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.ActivityCollector
-import com.allever.lib.common.util.ToastUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.allever.lib.permission.PermissionCompat
 import com.allever.lib.permission.PermissionListener
 import com.allever.lib.permission.PermissionManager
-import com.allever.lib.permission.PermissionUtil
 import com.allever.lib.recommend.*
 import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
@@ -56,6 +53,8 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
 
     private var mBannerAd: IAd? = null
     private var mExitInsertAd: IAd? = null
+    private var mDetailInsertAd: IAd? = null
+    private var mIsDetailAdShowed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +79,6 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun loadMore() {
-                showLoadingProgressDialog(getString(R.string.loading))
                 getData(true)
             }
         })
@@ -214,29 +212,44 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun onNext(bean: TrendingResponse) {
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                gifRecyclerView?.visibility = View.VISIBLE
                 hideLoadingProgressDialog()
-                log("请求成功")
-                val data = bean.data
-                data?.map {
-                    log("trending = ${it.images.original.url}")
+
+                if (mDetailInsertAd != null) {
+                    mHandler.postDelayed({
+                        toast(R.string.loading_ad_tips)
+                        mDetailInsertAd?.show()
+                        mIsDetailAdShowed = true
+                    }, 200)
                 }
 
-                if (!isLoadMore) {
-                    mGifDataList.clear()
-                }
+                mHandler.postDelayed({
+                    recyclerViewScrollListener.setLoadDataStatus(false)
+                    gifRecyclerView?.visibility = View.VISIBLE
 
-                mGifDataList.addAll(data)
+                    log("请求成功")
+                    val data = bean.data
+                    data?.map {
+                        log("trending = ${it.images.original.url}")
+                    }
 
-                mAdapter?.notifyDataSetChanged()
+                    if (!isLoadMore) {
+                        mGifDataList.clear()
+                    }
 
-                offset = if (mGifDataList.size < count) {
-                    "0"
-                } else {
-                    (offset.toInt() + count + 1).toString()
-                }
-                SpUtils.putString(Global.SP_OFFSET, offset)
+                    mGifDataList.addAll(data)
+
+                    mAdapter?.notifyDataSetChanged()
+
+                    offset = if (mGifDataList.size < count) {
+                        "0"
+                    } else {
+                        (offset.toInt() + count + 1).toString()
+                    }
+                    SpUtils.putString(Global.SP_OFFSET, offset)
+
+                    loadDetailInsert()
+                }, 500)
+
             }
         })
     }
@@ -259,6 +272,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         DownloadManager.getInstance().cancelAllTask()
         mBannerAd?.destroy()
         mExitInsertAd?.destroy()
+        mDetailInsertAd?.destroy()
         ImageLoader.clearMemoryCache()
     }
 
@@ -280,7 +294,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
 
     private var mIsAdLoaded = false
     private fun loadExitInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_INSERT, null, object : AdChainListener {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, null, object : AdChainListener {
             override fun onLoaded(ad: IAd?) {
                 mExitInsertAd = ad
                 mIsAdLoaded = true
@@ -289,6 +303,21 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
             override fun onFailed(msg: String) {}
             override fun onShowed() {
                 mIsAdLoaded = false
+            }
+
+            override fun onDismiss() {}
+
+        })
+    }
+
+    private fun loadDetailInsert() {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
+            override fun onLoaded(ad: IAd?) {
+                mDetailInsertAd = ad
+            }
+
+            override fun onFailed(msg: String) {}
+            override fun onShowed() {
             }
 
             override fun onDismiss() {}
@@ -307,7 +336,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        if (mIsAdLoaded) {
+        if (mIsAdLoaded && !mIsDetailAdShowed) {
             mExitInsertAd?.show()
             mIsAdLoaded = false
         } else {
