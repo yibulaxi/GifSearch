@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -61,6 +63,10 @@ class SearchActivity: BaseActivity() {
             search(mKeyword)
         }
 
+        ivDelete?.setOnClickListener {
+            etSearch?.setText("")
+        }
+
         etSearch.setText(mKeyword)
         etSearch.setSelection(mKeyword.length)
         etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
@@ -74,6 +80,22 @@ class SearchActivity: BaseActivity() {
                 return@OnEditorActionListener false
             }
             false
+        })
+
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s?.length == 0) {
+                    ivDelete?.visibility = View.GONE
+                } else {
+                    ivDelete?.visibility = View.VISIBLE
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+
         })
 
         mAdapter = GifAdapter(this, R.layout.item_gif, mGifDataList)
