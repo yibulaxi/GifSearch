@@ -30,7 +30,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.allever.app.giffun.ui.SearchActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name="com.allever.app.giffun.ui.MainActivity"
             android:launchMode="singleTask"

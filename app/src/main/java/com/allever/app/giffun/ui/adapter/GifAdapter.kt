@@ -10,6 +10,7 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.allever.app.giffun.BuildConfig
 
 import com.allever.app.giffun.R
 import com.allever.app.giffun.app.Global
@@ -229,6 +230,10 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             return
         }
 
+
+        if (BuildConfig.DEBUG) {
+            return
+        }
 
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
         DownloadManager.getInstance().start(task, downloadCallback, true)

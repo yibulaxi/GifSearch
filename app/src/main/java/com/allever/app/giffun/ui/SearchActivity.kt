@@ -15,9 +15,11 @@ import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.SearchResponse
 import com.allever.app.giffun.bean.TrendingResponse
+import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
+import com.allever.app.giffun.util.ImageLoader
 import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.log
@@ -95,6 +97,18 @@ class SearchActivity: BaseActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?:""
+        if (mKeyword != "") {
+            mGifDataList.clear()
+            mAdapter?.notifyDataSetChanged()
+            etSearch?.setText(mKeyword)
+            etSearch?.setSelection(mKeyword.length)
+            search(mKeyword)
+        }
+    }
+
     private fun search(keyword: String, isLoadMore: Boolean = false) {
         if (keyword == "") {
             toast(getString(R.string.please_input_search_content))
@@ -145,6 +159,12 @@ class SearchActivity: BaseActivity() {
                 SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DownloadManager.getInstance().cancelAllTask()
+        ImageLoader.clearMemoryCache()
     }
 
     private fun showLoadingProgressDialog(msg: String) {
