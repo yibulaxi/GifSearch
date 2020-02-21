@@ -6,6 +6,8 @@
     <!-- 设置 -->
     <string name="setting">Setting</string>
     <string name="tab_guide">Guide</string>
+    <string name="tab_trend">Trend</string>
+    <string name="tab_search">Search</string>
 
     <string name="share">Share</string>
     <string name="feedback">Feedback</string>

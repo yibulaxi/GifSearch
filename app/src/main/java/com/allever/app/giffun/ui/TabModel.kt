@@ -48,9 +48,9 @@ internal object TabModel {
         /**
          *
          */
-        MAIN(MainFragment::class.java, R.drawable.ic_tab_main, R.string.app_name),
-        GUIDE(GuideFragment::class.java, R.drawable.ic_tab_guide, R.string.tab_guide),
-        SETTING(SettingFragment::class.java, R.drawable.ic_setting, R.string.setting);
+        MAIN(TrendFragment::class.java, R.drawable.ic_tab_main, R.string.tab_trend),
+        SEARCH(SearchFragment::class.java, R.drawable.ic_tab_guide, R.string.tab_search);
+//        SETTING(SettingFragment::class.java, R.drawable.ic_setting, R.string.setting);
 
         val fragmentClassName: String
         var drawable: Drawable? = null

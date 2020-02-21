@@ -22,7 +22,7 @@
 
     <color name="divider_color">#19474747</color>
 
-    <color name="main_tab_highlight">@color/colorAccent</color>
+    <color name="main_tab_highlight">@color/white</color>
     <color name="main_tab_unselect_color">#8a8a8a</color>
 
 </resources>

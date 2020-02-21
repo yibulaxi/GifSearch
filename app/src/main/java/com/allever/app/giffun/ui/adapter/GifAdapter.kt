@@ -21,7 +21,6 @@ import com.allever.app.giffun.function.download.TaskInfo
 import com.allever.app.giffun.ui.SearchActivity
 import com.allever.app.giffun.util.MD5
 import com.allever.lib.common.app.App
-import com.allever.lib.common.ui.widget.custom.CircleImageView
 import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
 import com.allever.lib.common.util.*

@@ -1,60 +1,51 @@
 package com.allever.app.giffun.ui
 
-import android.Manifest
 import android.app.Dialog
-import android.app.ProgressDialog
-import android.content.DialogInterface
-import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.allever.app.giffun.R
 import com.allever.app.giffun.ad.AdConstants
-import com.allever.app.giffun.app.Global
-import com.allever.app.giffun.bean.DataBean
-import com.allever.app.giffun.bean.TrendingResponse
 import com.allever.app.giffun.function.download.DownloadManager
-import com.allever.app.giffun.ui.adapter.GifAdapter
-import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
-import com.allever.app.giffun.ui.widget.RecyclerViewScrollListener
+import com.allever.app.giffun.ui.adapter.ViewPagerAdapter
 import com.allever.app.giffun.util.ImageLoader
-import com.allever.app.giffun.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.comment.CommentHelper
 import com.allever.lib.comment.CommentListener
 import com.allever.lib.common.app.BaseActivity
+import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
-import com.allever.lib.common.util.log
-import com.allever.lib.common.util.toast
-import com.allever.lib.permission.PermissionCompat
-import com.allever.lib.permission.PermissionListener
-import com.allever.lib.permission.PermissionManager
-import com.allever.lib.recommend.*
+import com.allever.lib.common.util.DisplayUtils
+import com.allever.lib.recommend.RecommendActivity
+import com.allever.lib.recommend.RecommendDialogHelper
+import com.allever.lib.recommend.RecommendDialogListener
+import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import rx.Subscriber
 
-class GifMainActivity : BaseActivity(), View.OnClickListener {
+class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSelectedListener {
 
+    private lateinit var mVp: ViewPager
+    private lateinit var mViewPagerAdapter: ViewPagerAdapter
+    private lateinit var mTab: TabLayout
+    private var mainTabHighlight = 0
+    private var mainTabUnSelectColor = 0
 
-    private var mAdapter: GifAdapter? = null
-    private var mGifDataList = mutableListOf<DataBean>()
-    private lateinit var mProgressDialog: ProgressDialog
-    private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
+    private var mFragmentList = mutableListOf<Fragment>()
 
     private var mBannerAd: IAd? = null
     private var mExitInsertAd: IAd? = null
-    private var mDetailInsertAd: IAd? = null
-    private var mIsDetailAdShowed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,49 +54,122 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         ivSetting.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
 
-        mProgressDialog = ProgressDialog(this)
+        mTab = findViewById(R.id.tab_layout)
+        mVp = findViewById(R.id.id_main_vp)
 
-        ivRetry?.setOnClickListener {
-            requestPermission()
-            ivRetry?.visibility = View.GONE
-        }
+        mainTabHighlight = resources.getColor(R.color.main_tab_highlight)
+        mainTabUnSelectColor = resources.getColor(R.color.main_tab_unselect_color)
 
-        mAdapter = GifAdapter(this, R.layout.item_gif, mGifDataList)
+        initViewPagerData()
+        initViewPager()
+        initTab()
 
-        recyclerViewScrollListener = RecyclerViewScrollListener(object :
-            RecyclerViewScrollListener.OnRecycleRefreshListener {
-            override fun refresh() {
-
-            }
-
-            override fun loadMore() {
-                getData(true)
-            }
-        })
-
-
-        gifRecyclerView.addOnScrollListener(recyclerViewScrollListener)
-
-        gifRecyclerView.layoutManager = LinearLayoutManager(this)
-        val pagerSnapHelper = object : PagerSnapHelper() {
-            override fun findTargetSnapPosition(
-                layoutManager: RecyclerView.LayoutManager,
-                velocityX: Int,
-                velocityY: Int
-            ): Int {
-                val position = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-                log("当前页： $position")
-                gifRecyclerView.findViewHolderForLayoutPosition(position)
-                return position
-            }
-        }
-        pagerSnapHelper.attachToRecyclerView(gifRecyclerView)
-        gifRecyclerView.adapter = mAdapter
-
-        requestPermission()
 
         loadBanner()
         loadExitInsert()
+    }
+
+    private fun initViewPagerData() {
+        mFragmentList.add(TrendFragment())
+        mFragmentList.add(SearchFragment())
+        mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
+    }
+
+    private fun initViewPager() {
+//        mVp.offscreenPageLimit = 3
+        mVp.adapter = mViewPagerAdapter
+
+        mVp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        topBarContainer.visibility = View.VISIBLE
+//                        mTvTitle.text = getString(R.string.app_name)
+                    }
+                    1 -> {
+                        topBarContainer.visibility = View.GONE
+//                        mTvTitle.text = getString(R.string.tab_guide)
+                    }
+                }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+    }
+
+
+    private fun initTab() {
+        //tab
+        mVp.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(mTab))
+        mTab.setOnTabSelectedListener(this)
+
+        val tabCount = TabModel.tabCount
+        for (i in 0 until tabCount) {
+            val tabModel = TabModel.getTab(i)
+            val labelId = tabModel.labelResId
+            val tab = mTab.newTab()
+                .setTag(tabModel)
+                .setCustomView(getTabView(i))
+                .setContentDescription(labelId)
+            val drawable = tabModel.drawable
+            if (drawable != null) {
+                tab.icon = drawable
+            } else {
+                tab.setIcon(tabModel.iconResId)
+            }
+
+            tab.setText(labelId)
+            val imageView = tab.customView?.findViewById<ImageView>(R.id.icon)
+            imageView?.setColorFilter(mainTabUnSelectColor, PorterDuff.Mode.SRC_IN)
+            //解决首次tab文字颜色异常
+            val textView = tab.customView?.findViewById<TextView>(R.id.text1)
+            textView?.setTextColor(mainTabUnSelectColor)
+            mTab.addTab(tab)
+        }
+
+        mTab.setSelectedTabIndicatorWidth(DisplayUtils.dip2px(20))
+        mTab.setSelectedTabIndicatorHeight(DisplayUtils.dip2px(2))
+        mTab.setSelectedTabIndicatorColor(mainTabHighlight)
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab) {
+        mVp.currentItem = tab.position
+
+        TabModel.selectedTab = (tab.tag as TabModel.Tab)
+        for (i in 0 until mTab.tabCount) {
+            val aTab = mTab.getTabAt(i)
+            if (aTab != null) {
+                val imageView = aTab.customView?.findViewById<ImageView>(R.id.icon)
+                val textView = aTab.customView?.findViewById<TextView>(R.id.text1)
+                if (aTab === tab) {
+                    imageView?.setColorFilter(mainTabHighlight, PorterDuff.Mode.SRC_IN)
+                    textView?.setTextColor(mainTabHighlight)
+                } else {
+                    imageView?.setColorFilter(mainTabUnSelectColor, PorterDuff.Mode.SRC_IN)
+                    textView?.setTextColor(mainTabUnSelectColor)
+                }
+            }
+        }
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab) {}
+    override fun onTabReselected(tab: TabLayout.Tab) {}
+
+    private fun getTabView(position: Int): View {
+        val view = LayoutInflater.from(this).inflate(R.layout.layout_bottom_tab, null)
+        val imageView = view.findViewById<ImageView>(R.id.icon)
+        val textView = view.findViewById<TextView>(R.id.text1)
+        val tab = TabModel.getTab(position)
+        textView.setText(tab.labelResId)
+        imageView.setImageResource(tab.iconResId)
+        return view
     }
 
     override fun onClick(v: View?) {
@@ -119,160 +183,14 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun requestPermission() {
-        if (!PermissionManager.hasPermissions(
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        ) {
-            //弹窗
-            AlertDialog.Builder(this)
-                .setMessage(R.string.permission_tips)
-                .setPositiveButton(R.string.permission_accept) { dialog, which ->
-                    dialog.dismiss()
-                    PermissionManager.request(
-                        object : PermissionListener {
-                            override fun onGranted(grantedList: MutableList<String>) {
-                                Global.createDir()
-                                getData()
-                            }
 
-                            override fun onDenied(deniedList: MutableList<String>) {
-                                super.onDenied(deniedList)
-                                toast(R.string.reject_permission_tips)
-                                ivRetry?.visibility = View.VISIBLE
-                            }
 
-                            override fun alwaysDenied(deniedList: MutableList<String>) {
-                                super.alwaysDenied(deniedList)
-                                if (
-                                    PermissionCompat.hasPermission(this@GifMainActivity,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                        Manifest.permission.READ_PHONE_STATE)
-                                ) {
-                                    Global.createDir()
-                                    getData()
-                                } else {
-                                    PermissionManager.jumpPermissionSetting(this@GifMainActivity, 1001,
-                                        DialogInterface.OnClickListener { dialog, which ->
-                                            toast(R.string.reject_permission_tips)
-                                            ivRetry?.visibility = View.VISIBLE
-                                        })
-                                }
-
-                            }
-
-                        }, Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                }
-                .setNegativeButton(R.string.permission_reject) { dialog, which ->
-                    dialog.dismiss()
-                    toast(R.string.reject_permission_tips)
-                    ivRetry?.visibility = View.VISIBLE
-                }
-                .create()
-                .show()
-        } else {
-            Global.createDir()
-            getData()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1001) {
-            if (!PermissionManager.hasPermissions(
-                    Manifest.permission.READ_PHONE_STATE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                ivRetry?.visibility = View.VISIBLE
-                gifRecyclerView?.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun getData(isLoadMore: Boolean = false) {
-        val count = 10
-        var offset = SpUtils.getString(Global.SP_OFFSET, "0")
-        log("offset = $offset")
-        showLoadingProgressDialog(getString(R.string.loading))
-        RetrofitUtil.trendingGif(offset.toInt(), count, object : Subscriber<TrendingResponse>() {
-            override fun onCompleted() {}
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                log("请求失败")
-                hideLoadingProgressDialog()
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                if (!isLoadMore) {
-                    gifRecyclerView?.visibility = View.GONE
-                    ivRetry?.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onNext(bean: TrendingResponse) {
-                hideLoadingProgressDialog()
-
-                if (mDetailInsertAd != null) {
-                    mHandler.postDelayed({
-                        toast(R.string.loading_ad_tips)
-                        mDetailInsertAd?.show()
-                        mIsDetailAdShowed = true
-                    }, 200)
-                }
-
-                mHandler.postDelayed({
-                    recyclerViewScrollListener.setLoadDataStatus(false)
-                    gifRecyclerView?.visibility = View.VISIBLE
-
-                    log("请求成功")
-                    val data = bean.data
-                    data?.map {
-                        log("trending = ${it.images.original.url}")
-                    }
-
-                    if (!isLoadMore) {
-                        mGifDataList.clear()
-                    }
-
-                    mGifDataList.addAll(data)
-
-                    mAdapter?.notifyDataSetChanged()
-
-                    offset = if (mGifDataList.size < count) {
-                        "0"
-                    } else {
-                        (offset.toInt() + count + 1).toString()
-                    }
-                    SpUtils.putString(Global.SP_OFFSET, offset)
-
-                    loadDetailInsert()
-                }, 500)
-
-            }
-        })
-    }
-
-    private fun showLoadingProgressDialog(msg: String) {
-        if (!mProgressDialog.isShowing) {
-            mProgressDialog.setMessage(msg)
-            mProgressDialog.show()
-        }
-    }
-
-    private fun hideLoadingProgressDialog() {
-        if (mProgressDialog.isShowing) {
-            mProgressDialog.dismiss()
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         DownloadManager.getInstance().cancelAllTask()
         mBannerAd?.destroy()
         mExitInsertAd?.destroy()
-        mDetailInsertAd?.destroy()
         ImageLoader.clearMemoryCache()
     }
 
@@ -310,21 +228,6 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun loadDetailInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mDetailInsertAd = ad
-            }
-
-            override fun onFailed(msg: String) {}
-            override fun onShowed() {
-            }
-
-            override fun onDismiss() {}
-
-        })
-    }
-
     override fun onResume() {
         super.onResume()
         mBannerAd?.onAdResume()
@@ -336,7 +239,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        if (mIsAdLoaded && !mIsDetailAdShowed) {
+        if (mIsAdLoaded) {
             mExitInsertAd?.show()
             mIsAdLoaded = false
         } else {

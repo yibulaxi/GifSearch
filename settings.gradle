@@ -20,4 +20,6 @@ project(':httpsglide').projectDir = new File(settingsDir, '../AndroidDependencyL
 include ':comment'
 project(':comment').projectDir = new File(settingsDir, '../AndroidDependencyLib/comment')
 
+include ':ui'
+project(':ui').projectDir = new File(settingsDir, '../AndroidDependencyLib/ui')
 
