@@ -1,6 +1,7 @@
 package com.allever.app.giffun.app
 
 import android.os.Environment
+import com.allever.app.giffun.bean.DataBean
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FileUtil
 import com.allever.lib.common.util.FileUtils
@@ -35,9 +36,21 @@ object Global {
         createDir(saveDir)
     }
 
+    fun getIndex(gifId: String, dataBeanList:MutableList<DataBean>): Int {
+        var position = -1
+        dataBeanList.mapIndexed { index, dataBean ->
+            if (dataBean.id == gifId) {
+                position = index
+                return@mapIndexed
+            }
+        }
+        return position
+    }
+
     private fun createDir(dir: String) {
         if (!FileUtils.checkExist(dir)) {
             FileUtil.createDir(dir)
         }
     }
+
 }

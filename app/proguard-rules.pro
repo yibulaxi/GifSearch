@@ -20,15 +20,15 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #
-##LitePal 数据库---------------------------------------------------------------------------------
-#-keep class org.litepal.** {
-#    *;
-#}
-#
-#-keep class * extends org.litepal.crud.DataSupport {
-#    *;
-#}
-##LitePal 数据库---------------------------------------------------------------------------------
+#LitePal 数据库---------------------------------------------------------------------------------
+-keep class org.litepal.** {
+    *;
+}
+
+-keep class * extends org.litepal.crud.DataSupport {
+    *;
+}
+#LitePal 数据库---------------------------------------------------------------------------------
 #
 #
 ## Gson-----------------------------------------------------------------------------------------
@@ -201,3 +201,12 @@
         public com.liulishuo.okdownload.core.breakpoint.BreakpointStoreOnSQLite(android.content.Context);
 }
 #okdownload-sqlite---------------------------------------------------------------
+
+
+# eventbus------------------------------------------------------------------
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+# eventbus------------------------------------------------------------------

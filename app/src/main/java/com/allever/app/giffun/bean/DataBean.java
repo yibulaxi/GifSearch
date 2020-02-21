@@ -1,6 +1,8 @@
 package com.allever.app.giffun.bean;
 
-public class DataBean {
+import java.io.Serializable;
+
+public class DataBean implements Serializable {
     /**
      * type : gif
      * id : SsCLe5ozI3C3wRHL9r

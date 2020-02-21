@@ -1,80 +1,99 @@
-package com.allever.app.giffun.ui.adapter
+package com.allever.app.giffun.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
-import android.text.TextUtils
+import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.allever.app.giffun.BuildConfig
-
 import com.allever.app.giffun.R
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.event.LikeEvent
+import com.allever.app.giffun.bean.event.DownloadFinishEvent
 import com.allever.app.giffun.function.download.DownloadCallback
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.function.download.TaskInfo
-import com.allever.app.giffun.ui.SearchActivity
 import com.allever.app.giffun.util.DBHelper
 import com.allever.app.giffun.util.MD5
 import com.allever.lib.common.app.App
-import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
-import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
+import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.gson.Gson
 import org.greenrobot.eventbus.EventBus
-
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
-
 import java.io.File
-import java.lang.Exception
+import kotlin.Exception
 
-class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
-    BaseRecyclerViewAdapter<DataBean>(context, resId, data) {
+class GifPreviewActivity : BaseActivity() {
 
-    @SuppressLint("SetTextI18n")
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {
-        //debug
-        val progressBarDebug = holder.getView<ProgressBar>(R.id.downloadProgress)
-        val tvLoadUrl = holder.getView<TextView>(R.id.tvUrl)
-        val tvSize = holder.getView<TextView>(R.id.tvSize)
-        val tvTempPath = holder.getView<TextView>(R.id.tvFilePath)
-        val tvStatus = holder.getView<TextView>(R.id.tvStatus)
+    private var mIsDownloadFinish = false
 
+    private lateinit var item: DataBean
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_gif_preview)
+
+        init()
+
+    }
+
+    private fun init() {
+        intent ?: return
+
+        val dataJson = intent.getStringExtra(EXTRA_DATA_BEAN_JSON) ?: return
+
+        try {
+            item = Gson().fromJson(dataJson, DataBean::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return
+        }
+
+        item?:return
+
+
+        val gifId = item.id
         val gifUrl = item.images.fixed_height.url
-        val fileName = MD5.getMD5Str(item.id) + ".gif"
+        val headerUrl = item.user?.avatar_url ?: ""
+        val userName = item.user?.display_name ?: ""
+        val title = item.title ?: ""
+
+
+//        val gifUrl = item.images.fixed_height.url
+        val fileName = MD5.getMD5Str(gifId) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val cachePath = "${Global.cacheDir}${File.separator}$fileName"
         val savePath = "${Global.saveDir}${File.separator}$fileName"
         var drawable: GifDrawable? = null
         var downloaded = FileUtils.checkExist(tempPath)
 
-        val gifImageView = holder.getView<GifImageView>(R.id.gifImageView)
-        val ivPlay = holder.getView<ImageView>(R.id.ivPlay)
-        val ivRetry = holder.getView<ImageView>(R.id.ivRetry)
-        val progressLoading = holder.getView<ProgressBar>(R.id.progressCircle)
+        val gifImageView = findViewById<GifImageView>(R.id.gifImageView)
+        val ivPlay = findViewById<ImageView>(R.id.ivPlay)
+        val ivRetry = findViewById<ImageView>(R.id.ivRetry)
+        val progressLoading = findViewById<ProgressBar>(R.id.progressCircle)
 
-        val tvTitle = holder.getView<TextView>(R.id.tvTitle)
-        tvTitle?.text = item.title
-        val tvDisplayName = holder.getView<TextView>(R.id.tvDisplayName)
-        val displayName = item.user?.display_name ?: ""
+        val tvTitle = findViewById<TextView>(R.id.tvTitle)
+        tvTitle?.text = title
+        val tvDisplayName = findViewById<TextView>(R.id.tvDisplayName)
+        val displayName = userName ?: ""
         tvDisplayName?.text = "@$displayName"
 
 
-        val ivHeader = holder.getView<ImageView>(R.id.ivHeader)
-        Glide.with(App.context).load(item.user?.avatar_url).into(ivHeader!!)
+        val ivHeader = findViewById<ImageView>(R.id.ivHeader)
+        Glide.with(App.context).load(headerUrl).into(ivHeader!!)
 
-        val ivLike = holder.getView<ImageView>(R.id.ivLike)
-        val ivShare = holder.getView<ImageView>(R.id.ivShare)
-        val ivDownload = holder.getView<ImageView>(R.id.ivDownload)
-        val ivMore = holder.getView<ImageView>(R.id.ivMore)
+        val ivLike = findViewById<ImageView>(R.id.ivLike)
+        val ivShare = findViewById<ImageView>(R.id.ivShare)
+        val ivDownload = findViewById<ImageView>(R.id.ivDownload)
+        val ivMore = findViewById<ImageView>(R.id.ivMore)
         if (FileUtils.checkExist(savePath)) {
             ivDownload?.setColorFilter(
                 App.context.resources.getColor(R.color.gray_66),
@@ -86,36 +105,29 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         val downloadCallback = object : DownloadCallback {
             override fun onStart() {
-                tvStatus?.text = "状态：开始下载"
-                progressLoading?.visibility = VISIBLE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = GONE
-                gifImageView?.visibility = GONE
+                progressLoading?.visibility = View.VISIBLE
+                ivPlay?.visibility = View.GONE
+                ivRetry?.visibility = View.GONE
+                gifImageView?.visibility = View.GONE
             }
 
             override fun onConnected(totalLength: Long) {
-                tvStatus?.text = "状态：已连接"
-                progressBarDebug?.max = totalLength.toInt()
-                gifImageView?.visibility = GONE
+                gifImageView?.visibility = View.GONE
             }
 
             override fun onProgress(current: Long, totalLength: Long) {
-                progressBarDebug?.progress = current.toInt()
-                tvStatus?.text = "状态：下载中: $current"
             }
 
             override fun onPause(taskInfo: TaskInfo?) {
-                tvStatus?.text = "状态：暂停下载"
-
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = VISIBLE
+                progressLoading?.visibility = View.GONE
+                ivPlay?.visibility = View.GONE
+                ivRetry?.visibility = View.VISIBLE
 
             }
 
             override fun onCompleted(taskInfo: TaskInfo?) {
-                gifImageView?.visibility = VISIBLE
-                tvStatus?.text = "状态：下载完成"
+                mIsDownloadFinish = true
+                gifImageView?.visibility = View.VISIBLE
                 FileUtil.createNewFile(tempPath, false)
                 com.android.absbase.utils.FileUtils.copyFile(cachePath, tempPath, true)
 //                val drawable = GifDrawable(tempPath)
@@ -124,19 +136,19 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                     .load(tempPath)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(
-                        DiskCacheStrategy.NONE)
+                        DiskCacheStrategy.NONE
+                    )
                     .into(gifImageView!!)
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = GONE
+                progressLoading?.visibility = View.GONE
+                ivPlay?.visibility = View.GONE
+                ivRetry?.visibility = View.GONE
             }
 
             override fun onError(e: Exception?) {
-                tvStatus?.text = "状态：下载出错"
-                progressLoading?.visibility = GONE
-                ivPlay?.visibility = GONE
-                ivRetry?.visibility = VISIBLE
-                gifImageView?.visibility = GONE
+                progressLoading?.visibility = View.GONE
+                ivPlay?.visibility = View.GONE
+                ivRetry?.visibility = View.VISIBLE
+                gifImageView?.visibility = View.GONE
             }
 
         }
@@ -146,10 +158,10 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivPlay?.setOnClickListener {
-            ivPlay.visibility = GONE
+            ivPlay.visibility = View.GONE
             if (FileUtils.checkExist(tempPath)) {
-                progressLoading?.visibility = GONE
-                ivRetry?.visibility = GONE
+                progressLoading?.visibility = View.GONE
+                ivRetry?.visibility = View.GONE
                 drawable?.start()
             } else {
                 val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
@@ -163,25 +175,25 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
 
-        val liked = DBHelper.isLiked(item.id)
+        val liked = DBHelper.isLiked(gifId)
         if (liked) {
-            ivLike?.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
+            ivLike?.setColorFilter(resources.getColor(R.color.default_theme_color))
         } else {
             ivLike?.colorFilter = null
         }
 
         ivLike?.setOnClickListener {
-            val liked = DBHelper.isLiked(item.id)
+            val liked = DBHelper.isLiked(gifId)
             val likeEvent = LikeEvent()
-            likeEvent.id = item.id
+            likeEvent.id = gifId
             likeEvent.dataBean = item
             if (liked) {
                 ivLike.colorFilter = null
-                DBHelper.unLiked(item.id)
+                DBHelper.unLiked(gifId)
                 likeEvent.isLiked = false
             } else {
-                ivLike.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
-                DBHelper.liked(item.id, item)
+                ivLike.setColorFilter(resources.getColor(R.color.default_theme_color))
+                DBHelper.liked(gifId, item)
                 likeEvent.isLiked = true
             }
 
@@ -190,7 +202,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         ivShare?.setOnClickListener {
             if (FileUtils.checkExist(tempPath)) {
-                ShareHelper.shareImage(mContext, tempPath)
+                ShareHelper.shareImage(this, tempPath)
             } else {
                 toast(R.string.file_not_found)
             }
@@ -216,9 +228,8 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivMore?.setOnClickListener {
-            val title = item.title
             var searchContent: String = ""
-            if (title.contains("GIF")) {
+            if (title?.contains("GIF") == true) {
                 val titleArray = title.split("GIF")
                 if (titleArray.isNotEmpty()) {
                     searchContent = titleArray[0]
@@ -229,27 +240,23 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             SearchActivity.start(App.context, searchContent)
         }
 
-
-        progressBarDebug?.progress = 0
         log("load url = $gifUrl")
-        tvLoadUrl?.text = gifUrl
-        tvSize?.text = item.images.fixed_height.size
 
         if (FileUtils.checkExist(tempPath)) {
-            tvStatus?.text = "状态：已下载"
 //            drawable = GifDrawable(tempPath)
 //            gifImageView?.setImageDrawable(drawable)
             Glide.with(App.context)
                 .load(tempPath)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(
-                DiskCacheStrategy.NONE)
+                    DiskCacheStrategy.NONE
+                )
                 .into(gifImageView!!)
 
-            progressLoading?.visibility = GONE
-            ivPlay?.visibility = GONE
-            ivRetry?.visibility = GONE
-            gifImageView.visibility = VISIBLE
+            progressLoading?.visibility = View.GONE
+            ivPlay?.visibility = View.GONE
+            ivRetry?.visibility = View.GONE
+            gifImageView.visibility = View.VISIBLE
 
             return
         }
@@ -264,19 +271,27 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
     }
 
-    override fun onViewRecycled(holder: BaseViewHolder) {
-        super.onViewRecycled(holder)
-        log("回收view： ${holder.adapterPosition}")
-        val imageView = holder.getView<GifImageView>(R.id.gifImageView)
-        if (imageView != null) {
-            Glide.with(mContext).clear(imageView)
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (item != null) {
+            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
+        }
+
+        if (mIsDownloadFinish) {
+            EventBus.getDefault().post(DownloadFinishEvent())
         }
     }
 
     companion object {
-        private const val STATUS_PLAY = 0
-        private const val STATUS_PAUSE = 1
-        private const val STATUS_RETRY = 2
-        private const val STATUS_HIDE = 4
+        private const val EXTRA_DATA_BEAN_JSON = "EXTRA_DATA_BEAN_JSON"
+        fun start(
+            context: Context,
+            dataJson: String
+        ) {
+            val intent = Intent(context, GifPreviewActivity::class.java)
+            intent.putExtra(EXTRA_DATA_BEAN_JSON, dataJson)
+            context.startActivity(intent)
+        }
     }
 }

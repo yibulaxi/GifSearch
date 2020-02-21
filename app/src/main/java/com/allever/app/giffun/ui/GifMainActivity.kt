@@ -72,11 +72,12 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
     private fun initViewPagerData() {
         mFragmentList.add(TrendFragment())
         mFragmentList.add(SearchFragment())
+        mFragmentList.add(LikedFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
 
     private fun initViewPager() {
-//        mVp.offscreenPageLimit = 3
+        mVp.offscreenPageLimit = 3
         mVp.adapter = mViewPagerAdapter
 
         mVp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -91,11 +92,16 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
                 when (position) {
                     0 -> {
                         topBarContainer.visibility = View.VISIBLE
+                        bannerContainer.visibility = View.VISIBLE
 //                        mTvTitle.text = getString(R.string.app_name)
                     }
                     1 -> {
                         topBarContainer.visibility = View.GONE
 //                        mTvTitle.text = getString(R.string.tab_guide)
+                    }
+                    2 -> {
+                        topBarContainer.visibility = View.VISIBLE
+                        bannerContainer.visibility = View.GONE
                     }
                 }
             }
@@ -200,6 +206,11 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
             AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
                 override fun onLoaded(ad: IAd?) {
                     mBannerAd = ad
+                    if (mVp.currentItem == 0) {
+                        bannerContainer.visibility = View.VISIBLE
+                    } else {
+                        bannerContainer.visibility = View.GONE
+                    }
                 }
 
                 override fun onFailed(msg: String) {}

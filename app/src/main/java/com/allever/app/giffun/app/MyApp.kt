@@ -11,6 +11,7 @@ import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.umeng.UMeng
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.litepal.LitePal
 
 
 class MyApp: App() {
@@ -18,6 +19,9 @@ class MyApp: App() {
         super.onCreate()
 
         com.android.absbase.App.setContext(this)
+
+        LitePal.initialize(this)
+
         //初始化友盟
         if (!BuildConfig.DEBUG) {
             UMeng.init(this)

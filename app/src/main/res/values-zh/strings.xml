@@ -8,6 +8,7 @@
     <string name="tab_guide">使用说明</string>
     <string name="tab_trend">推荐</string>
     <string name="tab_search">搜索</string>
+    <string name="tab_liked">收藏</string>
 
     <string name="share">分享</string>
     <string name="feedback">反馈</string>

@@ -35,8 +35,8 @@ android {
     flavorDimensions "mark"
     productFlavors {
         google {}
-//        xiaomi {}
-//        baidu {}
+        xiaomi {}
+        baidu {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -132,5 +132,8 @@ dependencies {
     implementation 'com.liulishuo.okdownload:okdownload:1.0.4'
     implementation 'com.liulishuo.okdownload:sqlite:1.0.4'
     implementation 'com.liulishuo.okdownload:okhttp:1.0.4'
+
+    implementation 'org.litepal.android:kotlin:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
 }

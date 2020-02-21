@@ -15,6 +15,7 @@ import com.allever.app.giffun.app.BaseFragment
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.TrendingResponse
+import com.allever.app.giffun.bean.event.LikeEvent
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
 import com.allever.app.giffun.ui.mvp.presenter.TrendPresenter
@@ -29,6 +30,9 @@ import com.allever.lib.common.util.toast
 import com.allever.lib.permission.PermissionCompat
 import com.allever.lib.permission.PermissionListener
 import com.allever.lib.permission.PermissionManager
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import rx.Subscriber
 
 class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
@@ -48,6 +52,7 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
     override fun getContentView(): Int = R.layout.fragment_trend
 
     override fun initView(root: View) {
+        EventBus.getDefault().register(this)
         mProgressDialog = ProgressDialog(activity)
 
         mRv = root.findViewById(R.id.gifRecyclerView)
@@ -100,6 +105,7 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
     override fun onDestroyView() {
         super.onDestroyView()
         mDetailInsertAd?.destroy()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun requestPermission() {
@@ -247,6 +253,14 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
     private fun hideLoadingProgressDialog() {
         if (mProgressDialog.isShowing) {
             mProgressDialog.dismiss()
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLikeUpdate(likeEvent: LikeEvent) {
+        if (!userVisibleHint) {
+            val position = Global.getIndex(likeEvent.id, mGifDataList)
+            mAdapter.notifyItemChanged(position, position)
         }
     }
 
