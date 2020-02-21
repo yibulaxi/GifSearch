@@ -24,6 +24,6 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<DataBean>)
         }
 
         val ivGif = holder.getView<ImageView>(R.id.ivGif)
-        Glide.with(mContext).load(url).into(ivGif!!)
+        Glide.with(mContext).asBitmap().load(url).into(ivGif!!)
     }
 }
