@@ -281,9 +281,9 @@ class GifPreviewActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        if (item != null) {
-//            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
-//        }
+        if (item != null) {
+            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
+        }
 
         if (mIsDownloadFinish) {
             val event = DownloadFinishEvent()

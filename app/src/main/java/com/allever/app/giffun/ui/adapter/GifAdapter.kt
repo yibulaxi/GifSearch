@@ -161,7 +161,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         ivRetry?.setOnClickListener {
             val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-            DownloadManager.getInstance().start(task, downloadCallback, true)
+            DownloadManager.getInstance().start(task, downloadCallback)
         }
 
 

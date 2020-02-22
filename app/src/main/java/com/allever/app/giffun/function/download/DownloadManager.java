@@ -244,6 +244,7 @@ public class DownloadManager {
             if (downloadExecutor != null) {
                 downloadExecutor.cancel();
             }
+            sDownloadExecutorMap.remove(url);
         }
     }
 
