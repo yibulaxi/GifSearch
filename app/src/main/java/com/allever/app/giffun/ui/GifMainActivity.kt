@@ -92,7 +92,11 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
                 when (position) {
                     0 -> {
                         topBarContainer.visibility = View.VISIBLE
-                        bannerContainer.visibility = View.VISIBLE
+                        if (mBannerAd != null) {
+                            bannerContainer.visibility = View.VISIBLE
+                        } else {
+                            bannerContainer.visibility = View.GONE
+                        }
 //                        mTvTitle.text = getString(R.string.app_name)
                     }
                     1 -> {
