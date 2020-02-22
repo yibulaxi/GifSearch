@@ -5,8 +5,8 @@ ext{
     minSdkVersion = 19
     compileSdkVersion = 28
     targetSdkVersion = 28
-    versionCode = 4
-    versionName = "1.1.0"
+    versionCode = 5
+    versionName = "1.1.1"
 
     umengAppKey = "5e0d99bf4ca35750d10002f3"
     admobAppId = "ca-app-pub-1877583433745305~9111733724" //adkangkagnzh
