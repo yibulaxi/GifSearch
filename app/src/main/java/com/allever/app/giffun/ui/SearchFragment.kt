@@ -12,6 +12,7 @@ import com.allever.app.giffun.app.BaseFragment
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.SearchResponse
+import com.allever.app.giffun.bean.event.DownloadFinishEvent
 import com.allever.app.giffun.bean.event.LikeEvent
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
@@ -212,6 +213,14 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
     fun onLikeUpdate(likeEvent: LikeEvent) {
         if (!userVisibleHint) {
             val position = Global.getIndex(likeEvent.id, mGifDataList)
+            mAdapter?.notifyItemChanged(position, position)
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onDownloadFinishEvent(event: DownloadFinishEvent) {
+        if (!userVisibleHint) {
+            val position = Global.getIndex(event.id, mGifDataList)
             mAdapter?.notifyItemChanged(position, position)
         }
     }

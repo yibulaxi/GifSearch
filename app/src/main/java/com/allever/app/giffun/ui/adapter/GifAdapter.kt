@@ -3,8 +3,6 @@ package com.allever.app.giffun.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
-import android.text.TextUtils
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -42,7 +40,6 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
     @SuppressLint("SetTextI18n")
     override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {
         //debug
-        val progressBarDebug = holder.getView<ProgressBar>(R.id.downloadProgress)
         val tvLoadUrl = holder.getView<TextView>(R.id.tvUrl)
         val tvSize = holder.getView<TextView>(R.id.tvSize)
         val tvTempPath = holder.getView<TextView>(R.id.tvFilePath)
@@ -60,6 +57,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val ivPlay = holder.getView<ImageView>(R.id.ivPlay)
         val ivRetry = holder.getView<ImageView>(R.id.ivRetry)
         val progressLoading = holder.getView<ProgressBar>(R.id.progressCircle)
+        val downloadProgressBar = holder.getView<ProgressBar>(R.id.downloadProgress)
 
         val tvTitle = holder.getView<TextView>(R.id.tvTitle)
         tvTitle?.text = item.title
@@ -95,12 +93,15 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
             override fun onConnected(totalLength: Long) {
                 tvStatus?.text = "状态：已连接"
-                progressBarDebug?.max = totalLength.toInt()
+                downloadProgressBar?.max = 100
                 gifImageView?.visibility = GONE
             }
 
             override fun onProgress(current: Long, totalLength: Long) {
-                progressBarDebug?.progress = current.toInt()
+                val percent = ((current / totalLength.toFloat()) * 100).toInt()
+                downloadProgressBar?.progress = percent
+
+                log("进度: $percent")
                 tvStatus?.text = "状态：下载中: $current"
             }
 
@@ -114,6 +115,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
             }
 
             override fun onCompleted(taskInfo: TaskInfo?) {
+                downloadProgressBar?.progress = 100
                 gifImageView?.visibility = VISIBLE
                 tvStatus?.text = "状态：下载完成"
                 FileUtil.createNewFile(tempPath, false)
@@ -230,12 +232,12 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
 
-        progressBarDebug?.progress = 0
         log("load url = $gifUrl")
         tvLoadUrl?.text = gifUrl
         tvSize?.text = item.images.fixed_height.size
 
         if (FileUtils.checkExist(tempPath)) {
+            downloadProgressBar?.progress = 100
             tvStatus?.text = "状态：已下载"
 //            drawable = GifDrawable(tempPath)
 //            gifImageView?.setImageDrawable(drawable)
@@ -255,9 +257,9 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
 
-        if (BuildConfig.DEBUG) {
-            return
-        }
+//        if (BuildConfig.DEBUG) {
+//            return
+//        }
 
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
         DownloadManager.getInstance().start(task, downloadCallback, true)
@@ -266,11 +268,14 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
     override fun onViewRecycled(holder: BaseViewHolder) {
         super.onViewRecycled(holder)
-        log("回收view： ${holder.adapterPosition}")
+        val position = holder.adapterPosition
+        log("回收view： $position")
         val imageView = holder.getView<GifImageView>(R.id.gifImageView)
         if (imageView != null) {
             Glide.with(mContext).clear(imageView)
         }
+//        val gifUrl = mData[position].images.fixed_height.url
+//        DownloadManager.getInstance().pause(gifUrl)
     }
 
     companion object {

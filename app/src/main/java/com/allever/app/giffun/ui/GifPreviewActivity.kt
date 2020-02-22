@@ -79,6 +79,8 @@ class GifPreviewActivity : BaseActivity() {
         val ivPlay = findViewById<ImageView>(R.id.ivPlay)
         val ivRetry = findViewById<ImageView>(R.id.ivRetry)
         val progressLoading = findViewById<ProgressBar>(R.id.progressCircle)
+        val downloadProgressBar = findViewById<ProgressBar>(R.id.downloadProgress)
+        downloadProgressBar?.progress = 0
 
         val tvTitle = findViewById<TextView>(R.id.tvTitle)
         tvTitle?.text = title
@@ -112,10 +114,13 @@ class GifPreviewActivity : BaseActivity() {
             }
 
             override fun onConnected(totalLength: Long) {
+                downloadProgressBar?.max = 100
                 gifImageView?.visibility = View.GONE
             }
 
             override fun onProgress(current: Long, totalLength: Long) {
+                val percent = ((current / totalLength.toFloat()) * 100).toInt()
+                downloadProgressBar?.progress = percent
             }
 
             override fun onPause(taskInfo: TaskInfo?) {
@@ -165,13 +170,13 @@ class GifPreviewActivity : BaseActivity() {
                 drawable?.start()
             } else {
                 val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-                DownloadManager.getInstance().start(task, downloadCallback, true)
+                DownloadManager.getInstance().start(task, downloadCallback)
             }
         }
 
         ivRetry?.setOnClickListener {
             val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-            DownloadManager.getInstance().start(task, downloadCallback, true)
+            DownloadManager.getInstance().start(task, downloadCallback)
         }
 
 
@@ -243,6 +248,7 @@ class GifPreviewActivity : BaseActivity() {
         log("load url = $gifUrl")
 
         if (FileUtils.checkExist(tempPath)) {
+            downloadProgressBar?.progress = 100
 //            drawable = GifDrawable(tempPath)
 //            gifImageView?.setImageDrawable(drawable)
             Glide.with(App.context)
@@ -262,24 +268,27 @@ class GifPreviewActivity : BaseActivity() {
         }
 
 
-        if (BuildConfig.DEBUG) {
-            return
-        }
+//        if (BuildConfig.DEBUG) {
+//            return
+//        }
 
+        DownloadManager.getInstance().cancel(gifUrl)
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-        DownloadManager.getInstance().start(task, downloadCallback, true)
+        DownloadManager.getInstance().start(task, downloadCallback)
 
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
-        if (item != null) {
-            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
-        }
+//        if (item != null) {
+//            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
+//        }
 
         if (mIsDownloadFinish) {
-            EventBus.getDefault().post(DownloadFinishEvent())
+            val event = DownloadFinishEvent()
+            event.id = item.id
+            EventBus.getDefault().post(event)
         }
     }
 

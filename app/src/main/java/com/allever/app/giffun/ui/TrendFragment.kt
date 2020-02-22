@@ -15,6 +15,7 @@ import com.allever.app.giffun.app.BaseFragment
 import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.TrendingResponse
+import com.allever.app.giffun.bean.event.DownloadFinishEvent
 import com.allever.app.giffun.bean.event.LikeEvent
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
@@ -260,6 +261,14 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
     fun onLikeUpdate(likeEvent: LikeEvent) {
         if (!userVisibleHint) {
             val position = Global.getIndex(likeEvent.id, mGifDataList)
+            mAdapter.notifyItemChanged(position, position)
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onDownloadFinishEvent(event: DownloadFinishEvent) {
+        if (!userVisibleHint) {
+            val position = Global.getIndex(event.id, mGifDataList)
             mAdapter.notifyItemChanged(position, position)
         }
     }

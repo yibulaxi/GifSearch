@@ -9,6 +9,7 @@ import com.allever.app.giffun.util.MD5
 import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
 import com.allever.lib.common.util.FileUtils
+import com.allever.lib.common.util.log
 import com.bumptech.glide.Glide
 import java.io.File
 
@@ -23,6 +24,7 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<DataBean>)
             item.images.fixed_height.url
         }
 
+        log("LikedAdapter: url = $url")
         val ivGif = holder.getView<ImageView>(R.id.ivGif)
         Glide.with(mContext).asBitmap().load(url).into(ivGif!!)
     }

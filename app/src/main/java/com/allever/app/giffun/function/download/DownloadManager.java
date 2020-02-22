@@ -66,9 +66,59 @@ public class DownloadManager {
         } else {
             if (callback != null) {
                 download.addListener(callback);
+                download.start();
             }
         }
 
+    }
+
+    public void start(final TaskInfo taskInfo, final DownloadCallback callback) {
+        IDownload download = sDownloadExecutorMap.get(taskInfo.getUrl());
+
+        if (download != null) {
+            sDownloadExecutorMap.remove(taskInfo.getUrl());
+        }
+
+        download = new OkDownloadExecutor(taskInfo, new DownloadCallback() {
+
+            @Override
+            public void onStart() {
+                callback.onStart();
+            }
+
+            @Override
+            public void onConnected(long totalLength) {
+                callback.onConnected(totalLength);
+            }
+
+            @Override
+            public void onProgress(long current, long totalLength) {
+                callback.onProgress(current, totalLength);
+            }
+
+            @Override
+            public void onPause(TaskInfo taskInfo) {
+                callback.onPause(taskInfo);
+            }
+
+            @Override
+            public void onCompleted(TaskInfo taskInfo) {
+                callback.onCompleted(taskInfo);
+                sDownloadExecutorMap.remove(taskInfo.getUrl());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                callback.onError(e);
+                sDownloadExecutorMap.remove(taskInfo.getUrl());
+            }
+        });
+
+
+
+
+        sDownloadExecutorMap.put(taskInfo.getUrl(), download);
+        download.start();
     }
 
     /*

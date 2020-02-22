@@ -95,7 +95,7 @@ public class OkDownloadExecutor implements IDownload {
                 .setMinIntervalMillisCallbackProcess(100)
                 // do re-download even if the task has already been completed in the past.
                 //false: 会重新下载， true: 跳过
-                .setPassIfAlreadyCompleted(false)
+                .setPassIfAlreadyCompleted(true)
                 .build();
     }
 
