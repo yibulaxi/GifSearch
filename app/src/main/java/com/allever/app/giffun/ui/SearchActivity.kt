@@ -206,7 +206,12 @@ class SearchActivity: BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        DownloadManager.getInstance().cancelAllTask()
+//        DownloadManager.getInstance().cancelAllTask()
+        val urls = mutableListOf<String>()
+        mGifDataList.map {
+            urls.add(it.images.fixed_height.url)
+        }
+        DownloadManager.getInstance().cancel(urls)
         ImageLoader.clearMemoryCache()
         mDetailInsertAd?.destroy()
     }
