@@ -17,11 +17,9 @@ import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.app.App
-import com.allever.lib.common.util.FeedbackHelper
-import com.allever.lib.common.util.ShareHelper
-import com.allever.lib.common.util.Tool
-import com.allever.lib.common.util.toast
+import com.allever.lib.common.util.*
 import com.allever.lib.recommend.RecommendGlobal
+import kotlinx.android.synthetic.main.activity_setting.*
 
 class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
     SettingView, View.OnClickListener {
@@ -39,6 +37,7 @@ class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
         findViewById<ImageView>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.setting)
         findViewById<View>(R.id.setting_tv_support).setOnClickListener(this)
+        setting_tv_backup.setOnClickListener(this)
     }
 
     override fun initData() {
@@ -78,6 +77,9 @@ class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
             R.id.setting_tv_support -> {
 //                supportUs()
                 Tool.openInGooglePlay(this, App.context.packageName)
+            }
+            R.id.setting_tv_backup -> {
+                ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
             }
 
         }

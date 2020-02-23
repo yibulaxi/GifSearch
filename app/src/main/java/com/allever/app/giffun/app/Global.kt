@@ -9,6 +9,11 @@ import java.io.File
 
 object Global {
 
+    //备份
+    val backFileDir = Environment.getExternalStorageDirectory().absolutePath + File.separator  + App.context.packageName + File.separator + "backup"
+
+    val backupFilePath = backFileDir +  File.separator + "data.json"
+
     //保存路径 /sdcard/GifFunny/XXX.gif
     val saveDir = Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + "GifFunny"
 
@@ -34,6 +39,7 @@ object Global {
         createDir(cacheDir)
         createDir(tempDir)
         createDir(saveDir)
+        createDir(backFileDir)
     }
 
     fun getIndex(gifId: String, dataBeanList:MutableList<DataBean>): Int {

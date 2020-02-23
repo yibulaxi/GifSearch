@@ -39,4 +39,25 @@
 
     <string name="loading_ad_tips">Great content loading, please wait</string>
 
+    <string name="backup_restore">Data backup and recovery</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="del_backup">Delete Backup</string>
+    <string name="warm_tips">Tips</string>
+    <string name="backup_tips">This will overwrite the previous backup. Do you need a backup?</string>
+    <string name="del_backup_tips">This operation will delete your backup file. Do you need to delete it?</string>
+    <string name="cancle">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="please_input_content">Please enter what you want to translate</string>
+    <string name="remove_tips">Do you want to remove the selected word?</string>
+    <string name="added_to_words">Added to word book</string>
+    <string name="removed_from_words">Has been removed from the word book</string>
+    <string name="un_slelectd">Unselected</string>
+    <string name="no_backup_data">No backup data</string>
+    <string name="backup_success">Backup success</string>
+    <string name="backup_fail">Backup failed</string>
+    <string name="restore_success">Successful recovery</string>
+    <string name="restore_fail">Recovery failure</string>
+    <string name="del_backup_success">Delete backup successfully</string>
+
 </resources>

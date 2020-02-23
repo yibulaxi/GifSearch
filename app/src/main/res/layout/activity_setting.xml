@@ -19,6 +19,15 @@
 
 		<TextView
 			style="@style/setting_item"
+			android:id="@+id/setting_tv_backup"
+			android:text="@string/backup_restore"
+			android:drawableEnd="@drawable/ic_arrow"
+			android:visibility="visible"/>
+
+		<include layout="@layout/include_divider_line"/>
+
+		<TextView
+			style="@style/setting_item"
 			android:id="@+id/setting_tv_share"
 			android:text="@string/share"
 			android:drawableEnd="@drawable/ic_share"

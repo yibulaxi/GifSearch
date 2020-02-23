@@ -37,6 +37,10 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
+            android:name="com.allever.app.giffun.ui.BackupRestoreActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
+        <activity
             android:name="com.allever.app.giffun.ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

@@ -9,6 +9,7 @@ import com.allever.app.giffun.app.Global
 import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.event.LikeEvent
 import com.allever.app.giffun.bean.event.DownloadFinishEvent
+import com.allever.app.giffun.bean.event.RestoreLikeEvent
 import com.allever.app.giffun.ui.adapter.GifLikedAdapter
 import com.allever.app.giffun.ui.mvp.presenter.LikedPresenter
 import com.allever.app.giffun.ui.mvp.view.LikedView
@@ -86,6 +87,11 @@ class LikedFragment: BaseFragment<LikedView, LikedPresenter>(), LikedView {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDownloadFinishEvent(event: DownloadFinishEvent) {
+        getLikedData()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLikeRestoreEvent(event: RestoreLikeEvent) {
         getLikedData()
     }
 }

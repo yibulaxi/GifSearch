@@ -51,7 +51,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_main)
 
-        ivSetting.setOnClickListener(this)
+        ivRight.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
 
         mTab = findViewById(R.id.tab_layout)
@@ -97,13 +97,16 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
                         } else {
                             bannerContainer.visibility = View.GONE
                         }
+                        ivRight.setImageResource(R.drawable.ic_setting)
 //                        mTvTitle.text = getString(R.string.app_name)
                     }
                     1 -> {
+                        ivRight.setImageResource(R.drawable.ic_setting)
                         topBarContainer.visibility = View.GONE
 //                        mTvTitle.text = getString(R.string.tab_guide)
                     }
                     2 -> {
+                        ivRight.setImageResource(R.drawable.ic_backup)
                         topBarContainer.visibility = View.VISIBLE
                         bannerContainer.visibility = View.GONE
                     }
@@ -184,8 +187,13 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.ivSetting -> {
-                ActivityCollector.startActivity(this, SettingActivity::class.java)
+            R.id.ivRight -> {
+                if (mVp.currentItem == 0) {
+                    ActivityCollector.startActivity(this, SettingActivity::class.java)
+                } else {
+                    ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
+                }
+
             }
             R.id.ivRecommend -> {
                 RecommendActivity.start(this, UMeng.getChannel())
