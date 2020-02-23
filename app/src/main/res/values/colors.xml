@@ -25,4 +25,6 @@
     <color name="main_tab_highlight">@color/white</color>
     <color name="main_tab_unselect_color">#8a8a8a</color>
 
+    <color name="word_item_bottom_background">#313131</color>
+
 </resources>

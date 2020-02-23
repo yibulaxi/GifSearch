@@ -14,6 +14,7 @@ import com.allever.app.giffun.bean.DataBean
 import com.allever.app.giffun.bean.SearchResponse
 import com.allever.app.giffun.bean.event.DownloadFinishEvent
 import com.allever.app.giffun.bean.event.LikeEvent
+import com.allever.app.giffun.bean.event.RemoveLikeListEvent
 import com.allever.app.giffun.function.download.DownloadManager
 import com.allever.app.giffun.ui.adapter.GifAdapter
 import com.allever.app.giffun.ui.mvp.model.RetrofitUtil
@@ -222,6 +223,16 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
         if (!userVisibleHint) {
             val position = Global.getIndex(event.id, mGifDataList)
             mAdapter?.notifyItemChanged(position, position)
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onRemoveLikeLietEvent(event: RemoveLikeListEvent) {
+        if (!userVisibleHint) {
+            event.gifIdList.map {
+                val position = Global.getIndex(it, mGifDataList)
+                mAdapter?.notifyItemChanged(position, position)
+            }
         }
     }
 

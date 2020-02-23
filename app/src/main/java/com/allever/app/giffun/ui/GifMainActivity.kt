@@ -3,6 +3,7 @@ package com.allever.app.giffun.ui
 import android.app.Dialog
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import com.allever.lib.ad.chain.IAd
 import com.allever.lib.comment.CommentHelper
 import com.allever.lib.comment.CommentListener
 import com.allever.lib.common.app.BaseActivity
+import com.allever.lib.common.app.BaseFragment
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
@@ -202,6 +204,14 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
     }
 
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        val currentFragment = mFragmentList[mVp.currentItem] as BaseFragment
+        if (currentFragment.onKeyDown(keyCode, event)) {
+            return true
+        }
+
+        return super.onKeyDown(keyCode, event)
+    }
 
 
     override fun onDestroy() {

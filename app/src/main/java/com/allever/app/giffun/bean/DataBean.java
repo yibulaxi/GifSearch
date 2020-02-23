@@ -53,6 +53,8 @@ public class DataBean implements Serializable {
 
      */
 
+    private Boolean checked = false;
+
     private String type;
     private String id;
     private String url;
@@ -98,6 +100,14 @@ public class DataBean implements Serializable {
     private String fixed_width_small_width;
     private String fixed_width_small_height;
     private String caption;
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
 
     public String getType() {
         return type;

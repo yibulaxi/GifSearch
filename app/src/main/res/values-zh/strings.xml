@@ -49,7 +49,7 @@
     <string name="cancle">取消</string>
     <string name="ok">确定</string>
     <string name="please_input_content">请输入您要翻译的内容</string>
-    <string name="remove_tips">是否移除选中单词?</string>
+    <string name="remove_tips">是否移除?</string>
     <string name="added_to_words">已添加到单词本</string>
     <string name="removed_from_words">已从单词本中移除</string>
     <string name="un_slelectd">未选中</string>

@@ -35,8 +35,8 @@ android {
     flavorDimensions "mark"
     productFlavors {
         google {}
-        xiaomi {}
-        baidu {}
+//        xiaomi {}
+//        baidu {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
