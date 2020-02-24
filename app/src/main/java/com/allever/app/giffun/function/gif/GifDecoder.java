@@ -20,16 +20,16 @@ import java.util.Arrays;
  * Reads frame data from a GIF image source and decodes it into individual frames
  * for animation purposes. Image data can be read from either and InputStream source
  * or a byte[].
- *
+ * <p>
  * This class is optimized for running animations with the frames, there
  * are no methods to get individual frame images, only to decode the next frame in the
  * animation sequence. Instead, it lowers its memory footprint by only housing the minimum
  * data necessary to decode the next frame in the animation sequence.
- *
+ * <p>
  * The animation must be manually moved forward using {@link #advance()} before requesting the next
  * frame. This method must also be called before you request the first frame or an error will
  * occur.
- *
+ * <p>
  * Implementation adapted from sample code published in Lyons. (2004). <em>Java for Programmers</em>,
  * republished under the MIT Open Source License
  */
@@ -158,12 +158,14 @@ class GifDecoder {
 
         /**
          * Returns an int array used for decoding/generating the frame bitmaps.
+         *
          * @param size
          */
         int[] obtainIntArray(int size);
 
         /**
          * Release the given array back to the pool.
+         *
          * @param array
          */
         void release(int[] array);
@@ -221,11 +223,11 @@ class GifDecoder {
             return false;
         }
 
-        if(framePointer == getFrameCount() - 1) {
+        if (framePointer == getFrameCount() - 1) {
             loopIndex++;
         }
 
-        if(header.loopCount != LOOP_FOREVER && loopIndex > header.loopCount) {
+        if (header.loopCount != LOOP_FOREVER && loopIndex > header.loopCount) {
             return false;
         }
 
@@ -282,7 +284,7 @@ class GifDecoder {
      * @return boolean true if the move was successful
      */
     boolean setFrameIndex(int frame) {
-        if(frame < INITIAL_FRAME_POINTER || frame >= getFrameCount()) {
+        if (frame < INITIAL_FRAME_POINTER || frame >= getFrameCount()) {
             return false;
         }
         framePointer = frame;
@@ -300,14 +302,18 @@ class GifDecoder {
     /**
      * Resets the loop index to the first loop.
      */
-    void resetLoopIndex() { loopIndex = 0; }
+    void resetLoopIndex() {
+        loopIndex = 0;
+    }
 
     /**
      * Gets the "Netscape" iteration count, if any. A count of 0 means repeat indefinitely.
      *
      * @return iteration count if one was specified, else 1.
      */
-    int getLoopCount() { return header.loopCount; }
+    int getLoopCount() {
+        return header.loopCount;
+    }
 
     /**
      * Gets the number of loops that have been shown.

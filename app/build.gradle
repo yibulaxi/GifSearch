@@ -109,7 +109,8 @@ dependencies {
     //local
     implementation project(':permission')
     implementation project(':common')
-    implementation project(':ui')
+    implementation project(':searchview')
+    implementation project(':circleimageview')
     implementation project(':comment')
     implementation project(':umeng')
     implementation project(':recommend')

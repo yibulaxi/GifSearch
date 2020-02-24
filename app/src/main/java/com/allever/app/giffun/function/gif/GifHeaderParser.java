@@ -248,7 +248,7 @@ public class GifHeaderParser {
                 int b1 = ((int) block[1]) & 0xff;
                 int b2 = ((int) block[2]) & 0xff;
                 header.loopCount = (b2 << 8) | b1;
-                if(header.loopCount == 0) {
+                if (header.loopCount == 0) {
                     header.loopCount = GifDecoder.LOOP_FOREVER;
                 }
             }

@@ -35,9 +35,10 @@ import com.allever.lib.permission.PermissionManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import pl.droidsonroids.gif.GifImageView
 import rx.Subscriber
 
-class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
+class TrendFragment : BaseFragment<TrendView, TrendPresenter>(), TrendView {
 
     private lateinit var mIvRetry: View
     private lateinit var mRv: RecyclerView
@@ -102,7 +103,7 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
     override fun initData() {
     }
 
-    override fun createPresenter() = TrendPresenter ()
+    override fun createPresenter() = TrendPresenter()
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -137,9 +138,11 @@ class TrendFragment: BaseFragment<TrendView, TrendPresenter>(), TrendView {
                             override fun alwaysDenied(deniedList: MutableList<String>) {
                                 super.alwaysDenied(deniedList)
                                 if (
-                                    PermissionCompat.hasPermission(activity!!,
+                                    PermissionCompat.hasPermission(
+                                        activity!!,
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                        Manifest.permission.READ_PHONE_STATE)
+                                        Manifest.permission.READ_PHONE_STATE
+                                    )
                                 ) {
                                     Global.createDir()
                                     getData()

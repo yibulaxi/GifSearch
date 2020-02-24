@@ -5,9 +5,9 @@ import com.allever.lib.ad.admob.AdMobBusiness
 import com.allever.lib.ad.chain.IAdBusiness
 import com.allever.lib.ad.chain.IAdBusinessFactory
 
-class AdFactory: IAdBusinessFactory {
+class AdFactory : IAdBusinessFactory {
     override fun getAdBusiness(businessName: String): IAdBusiness? {
-        return when(businessName) {
+        return when (businessName) {
             AdBusiness.A -> {
 //                null
                 AdMobBusiness

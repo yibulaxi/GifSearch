@@ -57,7 +57,7 @@ class GifPreviewActivity : BaseActivity() {
             return
         }
 
-        item?:return
+        item ?: return
 
 
         val gifId = item.id

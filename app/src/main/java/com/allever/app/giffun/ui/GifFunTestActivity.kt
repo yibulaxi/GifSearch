@@ -24,7 +24,7 @@ import rx.Subscriber
 import java.io.File
 
 
-class GifFunTestActivity: BaseActivity() {
+class GifFunTestActivity : BaseActivity() {
 
 
     private var mAdapter: GifTestAdapter? = null
@@ -34,12 +34,13 @@ class GifFunTestActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_giffun_test)
 
-        val dir = Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + App.context.packageName + File.separator + "gifFunny"
+        val dir =
+            Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + App.context.packageName + File.separator + "gifFunny"
         if (!FileUtils.checkExist(dir)) {
             FileUtil.createDir(dir)
         }
 
-        val tempDir = App.context.cacheDir.absolutePath + File.separator +"gif"
+        val tempDir = App.context.cacheDir.absolutePath + File.separator + "gif"
         if (!FileUtils.checkExist(tempDir)) {
             FileUtil.createDir(tempDir)
         }
@@ -54,7 +55,7 @@ class GifFunTestActivity: BaseActivity() {
 
         rvGif.layoutManager = LinearLayoutManager(this)
         rvGif.adapter = mAdapter
-        
+
         etType.setText(SpUtils.getString(SP_TYPE, "search"))
         etKeyword.setText(SpUtils.getString(SP_KEYWORD, "cat"))
         etOffset.setText(SpUtils.getString(SP_OFFSET, "0"))
@@ -65,19 +66,19 @@ class GifFunTestActivity: BaseActivity() {
             val keyword = etKeyword.text.toString()
             val offset = etOffset.text.toString()
             val count = etCount.text.toString()
-            
+
             if (type != "") {
                 SpUtils.putString(SP_TYPE, type)
             }
-            
+
             if (keyword != "") {
                 SpUtils.putString(SP_KEYWORD, keyword)
             }
-            
+
             if (offset != "") {
                 SpUtils.putString(SP_OFFSET, offset)
             }
-            
+
             if (count != "") {
                 SpUtils.putString(SP_COUNT, count)
             }
@@ -86,29 +87,33 @@ class GifFunTestActivity: BaseActivity() {
 
             when (type) {
                 "search" -> {
-                    RetrofitUtil.searchGif(keyword, offset.toInt(), count.toInt(), object : Subscriber<SearchResponse>() {
-                        override fun onCompleted() {}
-                        override fun onError(e: Throwable) {
-                            e.printStackTrace()
-                            log("失败")
-                            tvTips.text = "请求失败"
-                        }
-
-                        override fun onNext(bean: SearchResponse) {
-                            tvTips.text = "请求成功"
-                            val data = bean.data
-                            data?.map {
-                                log("search = ${it.images.preview_gif.url}")
+                    RetrofitUtil.searchGif(
+                        keyword,
+                        offset.toInt(),
+                        count.toInt(),
+                        object : Subscriber<SearchResponse>() {
+                            override fun onCompleted() {}
+                            override fun onError(e: Throwable) {
+                                e.printStackTrace()
+                                log("失败")
+                                tvTips.text = "请求失败"
                             }
 
-                            mGifDataList.clear()
-                            mGifDataList.addAll(data)
-                            mAdapter?.notifyDataSetChanged()
-                        }
-                    })
+                            override fun onNext(bean: SearchResponse) {
+                                tvTips.text = "请求成功"
+                                val data = bean.data
+                                data?.map {
+                                    log("search = ${it.images.preview_gif.url}")
+                                }
+
+                                mGifDataList.clear()
+                                mGifDataList.addAll(data)
+                                mAdapter?.notifyDataSetChanged()
+                            }
+                        })
                 }
                 "trans" -> {
-                    RetrofitUtil.translateGif(keyword,  object : Subscriber<TranslateResponse>() {
+                    RetrofitUtil.translateGif(keyword, object : Subscriber<TranslateResponse>() {
                         override fun onCompleted() {}
                         override fun onError(e: Throwable) {
                             e.printStackTrace()
@@ -126,26 +131,29 @@ class GifFunTestActivity: BaseActivity() {
                     })
                 }
                 "trend" -> {
-                    RetrofitUtil.trendingGif(offset.toInt(), count.toInt(), object : Subscriber<TrendingResponse>() {
-                        override fun onCompleted() {}
-                        override fun onError(e: Throwable) {
-                            e.printStackTrace()
-                            log("失败")
-                            tvTips.text = "请求失败"
-                        }
-
-                        override fun onNext(bean: TrendingResponse) {
-                            tvTips.text = "请求成功"
-                            val data = bean.data
-                            data?.map {
-                                log("trending = ${it.images.original.url}")
+                    RetrofitUtil.trendingGif(
+                        offset.toInt(),
+                        count.toInt(),
+                        object : Subscriber<TrendingResponse>() {
+                            override fun onCompleted() {}
+                            override fun onError(e: Throwable) {
+                                e.printStackTrace()
+                                log("失败")
+                                tvTips.text = "请求失败"
                             }
 
-                            mGifDataList.clear()
-                            mGifDataList.addAll(data)
-                            mAdapter?.notifyDataSetChanged()
-                        }
-                    })
+                            override fun onNext(bean: TrendingResponse) {
+                                tvTips.text = "请求成功"
+                                val data = bean.data
+                                data?.map {
+                                    log("trending = ${it.images.original.url}")
+                                }
+
+                                mGifDataList.clear()
+                                mGifDataList.addAll(data)
+                                mAdapter?.notifyDataSetChanged()
+                            }
+                        })
                 }
                 "random" -> {
                     RetrofitUtil.getRandomGif(object : Subscriber<RandomResponse>() {
@@ -177,14 +185,6 @@ class GifFunTestActivity: BaseActivity() {
 
 
 //        featchData()
-
-
-
-
-
-
-
-
 
 
 //        GiphyCoreUI.configure(this, "ENMowe3QQJBeL3fHproYw7C67ignSnuL")
@@ -257,7 +257,7 @@ class GifFunTestActivity: BaseActivity() {
         super.onDestroy()
         DownloadManager.getInstance().cancelAllTask()
     }
-    
+
     companion object {
         private const val SP_TYPE = "type"
         private const val SP_KEYWORD = "keyword"

@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_search.gifRecyclerView
 import kotlinx.android.synthetic.main.activity_search.ivRetry
 import rx.Subscriber
 
-class SearchActivity: BaseActivity() {
+class SearchActivity : BaseActivity() {
 
     private var mAdapter: GifAdapter? = null
     private var mGifDataList = mutableListOf<DataBean>()
@@ -50,7 +50,7 @@ class SearchActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?:""
+        mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?: ""
 
         mProgressDialog = ProgressDialog(this)
 
@@ -127,7 +127,7 @@ class SearchActivity: BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?:""
+        mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?: ""
         if (mKeyword != "") {
             mGifDataList.clear()
             mAdapter?.notifyDataSetChanged()
@@ -148,60 +148,64 @@ class SearchActivity: BaseActivity() {
         var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
-        RetrofitUtil.searchGif(keyword, offset.toInt(), count, object : Subscriber<SearchResponse>() {
-            override fun onCompleted() {}
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                log("请求失败")
-                hideLoadingProgressDialog()
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                if (!isLoadMore) {
-                    gifRecyclerView?.visibility = View.GONE
-                    ivRetry?.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onNext(bean: SearchResponse) {
-                hideLoadingProgressDialog()
-
-                if (mDetailInsertAd != null) {
-                    mHandler.postDelayed({
-                        toast(R.string.loading_ad_tips)
-                        mDetailInsertAd?.show()
-                    }, 200)
-                }
-
-                mHandler.postDelayed({
+        RetrofitUtil.searchGif(
+            keyword,
+            offset.toInt(),
+            count,
+            object : Subscriber<SearchResponse>() {
+                override fun onCompleted() {}
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                    log("请求失败")
+                    hideLoadingProgressDialog()
                     recyclerViewScrollListener.setLoadDataStatus(false)
-                    gifRecyclerView?.visibility = View.VISIBLE
-
-                    log("搜索成功")
-                    val data = bean.data
-                    data?.map {
-                        log("trending = ${it.images.original.url}")
-                    }
-
                     if (!isLoadMore) {
-                        mGifDataList.clear()
+                        gifRecyclerView?.visibility = View.GONE
+                        ivRetry?.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onNext(bean: SearchResponse) {
+                    hideLoadingProgressDialog()
+
+                    if (mDetailInsertAd != null) {
+                        mHandler.postDelayed({
+                            toast(R.string.loading_ad_tips)
+                            mDetailInsertAd?.show()
+                        }, 200)
                     }
 
-                    mGifDataList.addAll(data)
+                    mHandler.postDelayed({
+                        recyclerViewScrollListener.setLoadDataStatus(false)
+                        gifRecyclerView?.visibility = View.VISIBLE
 
-                    mAdapter?.notifyDataSetChanged()
+                        log("搜索成功")
+                        val data = bean.data
+                        data?.map {
+                            log("trending = ${it.images.original.url}")
+                        }
 
-                    offset = if (mGifDataList.size < count) {
-                        "0"
-                    } else {
-                        (offset.toInt() + count + 1).toString()
-                    }
-                    SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+                        if (!isLoadMore) {
+                            mGifDataList.clear()
+                        }
 
-                    loadDetailInsert()
-                }, 500)
+                        mGifDataList.addAll(data)
+
+                        mAdapter?.notifyDataSetChanged()
+
+                        offset = if (mGifDataList.size < count) {
+                            "0"
+                        } else {
+                            (offset.toInt() + count + 1).toString()
+                        }
+                        SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+
+                        loadDetailInsert()
+                    }, 500)
 
 
-            }
-        })
+                }
+            })
     }
 
     override fun onDestroy() {

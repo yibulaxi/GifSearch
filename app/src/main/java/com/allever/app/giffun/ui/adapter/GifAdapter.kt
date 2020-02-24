@@ -126,7 +126,8 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                     .load(tempPath)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(
-                        DiskCacheStrategy.NONE)
+                        DiskCacheStrategy.NONE
+                    )
                     .into(gifImageView!!)
                 progressLoading?.visibility = GONE
                 ivPlay?.visibility = GONE
@@ -245,7 +246,8 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
                 .load(tempPath)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(
-                DiskCacheStrategy.NONE)
+                    DiskCacheStrategy.NONE
+                )
                 .into(gifImageView!!)
 
             progressLoading?.visibility = GONE

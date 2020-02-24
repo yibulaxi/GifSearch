@@ -22,7 +22,7 @@ import com.allever.lib.common.util.DisplayUtils
 import com.allever.lib.recommend.RecommendActivity
 import com.allever.lib.umeng.UMeng
 
-class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
+class MainTabActivity : BaseActivity<MainView, MainPresenter>(), MainView,
     TabLayout.OnTabSelectedListener, View.OnClickListener {
     private lateinit var mVp: ViewPager
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
@@ -54,7 +54,7 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
     }
 
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             R.id.iv_right -> {
                 RecommendActivity.start(this, UMeng.getChannel())
             }
@@ -190,21 +190,24 @@ class MainTabActivity: BaseActivity<MainView, MainPresenter>(), MainView,
 
     private var mIsAdLoaded = false
     private fun loadInsertAd() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, window.decorView as ViewGroup, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mInsertAd = ad
-                mIsAdLoaded = true
-            }
+        AdChainHelper.loadAd(
+            AdConstants.AD_NAME_EXIT_INSERT,
+            window.decorView as ViewGroup,
+            object : AdChainListener {
+                override fun onLoaded(ad: IAd?) {
+                    mInsertAd = ad
+                    mIsAdLoaded = true
+                }
 
-            override fun onFailed(msg: String) {
-            }
+                override fun onFailed(msg: String) {
+                }
 
-            override fun onShowed() {
-            }
+                override fun onShowed() {
+                }
 
-            override fun onDismiss() {
-            }
+                override fun onDismiss() {
+                }
 
-        })
+            })
     }
 }

@@ -115,8 +115,6 @@ public class DownloadManager {
         });
 
 
-
-
         sDownloadExecutorMap.put(taskInfo.getUrl(), download);
         download.start();
     }

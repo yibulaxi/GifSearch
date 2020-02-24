@@ -121,7 +121,11 @@ object SystemUtils {
      * @param mode
      */
     fun setBrightnessMode(context: Context, mode: Int) {
-        Settings.System.putInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, mode)
+        Settings.System.putInt(
+            context.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS_MODE,
+            mode
+        )
     }
 
     /**
@@ -159,7 +163,8 @@ object SystemUtils {
         try {
             context.startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(context, "Sorry, Your mobile can't be supported", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Sorry, Your mobile can't be supported", Toast.LENGTH_LONG)
+                .show()
         }
 
     }
@@ -276,7 +281,10 @@ object SystemUtils {
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_TEXT, msg)
         shareIntent.type = "text/plain"
-        return Intent.createChooser(shareIntent, context.resources.getString(R.string.common_share_to))
+        return Intent.createChooser(
+            shareIntent,
+            context.resources.getString(R.string.common_share_to)
+        )
     }
 
 

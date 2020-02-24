@@ -21,13 +21,13 @@ interface RetrofitService {
     @GET("gifs/random?")
     fun getRandomGif(
         @Query("api_key") api_key: String = API_KEY
-    ) : Observable<RandomResponse>
+    ): Observable<RandomResponse>
 
     //https://api.giphy.com/v1/gifs/random?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8
     @GET("stickers/random?")
     fun getRandomSticker(
         @Query("api_key") api_key: String = API_KEY
-    ) : Observable<RandomResponse>
+    ): Observable<RandomResponse>
 
 
     //https://api.giphy.com/v1/gifs/search?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&q=cat&offset=0&limit=1
@@ -37,7 +37,7 @@ interface RetrofitService {
         @Query("api_key") api_key: String = API_KEY,
         @Query("offset") offset: String = "0",
         @Query("limit") limit: String = "10"
-    ) : Observable<SearchResponse>
+    ): Observable<SearchResponse>
 
 
     //https://api.giphy.com/v1/gifs/trending?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&q=cat&offset=0&limit=10
@@ -46,7 +46,7 @@ interface RetrofitService {
         @Query("api_key") api_key: String = API_KEY,
         @Query("offset") offset: String = "0",
         @Query("limit") limit: String = "10"
-    ) : Observable<TrendingResponse>
+    ): Observable<TrendingResponse>
 
 
     //https://api.giphy.com/v1/gifs/translate?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&s=cat
@@ -54,9 +54,7 @@ interface RetrofitService {
     fun translateGif(
         @Query("s") s: String,
         @Query("api_key") api_key: String = API_KEY
-    ) : Observable<TranslateResponse>
-
-
+    ): Observable<TranslateResponse>
 
 
 //    @GET("translate_a/single?client=gtx&dt=t&dt=bd&dt=rm&dj=1&ie=UTF-8&oe=UTF-8&sl=auto&tl=zh-CN&hl=zh-CN&tk=&q=")

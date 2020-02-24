@@ -21,7 +21,7 @@ import com.allever.lib.common.util.*
 import com.allever.lib.recommend.RecommendGlobal
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
+class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
     SettingView, View.OnClickListener {
 
     private var mBannerAd: IAd? = null
@@ -46,6 +46,7 @@ class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
             override fun onLoaded(ad: IAd?) {
                 mBannerAd = ad
             }
+
             override fun onFailed(msg: String) {}
             override fun onShowed() {}
             override fun onDismiss() {}
@@ -145,24 +146,27 @@ class SettingActivity: BaseActivity<SettingView, SettingPresenter>(),
     }
 
     private fun loadInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, window?.decorView as ViewGroup, object :
-            AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mInsertAd = ad
-                mInsertAd?.show()
-            }
+        AdChainHelper.loadAd(
+            AdConstants.AD_NAME_EXIT_INSERT,
+            window?.decorView as ViewGroup,
+            object :
+                AdChainListener {
+                override fun onLoaded(ad: IAd?) {
+                    mInsertAd = ad
+                    mInsertAd?.show()
+                }
 
-            override fun onShowed() {
-            }
+                override fun onShowed() {
+                }
 
-            override fun onDismiss() {
-            }
+                override fun onDismiss() {
+                }
 
-            override fun onFailed(msg: String) {
-                toast("请求失败, 您可以点击下方小广告，也是对我们的一种支持。")
-            }
+                override fun onFailed(msg: String) {
+                    toast("请求失败, 您可以点击下方小广告，也是对我们的一种支持。")
+                }
 
-        })
+            })
     }
 
     companion object {

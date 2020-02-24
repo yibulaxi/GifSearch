@@ -24,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:background="#11ffffff">
 
-        <com.allever.lib.ui.widget.SearchView
+        <com.allever.lib.ui.searchview.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

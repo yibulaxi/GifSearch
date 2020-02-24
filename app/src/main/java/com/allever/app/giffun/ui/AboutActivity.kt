@@ -13,7 +13,7 @@ import com.allever.lib.common.app.App
 import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.umeng.UMeng
 
-class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
+class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 
 
     override fun getContentView(): Any = R.layout.activity_about
@@ -38,7 +38,7 @@ class AboutActivity: BaseActivity<AboutView, AboutPresenter>(), AboutView, View.
     override fun createPresenter(): AboutPresenter = AboutPresenter()
 
     override fun onClick(v: View?) {
-        when(v?.id) {
+        when (v?.id) {
             R.id.iv_left -> {
                 finish()
             }

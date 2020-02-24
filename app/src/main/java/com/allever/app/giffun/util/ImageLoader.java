@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.Nullable;
+
 import android.widget.ImageView;
 
 import com.android.absbase.App;
@@ -206,14 +208,15 @@ public class ImageLoader {
 //            }
 //        }
 //    }
+
     /**
      * @param context
      * @param url
      * @param defaultIcon
      * @param imageView
-     * @param listener          注意：listener会被强引用，需要加载网络图片时，不能使用此方法
+     * @param listener    注意：listener会被强引用，需要加载网络图片时，不能使用此方法
      */
-    public static void loadImage(Activity context, String url, int defaultIcon, ImageView imageView, final OnLoadBitmapListener listener){
+    public static void loadImage(Activity context, String url, int defaultIcon, ImageView imageView, final OnLoadBitmapListener listener) {
         try {
             Glide.with(context)
                     .load(url)
@@ -242,13 +245,14 @@ public class ImageLoader {
 
     /**
      * 加载图片，先显示小图再显示大图
+     *
      * @param context
      * @param url
      * @param defaultIcon
      * @param imageView
-     * @param listener          注意：listener会被强引用，需要加载网络图片时，不能使用此方法
+     * @param listener    注意：listener会被强引用，需要加载网络图片时，不能使用此方法
      */
-    public static void loadImageWithThumbnail(Activity context, String url, int defaultIcon, ImageView imageView, final OnLoadBitmapListener listener){
+    public static void loadImageWithThumbnail(Activity context, String url, int defaultIcon, ImageView imageView, final OnLoadBitmapListener listener) {
         try {
             Glide.with(context)
                     .load(url)
@@ -277,7 +281,7 @@ public class ImageLoader {
         }
     }
 
-    public static void loadImage(Activity context, String url, int defaultIcon, ImageView imageView, boolean fromCache){
+    public static void loadImage(Activity context, String url, int defaultIcon, ImageView imageView, boolean fromCache) {
         try {
             Glide.with(context)
                     .load(url)
@@ -316,6 +320,7 @@ public class ImageLoader {
 
     /**
      * 异步加载url，注意listener需要手动remove
+     *
      * @param context
      * @param url
      * @param listener 结果回调，注意因内存问题listener只保留弱引用，外部使用时不能使用临时变量
@@ -411,9 +416,11 @@ public class ImageLoader {
     public interface OnLoadBitmapListener {
         void onLoadBitmapFinish(Object bitmap);
     }
+
     public interface OnLoadDecodeBitmapListener {
         void onLoadBitmapFinish(Object bitmap);
     }
+
     public static void clearMemoryCache() {
 //        Sketch.with(App.getContext()).getConfiguration().getMemoryCache().clear();
         Glide.get(App.getContext()).clearMemory();

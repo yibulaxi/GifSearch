@@ -10,7 +10,11 @@ import com.allever.lib.common.mvp.BasePresenter
 
 abstract class BaseFragment<V, P : BasePresenter<V>> : BaseMvpFragment<V, P>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = LayoutInflater.from(context).inflate(getContentView(), container, false);
         initView(view)

@@ -75,7 +75,7 @@ public class GifImageView extends ImageView implements Runnable {
      * #startAnimation()}
      *
      * @param framesDisplayDuration Duration in milliseconds. Default value = -1, this property will
-     * be ignored and default delay from gif file will be used.
+     *                              be ignored and default delay from gif file will be used.
      */
     public void setFramesDisplayDuration(long framesDisplayDuration) {
         this.framesDisplayDuration = framesDisplayDuration;
@@ -143,7 +143,8 @@ public class GifImageView extends ImageView implements Runnable {
         return gifDecoder.getHeight();
     }
 
-    @Override public void run() {
+    @Override
+    public void run() {
         if (animationStartCallback != null) {
             animationStartCallback.onAnimationStart();
         }

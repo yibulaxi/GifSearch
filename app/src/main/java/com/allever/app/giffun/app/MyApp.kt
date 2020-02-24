@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.litepal.LitePal
 
 
-class MyApp: App() {
+class MyApp : App() {
     override fun onCreate() {
         super.onCreate()
 

@@ -22,8 +22,9 @@ import java.lang.Exception
 class GifTestAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
     BaseRecyclerViewAdapter<DataBean>(context, resId, data) {
 
-    private val tempDir = App.context.cacheDir.absolutePath + File.separator +"gif"
-    private val fileDir = Environment.getExternalStorageDirectory().absoluteFile.path +File.separator + App.context.packageName + File.separator +  "gifFunny"
+    private val tempDir = App.context.cacheDir.absolutePath + File.separator + "gif"
+    private val fileDir =
+        Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + App.context.packageName + File.separator + "gifFunny"
 
 
     override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {

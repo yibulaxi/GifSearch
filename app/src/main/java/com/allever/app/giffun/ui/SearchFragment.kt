@@ -28,7 +28,7 @@ import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
-import com.allever.lib.ui.widget.SearchView
+import com.allever.lib.ui.searchview.SearchView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -117,60 +117,64 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
         var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
-        RetrofitUtil.searchGif(keyword, offset.toInt(), count, object : Subscriber<SearchResponse>() {
-            override fun onCompleted() {}
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-                log("请求失败")
-                hideLoadingProgressDialog()
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                if (!isLoadMore) {
-                    mRv.visibility = View.GONE
-                    mIvRetry.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onNext(bean: SearchResponse) {
-                hideLoadingProgressDialog()
-
-                if (mDetailInsertAd != null) {
-                    mHandler.postDelayed({
-                        toast(R.string.loading_ad_tips)
-                        mDetailInsertAd?.show()
-                    }, 200)
-                }
-
-                mHandler.postDelayed({
+        RetrofitUtil.searchGif(
+            keyword,
+            offset.toInt(),
+            count,
+            object : Subscriber<SearchResponse>() {
+                override fun onCompleted() {}
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                    log("请求失败")
+                    hideLoadingProgressDialog()
                     recyclerViewScrollListener.setLoadDataStatus(false)
-                    mRv.visibility = View.VISIBLE
-
-                    log("搜索成功")
-                    val data = bean.data
-                    data?.map {
-                        log("trending = ${it.images.original.url}")
-                    }
-
                     if (!isLoadMore) {
-                        mGifDataList.clear()
+                        mRv.visibility = View.GONE
+                        mIvRetry.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onNext(bean: SearchResponse) {
+                    hideLoadingProgressDialog()
+
+                    if (mDetailInsertAd != null) {
+                        mHandler.postDelayed({
+                            toast(R.string.loading_ad_tips)
+                            mDetailInsertAd?.show()
+                        }, 200)
                     }
 
-                    mGifDataList.addAll(data)
+                    mHandler.postDelayed({
+                        recyclerViewScrollListener.setLoadDataStatus(false)
+                        mRv.visibility = View.VISIBLE
 
-                    mAdapter?.notifyDataSetChanged()
+                        log("搜索成功")
+                        val data = bean.data
+                        data?.map {
+                            log("trending = ${it.images.original.url}")
+                        }
 
-                    offset = if (mGifDataList.size < count) {
-                        "0"
-                    } else {
-                        (offset.toInt() + count + 1).toString()
-                    }
-                    SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+                        if (!isLoadMore) {
+                            mGifDataList.clear()
+                        }
 
-                    loadDetailInsert()
-                }, 500)
+                        mGifDataList.addAll(data)
+
+                        mAdapter?.notifyDataSetChanged()
+
+                        offset = if (mGifDataList.size < count) {
+                            "0"
+                        } else {
+                            (offset.toInt() + count + 1).toString()
+                        }
+                        SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+
+                        loadDetailInsert()
+                    }, 500)
 
 
-            }
-        })
+                }
+            })
     }
 
     override fun onDestroyView() {

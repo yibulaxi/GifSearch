@@ -11,13 +11,14 @@ import com.allever.lib.common.app.App
 import com.allever.lib.common.app.BaseFragment
 
 class GuideFragment : BaseFragment() {
-    private  var mBannerAd: IAd? = null
+    private var mBannerAd: IAd? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = LayoutInflater.from(App.context).inflate(R.layout.fragment_guide, container, false)
+        val view =
+            LayoutInflater.from(App.context).inflate(R.layout.fragment_guide, container, false)
 
         val guideTips = StringBuilder()
         view.findViewById<TextView>(R.id.tvGuideTips).text = guideTips.toString()

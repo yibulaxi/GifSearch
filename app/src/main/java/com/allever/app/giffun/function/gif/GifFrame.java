@@ -1,4 +1,5 @@
 package com.allever.app.giffun.function.gif;
+
 /**
  * Inner model class housing metadata for each frame.
  */

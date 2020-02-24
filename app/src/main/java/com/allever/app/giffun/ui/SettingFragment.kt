@@ -51,7 +51,8 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
                 PermissionUtil.GoToSetting(activity)
             }
             R.id.setting_tv_share -> {
-                val msg = "【${getString(R.string.app_name)}】这个应用很不错，推荐一下。获取地址 \nhttp://app.mi.com/details?id=com.allever.app.virtual.call"
+                val msg =
+                    "【${getString(R.string.app_name)}】这个应用很不错，推荐一下。获取地址 \nhttp://app.mi.com/details?id=com.allever.app.virtual.call"
                 val intent = SystemUtils.getShareIntent(App.context, msg)
                 startActivity(intent)
             }
@@ -81,6 +82,7 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
                 override fun onLoaded(ad: IAd?) {
                     mBannerAd = ad
                 }
+
                 override fun onFailed(msg: String) {}
                 override fun onShowed() {}
                 override fun onDismiss() {}
@@ -100,9 +102,11 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
                         mVideoAd = ad
                         ad?.show()
                     }
+
                     override fun onFailed(msg: String) {
                         loadInsertAd()
                     }
+
                     override fun onShowed() {}
                     override fun onDismiss() {}
 

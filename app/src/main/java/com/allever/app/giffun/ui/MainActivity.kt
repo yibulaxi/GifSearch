@@ -44,10 +44,6 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnC
     }
 
 
-
-
-
-
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, MainActivity::class.java)

@@ -55,7 +55,8 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                 AlertDialog.Builder(this)
                     .setTitle(R.string.warm_tips)
                     .setMessage(R.string.backup_tips)
-                    .setPositiveButton(R.string.backup
+                    .setPositiveButton(
+                        R.string.backup
                     ) { dialog, which ->
                         mBtnBackup.isClickable = false
                         mPresenter?.backup(Runnable {
@@ -64,7 +65,8 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                         })
                         dialog.dismiss()
                     }
-                    .setNegativeButton(R.string.cancle
+                    .setNegativeButton(
+                        R.string.cancle
                     ) { dialog, which ->
                         dialog.dismiss()
                     }
@@ -82,7 +84,8 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                 AlertDialog.Builder(this)
                     .setTitle(R.string.warm_tips)
                     .setMessage(R.string.del_backup_tips)
-                    .setPositiveButton(R.string.del_backup
+                    .setPositiveButton(
+                        R.string.del_backup
                     ) { dialog, which ->
                         mBtnDelBackup.isClickable = false
                         mPresenter?.delBackup(Runnable {
@@ -91,7 +94,8 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                         })
                         dialog.dismiss()
                     }
-                    .setNegativeButton(R.string.cancle
+                    .setNegativeButton(
+                        R.string.cancle
                     ) { dialog, which ->
                         dialog.dismiss()
                     }
@@ -124,6 +128,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
             override fun onLoaded(ad: IAd?) {
                 mBannerAd = ad
             }
+
             override fun onFailed(msg: String) {}
             override fun onShowed() {}
             override fun onDismiss() {}
@@ -132,16 +137,20 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
     }
 
     private fun loadAndShowInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, window.decorView as ViewGroup, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mInsertAd = ad
-                ad?.show()
-            }
-            override fun onFailed(msg: String) {}
-            override fun onShowed() {}
-            override fun onDismiss() {}
+        AdChainHelper.loadAd(
+            AdConstants.AD_NAME_EXIT_INSERT,
+            window.decorView as ViewGroup,
+            object : AdChainListener {
+                override fun onLoaded(ad: IAd?) {
+                    mInsertAd = ad
+                    ad?.show()
+                }
 
-        })
+                override fun onFailed(msg: String) {}
+                override fun onShowed() {}
+                override fun onDismiss() {}
+
+            })
     }
 
     companion object {

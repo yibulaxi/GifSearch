@@ -299,27 +299,28 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
     }
 
     private fun showRecommendDialog() {
-        val dialog = RecommendDialogHelper.createRecommendDialog(this, object : RecommendDialogListener {
-            override fun onMore(dialog: Dialog?) {
-                dialog?.dismiss()
-            }
-
-            override fun onReject(dialog: Dialog?) {
-                dialog?.dismiss()
-                GlobalScope.launch {
-                    delay(200)
-                    finish()
+        val dialog =
+            RecommendDialogHelper.createRecommendDialog(this, object : RecommendDialogListener {
+                override fun onMore(dialog: Dialog?) {
+                    dialog?.dismiss()
                 }
-            }
 
-            override fun onBackPress(dialog: Dialog?) {
-                dialog?.dismiss()
-                GlobalScope.launch {
-                    delay(200)
-                    finish()
+                override fun onReject(dialog: Dialog?) {
+                    dialog?.dismiss()
+                    GlobalScope.launch {
+                        delay(200)
+                        finish()
+                    }
                 }
-            }
-        })
+
+                override fun onBackPress(dialog: Dialog?) {
+                    dialog?.dismiss()
+                    GlobalScope.launch {
+                        delay(200)
+                        finish()
+                    }
+                }
+            })
         RecommendDialogHelper.show(this, dialog)
     }
 
