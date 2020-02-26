@@ -67,7 +67,7 @@
 
 # 友盟特有-----------------------------------------------------------------------------------------------------------------
 # 填应用包名
--keep public class [com.allever.app.giffun].R$*{
+-keep public class [com.allever.app.gif.search].R$*{
     public static final int *;
 }
 #
@@ -179,7 +179,7 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.allever.app.giffun.bean.** { *; }
+-keep class com.allever.app.gif.search.bean.** { *; }
 
 
 # Gson--------------------------------------------------------------------------
