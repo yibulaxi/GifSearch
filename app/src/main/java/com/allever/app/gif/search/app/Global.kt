@@ -17,7 +17,7 @@ object Global {
 
     //保存路径 /sdcard/GifFunny/XXX.gif
     val saveDir =
-        Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + "GifFunny"
+        Environment.getExternalStorageDirectory().absoluteFile.path + File.separator + "GifSearch"
 
     //缓存下载完成后复制到的目录 /sdcard/{packageName}/temp/XXX
     val tempDir =

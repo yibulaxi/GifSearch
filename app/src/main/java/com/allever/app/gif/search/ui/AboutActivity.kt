@@ -43,7 +43,7 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View
                 finish()
             }
             R.id.about_privacy -> {
-                val privacyUrl = "http://x.xiniubaba.com/x.php/62nmQ3/2705"
+                val privacyUrl = "http://x.xiniubaba.com/x.php/E1lSY4/3123"
                 SystemUtils.startWebView(App.context, privacyUrl)
             }
         }
