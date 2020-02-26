@@ -5,11 +5,12 @@ import com.allever.lib.ad.AdBusiness
 
 object AdConstants {
 
-    private val APPID = "ca-app-pub-1877583433745305~9111733724"
-    private const val COMMON_BANNER = "ca-app-pub-1877583433745305/2354753688"
-    private const val EXIT_INSERT = "ca-app-pub-1877583433745305/8728590345"
-    private const val DETAIL_INSERT = "ca-app-pub-1877583433745305/1905351068"
-    private const val COMMON_VIDEO = ""
+    //adeverdeng
+    private val APPID = "ca-app-pub-9972782174497381~7798072468"
+    private const val COMMON_BANNER = "ca-app-pub-9972782174497381/5280748004"
+    private const val EXIT_INSERT = "ca-app-pub-9972782174497381/7195437239"
+    private const val DETAIL_INSERT = "ca-app-pub-9972782174497381/5499212180"
+    private const val COMMON_VIDEO = "ca-app-pub-9972782174497381/5882355569"
 
     val AD_NAME_EXIT_INSERT = "AD_NAME_EXIT_INSERT"
 

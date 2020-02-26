@@ -76,8 +76,8 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
                 finish()
             }
             R.id.setting_tv_support -> {
-//                supportUs()
-                Tool.openInGooglePlay(this, App.context.packageName)
+                supportUs()
+//                Tool.openInGooglePlay(this, App.context.packageName)
             }
             R.id.setting_tv_backup -> {
                 ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
@@ -111,8 +111,8 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
             .setPositiveButton("立即观看") { dialog, which ->
                 dialog.dismiss()
                 //流程加载视频  -> 下载 -> 插屏
-//                loadEncourageVideoAd()
-                loadInsert()
+                loadEncourageVideoAd()
+//                loadInsert()
             }
             .setNegativeButton("残忍拒绝") { dialog, which ->
                 dialog.dismiss()
