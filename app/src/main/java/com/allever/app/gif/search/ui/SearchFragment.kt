@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseFragment
@@ -112,8 +113,15 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
             toast(getString(R.string.please_input_search_content))
             return
         }
+
+        var keyword = keyword
+        if (!BuildConfig.DEBUG) {
+            keyword = keyword.replace("sexy", "")
+            keyword = keyword.replace("sex", "")
+        }
+
         mKeyword = keyword
-        val count = 10
+        val count = Global.SHOW_COUNT
         var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))

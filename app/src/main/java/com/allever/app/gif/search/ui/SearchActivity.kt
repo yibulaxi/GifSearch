@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.Global
@@ -141,9 +142,16 @@ class SearchActivity : BaseActivity() {
             toast(getString(R.string.please_input_search_content))
             return
         }
+
+        var keyword = keyword
+        if (!BuildConfig.DEBUG) {
+            keyword = keyword.replace("sexy", "")
+            keyword = keyword.replace("sex", "")
+        }
+
         hideKeyboard()
         mKeyword = keyword
-        val count = 10
+        val count = Global.SHOW_COUNT
         var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
