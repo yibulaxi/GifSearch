@@ -1,5 +1,6 @@
 package com.allever.app.gif.search.ui
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -30,8 +31,10 @@ import com.allever.lib.recommend.RecommendActivity
 import com.allever.lib.recommend.RecommendDialogHelper
 import com.allever.lib.recommend.RecommendDialogListener
 import com.allever.lib.recommend.RecommendGlobal
+import com.allever.lib.ui.widget.ShakeHelper
 import com.allever.lib.umeng.UMeng
 import kotlinx.android.synthetic.main.activity_gif_main.*
+import kotlinx.android.synthetic.main.top_bar.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,6 +49,8 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
 
     private var mFragmentList = mutableListOf<Fragment>()
 
+    private var mShakeAnimator: ObjectAnimator? = null
+
     private var mBannerAd: IAd? = null
     private var mExitInsertAd: IAd? = null
 
@@ -55,6 +60,8 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
 
         ivRight.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
+        mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)
+        mShakeAnimator?.start()
 
         mTab = findViewById(R.id.tab_layout)
         mVp = findViewById(R.id.id_main_vp)
@@ -66,9 +73,10 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         initViewPager()
         initTab()
 
-
-        loadBanner()
-        loadExitInsert()
+        mHandler.postDelayed({
+            loadBanner()
+            loadExitInsert()
+        }, 10000)
     }
 
     private fun initViewPagerData() {
@@ -220,6 +228,7 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         mBannerAd?.destroy()
         mExitInsertAd?.destroy()
         ImageLoader.clearMemoryCache()
+        mShakeAnimator?.cancel()
     }
 
     private fun loadBanner() {

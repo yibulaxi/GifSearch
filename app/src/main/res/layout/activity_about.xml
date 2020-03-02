@@ -66,5 +66,15 @@
 		android:textColor="@color/default_tv_color"
 		android:visibility="visible"/>
 
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Gifs by GIPHY"
+		android:layout_centerHorizontal="true"
+		android:layout_above="@+id/about_right"
+		android:layout_marginBottom="10dp"
+		android:textSize="12sp"
+		android:textColor="@color/black"/>
+
 
 </RelativeLayout>

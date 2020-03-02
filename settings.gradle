@@ -25,3 +25,7 @@ project(':searchview').projectDir = new File(settingsDir, '../AndroidUIKit/searc
 
 include ':circleimageview'
 project(':circleimageview').projectDir = new File(settingsDir, '../AndroidUIKit/circleimageview')
+
+
+include ':widget'
+project(':widget').projectDir = new File(settingsDir, '../AndroidUIKit/widget')

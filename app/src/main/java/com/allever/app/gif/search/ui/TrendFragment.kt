@@ -187,7 +187,7 @@ class TrendFragment : BaseFragment<TrendView, TrendPresenter>(), TrendView {
     }
 
     private fun getData(isLoadMore: Boolean = false) {
-        val count = 10
+        val count = Global.SHOW_COUNT
         var offset = SpUtils.getString(Global.SP_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.loading))

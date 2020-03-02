@@ -33,6 +33,8 @@ object Global {
     const val SP_SEARCH_OFFSET = "search_offset"
     const val SP_COUNT = "count"
 
+    const val SHOW_COUNT = 5
+
 
     fun init() {
 
