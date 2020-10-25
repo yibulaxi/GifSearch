@@ -34,9 +34,13 @@ android {
     //友盟多渠道----------------------------------------------------------------------------------------------------------
     flavorDimensions "mark"
     productFlavors {
-        google {}
+        ad {}
+//        google {}
 //        xiaomi {}
 //        baidu {}
+//        amazon {}
+//        kuai {}
+//        anzhi {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

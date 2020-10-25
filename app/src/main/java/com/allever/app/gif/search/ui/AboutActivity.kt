@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
+import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseActivity
 import com.allever.app.gif.search.ui.mvp.presenter.AboutPresenter
 import com.allever.app.gif.search.ui.mvp.view.AboutView
@@ -22,10 +23,19 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View
         findViewById<View>(R.id.about_privacy).setOnClickListener(this)
         findViewById<View>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.about)
+        val channel = UMeng.getChannel()
         val last = if (BuildConfig.DEBUG) {
-            "(Debug)-${UMeng.getChannel()}"
+            "(Debug)-$channel\n" +
+                    "${App.context.packageName}\n" +
+                    "AdMob-${AdConstants.ADMOB_APP_ID}"
         } else {
-            ""
+            if (channel == "ad") {
+                "(Release)-$channel\n" +
+                        "${App.context.packageName}\n" +
+                        "AdMob-${AdConstants.ADMOB_APP_ID}"
+            } else {
+                ""
+            }
         }
         findViewById<TextView>(R.id.about_app_version).text = "v${BuildConfig.VERSION_NAME}$last"
         findViewById<TextView>(R.id.about_right).text =
