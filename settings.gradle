@@ -1,3 +1,5 @@
+include ':Net'
+include ':BaseMvvmLib'
 include ':app'
 
 include ':permission'
