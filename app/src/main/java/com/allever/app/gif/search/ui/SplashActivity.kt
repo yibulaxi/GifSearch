@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.Global
+import com.allever.app.gif.search.ui.main.GifMainActivity
 import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.ActivityCollector

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -90,6 +92,19 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 //打包时间
@@ -141,5 +156,7 @@ dependencies {
 
     implementation 'org.litepal.android:kotlin:3.0.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation project(path: ':BaseMvvmLib')
+    implementation project(path: ':Net')
 
 }

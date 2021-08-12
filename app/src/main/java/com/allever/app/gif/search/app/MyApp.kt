@@ -8,12 +8,17 @@ import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.common.app.App
 import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.umeng.UMeng
+import com.xm.lib.BaseApp
+import com.xm.lib.base.config.NetConfig
+import com.xm.lib.datastroe.DataStore
+import com.xm.netmodel.config.HttpConfig
 import org.litepal.LitePal
 
 
-class MyApp : App() {
-    override fun onCreate() {
-        super.onCreate()
+class MyApp : BaseApp() {
+    override fun initThreadPackage() {
+
+        App.context = this
 
         com.android.absbase.App.setContext(this)
 
@@ -30,6 +35,20 @@ class MyApp : App() {
 
         RecommendGlobal.init(UMeng.getChannel())
 
+        //初始化网络
+        HttpConfig.init(applicationContext, "errorCode", "data")
+            .setJsonMsgKeyName("errorMsg").setResponseOk(0)
+            .setVerify(true)
+            .builder("https://www.wanandroid.com/", 100)
+
+        DataStore.init(this)
+
+    }
+
+
+    override fun initLoginStateConfig() = object : NetConfig() {
+        override fun setLoginOutCallBack() {
+        }
     }
 
     override fun onLowMemory() {

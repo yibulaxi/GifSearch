@@ -1,62 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/id_main_vp"
+<layout>
+
+    <data>
+        <variable
+            name="gifMainViewModel"
+            type="com.allever.app.gif.search.ui.main.model.GifMainViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-    <LinearLayout
-        android:id="@+id/topBarContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true">
-
-        <RelativeLayout
-            android:id="@+id/topBar"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/id_main_vp"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="#11ffffff"
-            >
+            android:layout_height="match_parent"/>
 
-            <ImageView
-                android:id="@+id/ivRight"
-                android:layout_width="@dimen/default_icon_width"
-                android:layout_height="@dimen/default_icon_height"
-                android:src="@drawable/ic_setting"
-                android:scaleType="center"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"/>
-
-            <ImageView
-                android:id="@+id/ivRecommend"
-                android:layout_width="@dimen/default_icon_width"
-                android:layout_height="@dimen/default_icon_height"
-                android:src="@drawable/recommend_ic_gift"
-                android:scaleType="center"
-                android:layout_centerVertical="true"
-                android:visibility="visible"/>
-
-            <com.allever.lib.common.ui.widget.tab.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="56dp"
-                android:layout_centerInParent="true" />
-
-
-        </RelativeLayout>
-
-        <com.allever.lib.ad.chain.BannerLayout
-            android:id="@+id/bannerContainer"
+        <LinearLayout
+            android:id="@+id/topBarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="gone"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_alignParentTop="true">
 
-</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/topBar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/color_11_white"
+                >
+
+                <ImageView
+                    android:id="@+id/ivRight"
+                    android:layout_width="@dimen/default_icon_width"
+                    android:layout_height="@dimen/default_icon_height"
+                    android:src="@drawable/ic_setting"
+                    android:scaleType="center"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/ivRecommend"
+                    android:layout_width="@dimen/default_icon_width"
+                    android:layout_height="@dimen/default_icon_height"
+                    android:src="@drawable/recommend_ic_gift"
+                    android:scaleType="center"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible"/>
+
+                <com.allever.lib.common.ui.widget.tab.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:layout_centerInParent="true" />
+
+
+            </RelativeLayout>
+
+            <com.allever.lib.ad.chain.BannerLayout
+                android:id="@+id/bannerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

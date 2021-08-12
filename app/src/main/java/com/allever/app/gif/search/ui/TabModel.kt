@@ -29,6 +29,7 @@ import java.util.Locale
 
 import android.view.View.LAYOUT_DIRECTION_RTL
 import com.allever.app.gif.search.R
+import com.allever.app.gif.search.ui.main.TrendFragment
 
 /**
  * All tab data is accessed via this model.

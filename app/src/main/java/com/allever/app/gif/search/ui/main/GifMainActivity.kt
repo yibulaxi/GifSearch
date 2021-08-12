@@ -1,9 +1,8 @@
-package com.allever.app.gif.search.ui
+package com.allever.app.gif.search.ui.main
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.graphics.PorterDuff
-import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +11,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
+import com.allever.app.gif.search.app.BaseDataActivity2
+import com.allever.app.gif.search.databinding.ActivityGifMainBinding
 import com.allever.app.gif.search.function.download.DownloadManager
+import com.allever.app.gif.search.ui.*
+import com.allever.app.gif.search.ui.TabModel
 import com.allever.app.gif.search.ui.adapter.ViewPagerAdapter
+import com.allever.app.gif.search.ui.main.model.GifMainViewModel
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.comment.CommentHelper
 import com.allever.lib.comment.CommentListener
-import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.app.BaseFragment
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
@@ -33,13 +37,14 @@ import com.allever.lib.recommend.RecommendDialogListener
 import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.ui.widget.ShakeHelper
 import com.allever.lib.umeng.UMeng
+import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.util.HandlerHelper
 import kotlinx.android.synthetic.main.activity_gif_main.*
-import kotlinx.android.synthetic.main.top_bar.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSelectedListener {
+class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewModel>(), View.OnClickListener, TabLayout.OnTabSelectedListener {
 
     private lateinit var mVp: ViewPager
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
@@ -54,10 +59,10 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
     private var mBannerAd: IAd? = null
     private var mExitInsertAd: IAd? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gif_main)
 
+    override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_gif_main, BR.gifMainViewModel)
+
+    override fun initDataAndEvent() {
         ivRight.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
         mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)
@@ -73,11 +78,16 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         initViewPager()
         initTab()
 
-        mHandler.postDelayed({
+        HandlerHelper.mainHandler.postDelayed({
             loadBanner()
             loadExitInsert()
         }, 10000)
     }
+
+
+    override fun destroyView() {
+    }
+
 
     private fun initViewPagerData() {
         mFragmentList.add(TrendFragment())
@@ -231,8 +241,9 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         mShakeAnimator?.cancel()
     }
 
+
     private fun loadBanner() {
-        mHandler.postDelayed({
+        HandlerHelper.mainHandler.postDelayed({
             val container = findViewById<ViewGroup>(R.id.bannerContainer)
             AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
                 override fun onLoaded(ad: IAd?) {
@@ -360,4 +371,6 @@ class GifMainActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSel
         CommentHelper.show(this, dialog)
         mIsShowComment = true
     }
+
+
 }
