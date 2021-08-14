@@ -10,12 +10,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.Global
-import com.allever.app.gif.search.bean.DataBean
-import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
+import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.function.download.DownloadCallback
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.download.TaskInfo
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.util.DBHelper
 import com.allever.app.gif.search.util.MD5
 import com.allever.lib.common.app.App
@@ -28,13 +28,12 @@ import org.greenrobot.eventbus.EventBus
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
-import kotlin.Exception
 
 class GifPreviewActivity : BaseActivity() {
 
     private var mIsDownloadFinish = false
 
-    private lateinit var item: DataBean
+    private lateinit var item: GifItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +49,7 @@ class GifPreviewActivity : BaseActivity() {
         val dataJson = intent.getStringExtra(EXTRA_DATA_BEAN_JSON) ?: return
 
         try {
-            item = Gson().fromJson(dataJson, DataBean::class.java)
+            item = Gson().fromJson(dataJson, GifItem::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
             return
@@ -60,14 +59,14 @@ class GifPreviewActivity : BaseActivity() {
 
 
         val gifId = item.id
-        val gifUrl = item.images.fixed_height.url
-        val headerUrl = item.user?.avatar_url ?: ""
-        val userName = item.user?.display_name ?: ""
+        val gifUrl = item.url
+        val headerUrl = item.avatar
+        val userName = item.nickname
         val title = item.title ?: ""
 
 
 //        val gifUrl = item.images.fixed_height.url
-        val fileName = MD5.getMD5Str(gifId) + ".gif"
+        val fileName = MD5.getMD5Str(gifId.toString()) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val cachePath = "${Global.cacheDir}${File.separator}$fileName"
         val savePath = "${Global.saveDir}${File.separator}$fileName"
@@ -179,7 +178,7 @@ class GifPreviewActivity : BaseActivity() {
         }
 
 
-        val liked = DBHelper.isLiked(gifId)
+        val liked = DBHelper.isLiked(gifId.toString())
         if (liked) {
             ivLike?.setColorFilter(resources.getColor(R.color.default_theme_color))
         } else {
@@ -187,17 +186,17 @@ class GifPreviewActivity : BaseActivity() {
         }
 
         ivLike?.setOnClickListener {
-            val liked = DBHelper.isLiked(gifId)
+            val liked = DBHelper.isLiked(gifId.toString())
             val likeEvent = LikeEvent()
-            likeEvent.id = gifId
+            likeEvent.id = gifId.toString()
             likeEvent.dataBean = item
             if (liked) {
                 ivLike.colorFilter = null
-                DBHelper.unLiked(gifId)
+                DBHelper.unLiked(gifId.toString())
                 likeEvent.isLiked = false
             } else {
                 ivLike.setColorFilter(resources.getColor(R.color.default_theme_color))
-                DBHelper.liked(gifId, item)
+                DBHelper.liked(gifId.toString(), item)
                 likeEvent.isLiked = true
             }
 
@@ -281,12 +280,12 @@ class GifPreviewActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (item != null) {
-            DownloadManager.getInstance().cancel(item.images.fixed_height.url)
+            DownloadManager.getInstance().cancel(item.url)
         }
 
         if (mIsDownloadFinish) {
             val event = DownloadFinishEvent()
-            event.id = item.id
+            event.id = item.id.toString()
             EventBus.getDefault().post(event)
         }
     }

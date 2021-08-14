@@ -17,6 +17,7 @@ import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.databinding.FragmentTrendBinding
 import com.allever.app.gif.search.function.network.NetRepository
 import com.allever.app.gif.search.ui.adapter.GifAdapter
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.ui.main.model.TrendViewModel
 import com.allever.app.gif.search.ui.mvp.view.TrendView
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
@@ -24,7 +25,6 @@ import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
-//import com.allever.lib.ad.chain.SimpleAdChainListener
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.loge
 import com.allever.lib.common.util.toast
@@ -139,15 +139,25 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
 
                 log("请求成功")
                 val data = it.data
+                val gifItemList = mutableListOf<GifItem>()
                 data?.map {
                     log("trending = ${it.images.original.url}")
+                    val gifItem = GifItem()
+                    gifItem.id = it.id
+                    gifItem.type = 1
+                    gifItem.avatar = it?.user?.avatar_url?:""
+                    gifItem.nickname = it?.user?.display_name?:""
+                    gifItem.title = it.title?:""
+                    gifItem.size = it.images.fixed_height.size.toInt()
+                    gifItem.url = it.images.fixed_height.url
+                    gifItemList.add(gifItem)
                 }
 
                 if (!isLoadMore) {
                     mViewModel.gifDataList.clear()
                 }
 
-                mViewModel.gifDataList.addAll(data)
+                mViewModel.gifDataList.addAll(gifItemList)
 
                 mViewModel.adapter.notifyDataSetChanged()
 

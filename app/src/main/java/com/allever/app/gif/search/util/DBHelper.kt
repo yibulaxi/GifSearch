@@ -1,7 +1,7 @@
 package com.allever.app.gif.search.util
 
-import com.allever.app.gif.search.bean.DataBean
 import com.allever.app.gif.search.bean.LikedItem
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.google.gson.Gson
 import org.litepal.LitePal
 
@@ -19,18 +19,18 @@ object DBHelper {
         return null
     }
 
-    fun getLikedList(): MutableList<DataBean> {
+    fun getLikedList(): MutableList<GifItem> {
         val list = LitePal.findAll(LikedItem::class.java)
-        val result = mutableListOf<DataBean>()
+        val result = mutableListOf<GifItem>()
         val gson = Gson()
         list.map {
-            val dataBean = gson.fromJson(it.data, DataBean::class.java)
+            val dataBean = gson.fromJson(it.data, GifItem::class.java)
             result.add(dataBean)
         }
         return result
     }
 
-    fun liked(gifId: String, dataBean: DataBean) {
+    fun liked(gifId: String, dataBean: GifItem) {
         val data = LitePal.where("gifId = ?", gifId).find<LikedItem>(LikedItem::class.java)
         if (data.isEmpty()) {
             val newLike = LikedItem()

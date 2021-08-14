@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.Global
-import com.allever.app.gif.search.bean.DataBean
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.util.MD5
 import com.allever.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
@@ -15,8 +15,8 @@ import com.allever.lib.common.util.log
 import com.bumptech.glide.Glide
 import java.io.File
 
-class GifLikedAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
-    BaseRecyclerViewAdapter<DataBean>(context, resId, data) {
+class GifLikedAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
+    BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
 
     var itemOptionListener: OnItemOptionClick? = null
     var editMode = false
@@ -41,16 +41,16 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<DataBean>)
                 selectedItem.clear()
             }
         }
-    var selectedItem = mutableSetOf<DataBean>()
+    var selectedItem = mutableSetOf<GifItem>()
 
 
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {
-        val fileName = MD5.getMD5Str(item.id) + ".gif"
+    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
+        val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val url = if (FileUtils.checkExist(tempPath)) {
             tempPath
         } else {
-            item.images.fixed_height.url
+            item.url
         }
 
         log("LikedAdapter: url = $url")
@@ -95,7 +95,7 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<DataBean>)
         }
     }
 
-    private fun handleCheck(holder: BaseViewHolder, item: DataBean, cb: CheckBox?) {
+    private fun handleCheck(holder: BaseViewHolder, item: GifItem, cb: CheckBox?) {
         allMode = false
         item.checked = !item.checked
         holder.setChecked(R.id.cbSelect, item.checked)

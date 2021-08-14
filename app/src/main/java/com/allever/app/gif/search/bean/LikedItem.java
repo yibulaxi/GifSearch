@@ -5,6 +5,7 @@ import org.litepal.crud.LitePalSupport;
 public class LikedItem extends LitePalSupport {
     private String gifId;
     private String data;
+    private int type;
 
     public String getGifId() {
         return gifId;
@@ -20,5 +21,13 @@ public class LikedItem extends LitePalSupport {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

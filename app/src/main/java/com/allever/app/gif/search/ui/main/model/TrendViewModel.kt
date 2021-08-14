@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.allever.app.gif.search.bean.DataBean
 import com.allever.app.gif.search.function.network.NetRepository
 import com.allever.app.gif.search.ui.adapter.GifAdapter
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.loge
 import com.xm.lib.base.inters.IBaseView
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class TrendViewModel: BaseViewModelKt<IBaseView>() {
 
-    var gifDataList = mutableListOf<DataBean>()
+    var gifDataList = mutableListOf<GifItem>()
     lateinit var adapter: GifAdapter
 
 

@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.BaseFragment
 import com.allever.app.gif.search.app.Global
-import com.allever.app.gif.search.bean.DataBean
-import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
+import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.bean.event.RestoreLikeEvent
 import com.allever.app.gif.search.ui.adapter.GifLikedAdapter
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.ui.mvp.presenter.LikedPresenter
 import com.allever.app.gif.search.ui.mvp.view.LikedView
 import com.allever.app.gif.search.util.DBHelper
@@ -38,8 +38,8 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
             mAdapter.editMode = value
         }
 
-    private var mData = mutableListOf<DataBean>()
-    private var mCurrentItem: DataBean? = null
+    private var mData = mutableListOf<GifItem>()
+    private var mCurrentItem: GifItem? = null
 
     private lateinit var mBottomBar: ViewGroup
     private lateinit var mCbSelectAll: CheckBox
@@ -97,8 +97,8 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
                         //                        mPresenter.removeLikes(mAdapter.selectedItem)
                         val idList = mutableListOf<String>()
                         mAdapter.selectedItem.map {
-                            DBHelper.unLiked(it.id)
-                            idList.add(it.id)
+                            DBHelper.unLiked(it.id.toString())
+                            idList.add(it.id.toString())
                         }
                         dialog.dismiss()
                         getLikedData()

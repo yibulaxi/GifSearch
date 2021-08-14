@@ -18,6 +18,7 @@ import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.ui.adapter.GifAdapter
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.ui.mvp.model.RetrofitUtil
 import com.allever.app.gif.search.ui.mvp.presenter.SearchPresenter
 import com.allever.app.gif.search.ui.mvp.view.ISearchView
@@ -42,7 +43,7 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
 
     private lateinit var mRv: RecyclerView
     private var mAdapter: GifAdapter? = null
-    private var mGifDataList = mutableListOf<DataBean>()
+    private var mGifDataList = mutableListOf<GifItem>()
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 
@@ -158,15 +159,25 @@ class SearchFragment : BaseFragment<ISearchView, SearchPresenter>(), ISearchView
 
                         log("搜索成功")
                         val data = bean.data
+                        val gifItemList = mutableListOf<GifItem>()
                         data?.map {
                             log("trending = ${it.images.original.url}")
+                            val gifItem = GifItem()
+                            gifItem.id = it.id
+                            gifItem.type = 1
+                            gifItem.avatar = it?.user?.avatar_url?:""
+                            gifItem.nickname = it?.user?.display_name?:""
+                            gifItem.title = it.title?:""
+                            gifItem.size = it.images.fixed_height.size.toInt()
+                            gifItem.url = it.images.fixed_height.url
+                            gifItemList.add(gifItem)
                         }
 
                         if (!isLoadMore) {
                             mGifDataList.clear()
                         }
 
-                        mGifDataList.addAll(data)
+                        mGifDataList.addAll(gifItemList)
 
                         mAdapter?.notifyDataSetChanged()
 

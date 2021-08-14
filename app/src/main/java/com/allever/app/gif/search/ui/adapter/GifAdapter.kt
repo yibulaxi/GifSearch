@@ -8,15 +8,14 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.Global
-import com.allever.app.gif.search.bean.DataBean
 import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.function.download.DownloadCallback
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.download.TaskInfo
 import com.allever.app.gif.search.ui.SearchActivity
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.util.DBHelper
 import com.allever.app.gif.search.util.MD5
 import com.allever.lib.common.app.App
@@ -26,26 +25,31 @@ import com.allever.lib.common.util.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.greenrobot.eventbus.EventBus
-
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
-
 import java.io.File
-import java.lang.Exception
 
-class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
-    BaseRecyclerViewAdapter<DataBean>(context, resId, data) {
+class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
+    BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
+
+    //type
+    //item.id
+    //item.images.fixed_height.url
+    //item.title
+    //item.user?.display_name ?: ""
+    //item.user?.avatar_url
+    //item.images.fixed_height.size
 
     @SuppressLint("SetTextI18n")
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: DataBean) {
+    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
         //debug
         val tvLoadUrl = holder.getView<TextView>(R.id.tvUrl)
         val tvSize = holder.getView<TextView>(R.id.tvSize)
         val tvTempPath = holder.getView<TextView>(R.id.tvFilePath)
         val tvStatus = holder.getView<TextView>(R.id.tvStatus)
 
-        val gifUrl = item.images.fixed_height.url
-        val fileName = MD5.getMD5Str(item.id) + ".gif"
+        val gifUrl = item.url
+        val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val cachePath = "${Global.cacheDir}${File.separator}$fileName"
         val savePath = "${Global.saveDir}${File.separator}$fileName"
@@ -61,12 +65,12 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         val tvTitle = holder.getView<TextView>(R.id.tvTitle)
         tvTitle?.text = item.title
         val tvDisplayName = holder.getView<TextView>(R.id.tvDisplayName)
-        val displayName = item.user?.display_name ?: ""
+        val displayName = item.nickname
         tvDisplayName?.text = "@$displayName"
 
 
         val ivHeader = holder.getView<ImageView>(R.id.ivHeader)
-        Glide.with(App.context).load(item.user?.avatar_url).into(ivHeader!!)
+        Glide.with(App.context).load(item.avatar).into(ivHeader!!)
 
         val ivLike = holder.getView<ImageView>(R.id.ivLike)
         val ivShare = holder.getView<ImageView>(R.id.ivShare)
@@ -165,7 +169,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
 
-        val liked = DBHelper.isLiked(item.id)
+        val liked = DBHelper.isLiked(item.id.toString())
         if (liked) {
             ivLike?.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
         } else {
@@ -173,17 +177,18 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
         }
 
         ivLike?.setOnClickListener {
-            val liked = DBHelper.isLiked(item.id)
+            val liked = DBHelper.isLiked(item.id.toString())
             val likeEvent = LikeEvent()
-            likeEvent.id = item.id
+            likeEvent.id = item.id.toString()
+            likeEvent.type = item.type
             likeEvent.dataBean = item
             if (liked) {
                 ivLike.colorFilter = null
-                DBHelper.unLiked(item.id)
+                DBHelper.unLiked(item.id.toString())
                 likeEvent.isLiked = false
             } else {
                 ivLike.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
-                DBHelper.liked(item.id, item)
+                DBHelper.liked(item.id.toString(), item)
                 likeEvent.isLiked = true
             }
 
@@ -234,7 +239,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<DataBean>) :
 
         log("load url = $gifUrl")
         tvLoadUrl?.text = gifUrl
-        tvSize?.text = item.images.fixed_height.size
+        tvSize?.text = item.size.toString()
 
         if (FileUtils.checkExist(tempPath)) {
             downloadProgressBar?.progress = 100

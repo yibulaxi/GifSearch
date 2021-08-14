@@ -2,6 +2,7 @@ package com.allever.app.gif.search.app
 
 import android.os.Environment
 import com.allever.app.gif.search.bean.DataBean
+import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FileUtil
 import com.allever.lib.common.util.FileUtils
@@ -47,10 +48,10 @@ object Global {
         createDir(backFileDir)
     }
 
-    fun getIndex(gifId: String, dataBeanList: MutableList<DataBean>): Int {
+    fun getIndex(gifId: String, dataBeanList: MutableList<GifItem>): Int {
         var position = -1
         dataBeanList.mapIndexed { index, dataBean ->
-            if (dataBean.id == gifId) {
+            if (dataBean.id.toString() == gifId) {
                 position = index
                 return@mapIndexed
             }
