@@ -16,6 +16,7 @@ import com.allever.app.gif.search.function.download.DownloadCallback
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.download.TaskInfo
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
+import com.allever.app.gif.search.ui.search.SearchActivity
 import com.allever.app.gif.search.util.DBHelper
 import com.allever.app.gif.search.util.MD5
 import com.allever.lib.common.app.App

@@ -36,7 +36,6 @@ object Global {
 
     const val SHOW_COUNT = 5
 
-
     fun init() {
 
     }

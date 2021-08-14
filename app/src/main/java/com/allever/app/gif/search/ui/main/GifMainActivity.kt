@@ -21,6 +21,7 @@ import com.allever.app.gif.search.ui.*
 import com.allever.app.gif.search.ui.TabModel
 import com.allever.app.gif.search.ui.adapter.ViewPagerAdapter
 import com.allever.app.gif.search.ui.main.model.GifMainViewModel
+import com.allever.app.gif.search.ui.search.SearchFragment
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
@@ -31,7 +32,6 @@ import com.allever.lib.common.app.BaseFragment
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
-import com.allever.lib.recommend.RecommendActivity
 import com.allever.lib.recommend.RecommendDialogHelper
 import com.allever.lib.recommend.RecommendDialogListener
 import com.allever.lib.recommend.RecommendGlobal

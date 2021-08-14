@@ -1,5 +1,6 @@
 package com.allever.app.gif.search.function.store
 
+import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.function.network.NetRepository
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.lib.common.util.log
@@ -31,7 +32,7 @@ object Repository {
             }
         } else {
             //国外版本
-            val response = NetRepository.getTrendList(last.toInt())
+            val response = NetRepository.getTrendList(last.toInt(), Global.SHOW_COUNT)
             //成功
             response.data?.let {
                 val data = it.data
@@ -47,6 +48,27 @@ object Repository {
                     gifItem.url = it.images.fixed_height.url
                     gifItemList.add(gifItem)
                 }
+            }
+        }
+        return gifItemList
+    }
+
+    suspend fun search(keyword: String, last: String): MutableList<GifItem> {
+        val gifItemList = mutableListOf<GifItem>()
+        val response = NetRepository.search(keyword, last.toInt(), Global.SHOW_COUNT)
+        response.data?.let {
+            val data = it.data
+            data?.map {
+                log("trending = ${it.images.original.url}")
+                val gifItem = GifItem()
+                gifItem.id = it.id
+                gifItem.type = 1
+                gifItem.avatar = it?.user?.avatar_url ?: ""
+                gifItem.nickname = it?.user?.display_name ?: ""
+                gifItem.title = it.title ?: ""
+                gifItem.size = it.images.fixed_height.size.toLong()
+                gifItem.url = it.images.fixed_height.url
+                gifItemList.add(gifItem)
             }
         }
         return gifItemList

@@ -44,12 +44,12 @@ interface Api {
 
     //https://api.giphy.com/v1/gifs/search?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&q=cat&offset=0&limit=1
     @GET("gifs/search?")
-    fun searchGif(
+    suspend fun searchGif(
         @Query("q") q: String,
         @Query("api_key") api_key: String = API_KEY,
         @Query("offset") offset: String = "0",
         @Query("limit") limit: String = "10"
-    ): Observable<SearchResponse>
+    ): SearchResponse
 
 
     //https://api.giphy.com/v1/gifs/trending?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&q=cat&offset=0&limit=10

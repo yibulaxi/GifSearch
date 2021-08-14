@@ -29,7 +29,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.allever.app.gif.search.ui.SearchActivity"
+            android:name="com.allever.app.gif.search.ui.search.SearchActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity

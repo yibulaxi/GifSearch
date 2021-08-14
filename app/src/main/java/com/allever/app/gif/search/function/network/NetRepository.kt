@@ -1,5 +1,6 @@
 package com.allever.app.gif.search.function.network
 
+import com.allever.app.gif.search.bean.SearchResponse
 import com.allever.app.gif.search.bean.TrendingResponse
 import com.allever.app.gif.search.function.network.response.*
 import com.allever.app.gif.search.function.network.response.giffun.*
@@ -59,12 +60,25 @@ object NetRepository {
 
     suspend fun getTrendList(
         pageNum: Int,
+        count: Int,
         failureTask: (errorMsg: String) -> Unit = {}
     ): BaseResponse<TrendingResponse> {
         return getGiphyData(failureTask, "获取Gif列表成功") {
-            apiService.trendingGif(offset = pageNum.toString(), limit = 10.toString())
+            apiService.trendingGif(offset = pageNum.toString(), limit = count.toString())
         }
     }
+
+    suspend fun search(
+        keyword: String,
+        pageNum: Int,
+        count: Int,
+        failureTask: (errorMsg: String) -> Unit = {}
+    ): BaseResponse<SearchResponse> {
+        return getGiphyData(failureTask, "搜索Gif成功") {
+            apiService.searchGif(q = keyword, offset = pageNum.toString(), limit = count.toString())
+        }
+    }
+
 
     suspend fun <T> getGifFunData(
         failureTask: (errorMsg: String) -> Unit,

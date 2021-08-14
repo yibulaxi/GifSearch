@@ -1,63 +1,73 @@
-package com.allever.app.gif.search.ui.main
+package com.allever.app.gif.search.ui.search
 
-import android.Manifest
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
+import com.allever.app.gif.search.ad.SimpleAdChainListener
 import com.allever.app.gif.search.app.BaseFragment2
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
 import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
-import com.allever.app.gif.search.databinding.FragmentTrendBinding
+import com.allever.app.gif.search.databinding.FragmentSearchBinding
+import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.store.Repository
-import com.allever.app.gif.search.function.store.Store
-import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.adapter.GifAdapter
-import com.allever.app.gif.search.ui.main.model.TrendViewModel
-import com.allever.app.gif.search.ui.mvp.view.TrendView
+import com.allever.app.gif.search.ui.mvp.view.ISearchView
+import com.allever.app.gif.search.ui.search.model.SearchViewModel
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
+import com.allever.app.gif.search.util.ImageLoader
 import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
-import com.xm.lib.permission.PermissionCompat
-import com.xm.lib.util.CoroutineHelper
 import com.xm.lib.util.HandlerHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), TrendView {
+class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
 
+    private var mAdapter: GifAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 
-    private var mDetailInsertAd: IAd? = null
-    private var mIsDetailAdShowed = false
+    private lateinit var mKeyword: String
 
-    override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_trend, BR.trendViewModel)
+    private var mDetailInsertAd: IAd? = null
+
+    override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_search, BR.searchViewModel)
 
     override fun initDataAndEvent() {
         EventBus.getDefault().register(this)
+
+        mKeyword = arguments?.getString(EXTRA_KEY_WORD) ?: ""
+
         mProgressDialog = ProgressDialog(activity)
 
         mBinding.ivRetry.setOnClickListener {
-            requestPermission()
             mBinding.ivRetry.visibility = View.GONE
+            search(mKeyword)
         }
 
-        mViewModel.adapter = GifAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
+        mBinding.searchView.setText(mKeyword)
+        mBinding.searchView.setSelection(mKeyword.length)
+        mBinding.searchView.addSearchListener {
+            search(it)
+        }
+
+        mAdapter = GifAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
 
         recyclerViewScrollListener = RecyclerViewScrollListener(object :
             RecyclerViewScrollListener.OnRecycleRefreshListener {
@@ -66,7 +76,8 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
             }
 
             override fun loadMore() {
-                getData(true)
+                showLoadingProgressDialog(getString(R.string.searching))
+                search(mKeyword, true)
             }
         })
 
@@ -74,62 +85,48 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
         mBinding.gifRecyclerView.addOnScrollListener(recyclerViewScrollListener)
 
         mBinding.gifRecyclerView.layoutManager = LinearLayoutManager(context)
-        val pagerSnapHelper = object : PagerSnapHelper() {
-            override fun findTargetSnapPosition(
-                layoutManager: RecyclerView.LayoutManager,
-                velocityX: Int,
-                velocityY: Int
-            ): Int {
-                val position = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-                log("当前页： $position")
-                mBinding.gifRecyclerView.findViewHolderForLayoutPosition(position)
-                return position
-            }
-        }
+        val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(mBinding.gifRecyclerView)
-        mBinding.gifRecyclerView.adapter = mViewModel.adapter
+        mBinding.gifRecyclerView.adapter = mAdapter
 
-        requestPermission()
+        if (mKeyword != "") {
+            search(mKeyword)
+        }
     }
 
     override fun destroyView() {
+        DownloadManager.getInstance().cancelAllTask()
+        ImageLoader.clearMemoryCache()
         mDetailInsertAd?.destroy()
         EventBus.getDefault().unregister(this)
     }
 
-    private fun requestPermission() {
+    private fun search(keyword: String, isLoadMore: Boolean = false) {
+        if (keyword == "") {
+            toast(getString(R.string.please_input_search_content))
+            return
+        }
 
-        PermissionCompat.with(this)
-            .permission(Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .onExplain(getStringRes(R.string.permission_tips))
-            .onSetting("手动设置权限")
-            .request { allGranted, grantedList, deniedList ->
-                if (allGranted) {
-                    Global.createDir()
-                    getData()
-                }
-            }
-    }
+        val keyword = keyword
+//        if (!BuildConfig.DEBUG) {
+//            keyword = keyword.replace("sexy", "")
+//            keyword = keyword.replace("sex", "")
+//        }
 
-    private fun getData(isLoadMore: Boolean = false) {
+        mKeyword = keyword
         val count = Global.SHOW_COUNT
-        var offset = SpUtils.getString(Global.SP_OFFSET, "0")
+        var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
-        CoroutineHelper.mainCoroutine.launch {
-            showLoadingProgressDialog(getString(R.string.loading))
-            val gifItemList = Repository.getGifItemList(offset)
+        showLoadingProgressDialog(getString(R.string.searching))
+        mViewModel.viewModelScope.launch(Dispatchers.Main) {
+            val gifItemList = Repository.search(keyword, offset)
             hideLoadingProgressDialog()
-            //成功
             if (mDetailInsertAd != null) {
                 HandlerHelper.mainHandler.postDelayed({
                     toast(R.string.loading_ad_tips)
                     mDetailInsertAd?.show()
-                    mIsDetailAdShowed = true
                 }, 200)
             }
-
-            delay(500)
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
@@ -140,27 +137,19 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
 
             mViewModel.gifDataList.addAll(gifItemList)
 
-            mViewModel.adapter.notifyDataSetChanged()
+            mAdapter?.notifyDataSetChanged()
 
-            offset = if (Store.getVersion() == Version.INTERNATIONAL) {
-                if (mViewModel.gifDataList.size < count) {
-                    "0"
-                } else {
-                    (offset.toInt() + count + 1).toString()
-                }
+            offset = if (mViewModel.gifDataList.size < count) {
+                "0"
             } else {
-                if (gifItemList.isEmpty()) {
-                    "0"
-                } else {
-                    gifItemList.last().id
-                }
+                (offset.toInt() + count + 1).toString()
             }
 
-            SpUtils.putString(Global.SP_OFFSET, offset)
+
+            SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
 
             loadDetailInsert()
 
-            //失败
             if (gifItemList.isEmpty()) {
                 recyclerViewScrollListener.setLoadDataStatus(false)
                 if (!isLoadMore) {
@@ -168,8 +157,15 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
                     mBinding.ivRetry.visibility = View.VISIBLE
                 }
             }
-
         }
+    }
+
+    private fun loadDetailInsert() {
+        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : SimpleAdChainListener {
+            override fun onLoaded(ad: IAd?) {
+                mDetailInsertAd = ad
+            }
+        })
     }
 
     private fun showLoadingProgressDialog(msg: String) {
@@ -187,40 +183,40 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLikeUpdate(likeEvent: LikeEvent) {
-        val position = Global.getIndex(likeEvent.id, mViewModel.gifDataList)
-        mViewModel.adapter.notifyItemChanged(position, position)
+        if (!userVisibleHint) {
+            val position = Global.getIndex(likeEvent.id, mViewModel.gifDataList)
+            mAdapter?.notifyItemChanged(position, position)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onDownloadFinishEvent(event: DownloadFinishEvent) {
-        val position = Global.getIndex(event.id, mViewModel.gifDataList)
-        mViewModel.adapter.notifyItemChanged(position, position)
+        if (!userVisibleHint) {
+            val position = Global.getIndex(event.id, mViewModel.gifDataList)
+            mAdapter?.notifyItemChanged(position, position)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onRemoveLikeLietEvent(event: RemoveLikeListEvent) {
-        event.gifIdList.map {
-            val position = Global.getIndex(it, mViewModel.gifDataList)
-            mViewModel.adapter.notifyItemChanged(position, position)
+        if (!userVisibleHint) {
+            event.gifIdList.map {
+                val position = Global.getIndex(it, mViewModel.gifDataList)
+                mAdapter?.notifyItemChanged(position, position)
+            }
         }
     }
 
-    private fun loadDetailInsert() {
-        return
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mDetailInsertAd = ad
-            }
+    companion object {
 
-            override fun onFailed(msg: String) {
+        private const val EXTRA_KEY_WORD = "EXTRA_KEY_WORD"
 
-            }
-
-            override fun onShowed() {
-            }
-
-            override fun onDismiss() {
-            }
-        })
+        fun newInstance(keyword: String): SearchFragment {
+            val fragment = SearchFragment()
+            val bundle = Bundle()
+            bundle.putString(EXTRA_KEY_WORD, keyword)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }
