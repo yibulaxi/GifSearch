@@ -41,7 +41,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_margin="20dp"
-            android:background="@drawable/btn_del_ackup_bg" />
+            android:background="@drawable/shape_f44336_r30" />
 
     </LinearLayout>
 

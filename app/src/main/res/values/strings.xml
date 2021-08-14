@@ -60,5 +60,10 @@
     <string name="restore_success">Successful recovery</string>
     <string name="restore_fail">Recovery failure</string>
     <string name="del_backup_success">Delete backup successfully</string>
+    <string name="fetchVCode">FetchCode</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="mine">Mine</string>
 
 </resources>

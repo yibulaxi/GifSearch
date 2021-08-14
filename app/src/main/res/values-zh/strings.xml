@@ -60,5 +60,10 @@
     <string name="restore_success">恢复成功</string>
     <string name="restore_fail">恢复失败</string>
     <string name="del_backup_success">删除备份成功</string>
+    <string name="fetchVCode">获取验证码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="logout">退出</string>
+    <string name="mine">我的</string>
 
 </resources>
