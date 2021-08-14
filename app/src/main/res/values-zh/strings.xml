@@ -14,6 +14,7 @@
     <string name="feedback">反馈</string>
     <string name="about">关于</string>
     <string name="support">支持我们</string>
+    <string name="version">使用国际版</string>
     <string name="privacy">隐私政策</string>
     <string name="permission_setting">设置权限</string>
     <string name="about_right">版权所有@2018–2020 %s 保留所有权利</string>

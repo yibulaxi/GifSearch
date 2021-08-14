@@ -4,7 +4,7 @@ class GifItem {
     var type: Int = 0
     var id: String = "0"
     var url: String = ""
-    var size: Int = 0
+    var size: Long = 0
     var avatar: String = ""
     var nickname: String = ""
     var title: String = ""

@@ -198,7 +198,7 @@ class SearchActivity : BaseActivity() {
                             gifItem.avatar = it?.user?.avatar_url?:""
                             gifItem.nickname = it?.user?.display_name?:""
                             gifItem.title = it.title?:""
-                            gifItem.size = it.images.fixed_height.size.toInt()
+                            gifItem.size = it.images.fixed_height.size.toLong()
                             gifItem.url = it.images.fixed_height.url
                             gifItemList.add(gifItem)
                         }

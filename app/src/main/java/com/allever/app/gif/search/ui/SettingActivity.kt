@@ -8,11 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseActivity
+import com.allever.app.gif.search.app.Global
+import com.allever.app.gif.search.function.store.Store
+import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.mvp.presenter.SettingPresenter
 import com.allever.app.gif.search.ui.mvp.view.SettingView
+import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
@@ -28,6 +33,8 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
     private var mVideoAd: IAd? = null
     private var mInsertAd: IAd? = null
 
+    private lateinit var mSwitchVersion: SwitchCompat
+
     override fun getContentView(): Any = R.layout.activity_setting
 
     override fun initView() {
@@ -38,6 +45,9 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.setting)
         findViewById<View>(R.id.setting_tv_support).setOnClickListener(this)
         setting_tv_backup.setOnClickListener(this)
+        mSwitchVersion = findViewById(R.id.switchVersion)
+        mSwitchVersion.setOnClickListener(this)
+        mSwitchVersion.isChecked = Store.getVersion() == Version.INTERNATIONAL
     }
 
     override fun initData() {
@@ -82,7 +92,14 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
             R.id.setting_tv_backup -> {
                 ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
             }
-
+            R.id.switchVersion -> {
+                Store.saveVersion(if (mSwitchVersion.isChecked) {
+                    Version.INTERNATIONAL
+                } else {
+                    Version.INTERNAL
+                })
+                SpUtils.putString(Global.SP_OFFSET, "0")
+            }
         }
     }
 

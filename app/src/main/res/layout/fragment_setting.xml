@@ -50,6 +50,31 @@
 
         <include layout="@layout/include_divider_line" />
 
+
+
+        <RelativeLayout
+            style="@style/setting_item"
+            android:drawableEnd="@drawable/ic_support"
+            android:text="@string/support">
+
+            <TextView
+                android:id="@+id/setting_tv_vsersion"
+                style="@style/setting_item"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/dp_0"
+                android:text="@string/version" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <include layout="@layout/include_divider_line" />
+
         <FrameLayout
             android:id="@+id/banner_container"
             android:layout_width="match_parent"

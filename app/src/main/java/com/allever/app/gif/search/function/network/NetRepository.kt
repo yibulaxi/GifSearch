@@ -26,7 +26,7 @@ object NetRepository {
     suspend fun fetchWorld(token: String, userId: String, lastFeed: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<FetchWorldResponse> {
         val param = listOf(userId, token)
         return getGifFunData(failureTask, "获取Gif列表成功") {
-            if (lastFeed.isEmpty()) {
+            if (lastFeed.isEmpty() || lastFeed == "0") {
                 gifFunApiService.fetchWorld(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()))
             } else {
                 gifFunApiService.fetchWorldWithLastFeed(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()), lastFeed)
@@ -52,7 +52,7 @@ object NetRepository {
 
     suspend fun getTrendList(
         pageNum: Int,
-        failureTask: (errorMsg: String) -> Unit
+        failureTask: (errorMsg: String) -> Unit = {}
     ): BaseResponse<TrendingResponse> {
         return getGiphyData(failureTask, "获取Gif列表成功") {
             apiService.trendingGif(offset = pageNum.toString(), limit = 10.toString())

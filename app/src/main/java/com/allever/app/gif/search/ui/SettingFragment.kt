@@ -2,13 +2,18 @@ package com.allever.app.gif.search.ui
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseFragment
+import com.allever.app.gif.search.function.store.Store
+import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.mvp.presenter.SettingPresenter
 import com.allever.app.gif.search.ui.mvp.view.SettingView
+import com.allever.app.gif.search.util.SpUtils
 import com.allever.app.gif.search.util.SystemUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
@@ -22,6 +27,7 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
     View.OnClickListener {
 
     private var mBannerContainer: ViewGroup? = null
+    private lateinit var mSwitchVersion: SwitchCompat
     private var mVideoAd: IAd? = null
     private var mBannerAd: IAd? = null
     private var mInsertAd: IAd? = null
@@ -35,6 +41,10 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
         root.findViewById<TextView>(R.id.setting_tv_permission).setOnClickListener(this)
         root.findViewById<TextView>(R.id.setting_tv_support).setOnClickListener(this)
         mBannerContainer = root.findViewById<ViewGroup>(R.id.banner_container)
+        mSwitchVersion = root.findViewById<SwitchCompat>(R.id.switchVersion)
+        mSwitchVersion.setOnClickListener(this)
+        mSwitchVersion.isChecked = Store.getVersion() == Version.INTERNATIONAL
+
     }
 
     override fun initData() {
@@ -64,6 +74,13 @@ class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingVi
             }
             R.id.setting_tv_support -> {
                 supportUs()
+            }
+            R.id.switchVersion -> {
+                Store.saveVersion(if (mSwitchVersion.isChecked) {
+                    Version.INTERNATIONAL
+                } else {
+                    Version.INTERNAL
+                })
             }
         }
     }

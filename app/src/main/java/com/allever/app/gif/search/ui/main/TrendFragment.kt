@@ -15,9 +15,10 @@ import com.allever.app.gif.search.bean.event.DownloadFinishEvent
 import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.databinding.FragmentTrendBinding
-import com.allever.app.gif.search.function.network.NetRepository
+import com.allever.app.gif.search.function.store.Repository
+import com.allever.app.gif.search.function.store.Store
+import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.adapter.GifAdapter
-import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.ui.main.model.TrendViewModel
 import com.allever.app.gif.search.ui.mvp.view.TrendView
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
@@ -26,7 +27,6 @@ import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
-import com.allever.lib.common.util.loge
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
 import com.xm.lib.permission.PermissionCompat
@@ -118,62 +118,50 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
         log("offset = $offset")
         CoroutineHelper.mainCoroutine.launch {
             showLoadingProgressDialog(getString(R.string.loading))
-            val response = NetRepository.getTrendList(offset.toInt()) {
-                loge(it)
-            }
+            val gifItemList = Repository.getGifItemList(offset)
             hideLoadingProgressDialog()
             //成功
-            response.data?.let {
-                if (mDetailInsertAd != null) {
-                    HandlerHelper.mainHandler.postDelayed({
-                        toast(R.string.loading_ad_tips)
-                        mDetailInsertAd?.show()
-                        mIsDetailAdShowed = true
-                    }, 200)
-                }
+            if (mDetailInsertAd != null) {
+                HandlerHelper.mainHandler.postDelayed({
+                    toast(R.string.loading_ad_tips)
+                    mDetailInsertAd?.show()
+                    mIsDetailAdShowed = true
+                }, 200)
+            }
 
-                delay(500)
+            delay(500)
 
-                recyclerViewScrollListener.setLoadDataStatus(false)
-                mBinding.gifRecyclerView.visibility = View.VISIBLE
+            recyclerViewScrollListener.setLoadDataStatus(false)
+            mBinding.gifRecyclerView.visibility = View.VISIBLE
 
-                log("请求成功")
-                val data = it.data
-                val gifItemList = mutableListOf<GifItem>()
-                data?.map {
-                    log("trending = ${it.images.original.url}")
-                    val gifItem = GifItem()
-                    gifItem.id = it.id
-                    gifItem.type = 1
-                    gifItem.avatar = it?.user?.avatar_url?:""
-                    gifItem.nickname = it?.user?.display_name?:""
-                    gifItem.title = it.title?:""
-                    gifItem.size = it.images.fixed_height.size.toInt()
-                    gifItem.url = it.images.fixed_height.url
-                    gifItemList.add(gifItem)
-                }
+            if (!isLoadMore) {
+                mViewModel.gifDataList.clear()
+            }
 
-                if (!isLoadMore) {
-                    mViewModel.gifDataList.clear()
-                }
+            mViewModel.gifDataList.addAll(gifItemList)
 
-                mViewModel.gifDataList.addAll(gifItemList)
+            mViewModel.adapter.notifyDataSetChanged()
 
-                mViewModel.adapter.notifyDataSetChanged()
-
-                offset = if (mViewModel.gifDataList.size < count) {
+            offset = if (Store.getVersion() == Version.INTERNATIONAL) {
+                if (mViewModel.gifDataList.size < count) {
                     "0"
                 } else {
                     (offset.toInt() + count + 1).toString()
                 }
-                SpUtils.putString(Global.SP_OFFSET, offset)
-
-                loadDetailInsert()
+            } else {
+                if (gifItemList.isEmpty()) {
+                    "0"
+                } else {
+                    gifItemList.last().id
+                }
             }
 
+            SpUtils.putString(Global.SP_OFFSET, offset)
+
+            loadDetailInsert()
 
             //失败
-            if (response.data == null) {
+            if (gifItemList.isEmpty()) {
                 recyclerViewScrollListener.setLoadDataStatus(false)
                 if (!isLoadMore) {
                     mBinding.gifRecyclerView.visibility = View.GONE
