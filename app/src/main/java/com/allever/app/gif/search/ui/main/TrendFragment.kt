@@ -83,6 +83,15 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
                 val position = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
                 log("当前页： $position")
                 mBinding.gifRecyclerView.findViewHolderForLayoutPosition(position)
+                val item = mViewModel.gifDataList[position]
+                if (item.type == Version.INTERNAL) {
+//                    mViewModel.viewModelScope.launch {
+//                        val response = NetRepository.getAuthorizedUrl(Store.getToken(), Store.getUserId().toString(), item.id, item.url)
+//                        response.data?.let {
+//                            log("真实url = ${it.authorizeUrl}")
+//                        }
+//                    }
+                }
                 return position
             }
         }

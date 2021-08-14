@@ -14,6 +14,8 @@ import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.function.download.DownloadCallback
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.download.TaskInfo
+import com.allever.app.gif.search.function.network.NetRepository
+import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.ui.SearchActivity
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.util.DBHelper
@@ -24,6 +26,9 @@ import com.allever.lib.common.ui.widget.recycler.BaseViewHolder
 import com.allever.lib.common.util.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
@@ -31,14 +36,6 @@ import java.io.File
 
 class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
     BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
-
-    //type
-    //item.id
-    //item.images.fixed_height.url
-    //item.title
-    //item.user?.display_name ?: ""
-    //item.user?.avatar_url
-    //item.images.fixed_height.size
 
     @SuppressLint("SetTextI18n")
     override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
@@ -268,8 +265,21 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
 //        }
 
         val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
-        DownloadManager.getInstance().start(task, downloadCallback, true)
+        if (gifUrl.isNotEmpty()) {
+            DownloadManager.getInstance().start(task, downloadCallback, true)
+        }
 
+        if (item.url.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                val response = NetRepository.getAuthorizedUrl(Store.getToken(), Store.getUserId().toString(), item.id, item.tempUrl)
+                response.data?.let {
+                    log("真实url = ${it.authorizeUrl}")
+                    item.url = it.authorizeUrl
+                    DownloadManager.getInstance().start(task, downloadCallback, true)
+                    notifyItemChanged(position, position)
+                }
+            }
+        }
     }
 
     override fun onViewRecycled(holder: BaseViewHolder) {

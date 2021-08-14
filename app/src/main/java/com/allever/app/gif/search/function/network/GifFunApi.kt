@@ -83,6 +83,25 @@ interface GifFunApi {
 
     /**
      *
+     */
+    @FormUrlEncoded
+    @POST("/authorize_url")
+    suspend fun getAuthorizeUrl(
+        @Field(NetworkConst.UID) userId: String,
+        @Field(NetworkConst.TOKEN) token: String,
+        @Field(NetworkConst.FEED) lastFeed: String,
+        @Field(NetworkConst.URL) url: String,
+        @Header(NetworkConst.VERIFY) params: String,
+        @Header(NetworkConst.HEADER_USER_AGENT) agent: String = NetworkConst.HEADER_USER_AGENT_VALUE,
+        @Header(NetworkConst.HEADER_APP_VERSION ) appVersion: String = Utility.appVersion,
+        @Header(NetworkConst.HEADER_APP_SIGN) sign: String = Utility.appSign,
+        @Field(NetworkConst.DEVICE_NAME) deviceName: String = Utility.deviceName,
+        @Field(NetworkConst.DEVICE_SERIAL) serial: String = Utility.getDeviceSerial(),
+        @Field(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
+    ): AuthorizeUrlResponse
+
+    /**
+     *
      * builder.add(NetworkConst.HEADER_USER_AGENT, NetworkConst.HEADER_USER_AGENT_VALUE)
     builder.add(NetworkConst.HEADER_APP_VERSION, Utility.appVersion)
     builder.add(NetworkConst.HEADER_APP_SIGN, Utility.appSign)

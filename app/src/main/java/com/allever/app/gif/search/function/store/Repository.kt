@@ -23,7 +23,8 @@ object Repository {
                         gifItem.nickname = it.nickname
                         gifItem.title = it.content
                         gifItem.size = it.fsize
-                        gifItem.url = it.gif
+                        gifItem.tempUrl = it.gif
+                        gifItem.cover = it.cover
                         gifItemList.add(gifItem)
                     }
                 }

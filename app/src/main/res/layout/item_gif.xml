@@ -145,7 +145,7 @@
         android:layout_alignTop="@+id/gifImageView"
         android:layout_marginTop="0dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tvUrl"

@@ -34,6 +34,13 @@ object NetRepository {
         }
     }
 
+    suspend fun getAuthorizedUrl(token: String, userId: String, feedId: String, url: String,  failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<AuthorizeUrlResponse> {
+        val param = listOf(feedId, userId, token)
+        return getGifFunData(failureTask, "获取GifUrl成功") {
+            gifFunApiService.getAuthorizeUrl(userId, token, feedId, url, AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        }
+    }
+
     suspend fun fetchVCode(phone: String): VCodeResponse {
         val param = listOf(Utility.deviceName, phone, Utility.getDeviceSerial())
         val response = gifFunApiService.fetchVCode(number = param[1], params = AuthUtil.getServerVerifyCode(*param.toTypedArray()))
