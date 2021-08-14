@@ -75,7 +75,7 @@ public abstract class BaseViewModel<V extends IBaseView> extends ViewModel imple
         }
     }
 
-    public void toast(String msg) {
+    private void toast(String msg) {
         if (mCxt instanceof Activity) {
             ((Activity) mCxt).runOnUiThread(() -> {
                 ToastManager.showDefaultShort(msg);

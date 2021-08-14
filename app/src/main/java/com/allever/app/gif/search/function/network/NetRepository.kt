@@ -53,20 +53,23 @@ object NetRepository {
         }
     }
 
-    suspend fun fetchVCode(phone: String): VCodeResponse {
+    suspend fun fetchVCode(phone: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<VCodeResponse> {
         val param = listOf(Utility.deviceName, phone, Utility.getDeviceSerial())
-        val response = gifFunApiService.fetchVCode(number = param[1], params = AuthUtil.getServerVerifyCode(*param.toTypedArray()))
-        return response
+        return getGifFunData(failureTask, "获取验证码成功") {
+            gifFunApiService.fetchVCode(number = param[1], params = AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        }
     }
 
-    suspend fun login(phone: String, code: String) : LoginResponse {
-        val response = gifFunApiService.login(phone, code)
-        return response
+    suspend fun login(phone: String, code: String, failureTask: (errorMsg: String) -> Unit = {}) : BaseResponse<LoginResponse> {
+        return getGifFunData(failureTask, "登录成功") {
+            gifFunApiService.login(phone, code)
+        }
     }
 
-    suspend fun register(phone: String, code: String, nickname: String) : RegisterResponse {
-        val response = gifFunApiService.register(phone, code, nickname)
-        return response
+    suspend fun register(phone: String, code: String, nickname: String, failureTask: (errorMsg: String) -> Unit = {}) : BaseResponse<RegisterResponse> {
+        return getGifFunData(failureTask, "注册成功") {
+            gifFunApiService.register(phone, code, nickname)
+        }
     }
 
     suspend fun getTrendList(

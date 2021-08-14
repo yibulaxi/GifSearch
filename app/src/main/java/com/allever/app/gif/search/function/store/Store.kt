@@ -10,11 +10,11 @@ object Store {
 
     fun getToken(): String = DataStore.getString(CacheKey.TOKEN)
 
-    fun saveUserId(userId: Long) {
-        DataStore.putLong(CacheKey.USER_ID, userId)
+    fun saveUserId(userId: Int) {
+        DataStore.putInt(CacheKey.USER_ID, userId)
     }
 
-    fun getUserId(): Long = DataStore.getLong(CacheKey.USER_ID)
+    fun getUserId(): Int = DataStore.getInt(CacheKey.USER_ID)
 
     fun saveVersion(version: Int) {
         DataStore.putInt("version", version)

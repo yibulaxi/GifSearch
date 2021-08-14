@@ -88,7 +88,7 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
         viewModelScope.launch {
             phone.value?.let {
                 val response = NetRepository.fetchVCode(it)
-                debugText.value = "验证码：${response.status} -> ${response.msg}"
+                debugText.value = "验证码：${response.data?.status} -> ${response.data?.msg}"
             }
         }
     }
@@ -114,10 +114,10 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
 
         viewModelScope.launch {
             val response = NetRepository.login(phone.value!!, vCode.value!!)
-            debugText.value = "登录：${response.status} -> ${response.msg}"
-            if (response.status == 0) {
-                Store.saveToken(response.token)
-                Store.saveUserId(response.userId)
+            debugText.value = "登录：${response.data?.status} -> ${response.data?.msg}"
+            if (response.data?.status == 0) {
+                Store.saveToken(response.data?.token?:"")
+                Store.saveUserId(response.data?.userId?.toInt()?:0)
             }
 
         }
@@ -141,10 +141,10 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
 
         viewModelScope.launch {
             val response = NetRepository.register(phone.value!!, vCode.value!!, nickname.value!!)
-            debugText.value = "注册：${response.status} -> ${response.msg}"
-            if (response.status == 0) {
-                Store.saveToken(response.token)
-                Store.saveUserId(response.userId.toLong())
+            debugText.value = "注册：${response.errorCode} -> ${response.errorMsg}"
+            if (response.data?.status == 0) {
+                Store.saveToken(response.data?.token?:"")
+                Store.saveUserId(response.data?.userId?:0)
             }
         }
     }

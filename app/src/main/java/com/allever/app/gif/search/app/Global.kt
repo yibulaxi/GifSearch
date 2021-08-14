@@ -2,6 +2,7 @@ package com.allever.app.gif.search.app
 
 import android.os.Environment
 import com.allever.app.gif.search.bean.DataBean
+import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FileUtil
@@ -56,6 +57,13 @@ object Global {
             }
         }
         return position
+    }
+
+    fun checkLogin(): Boolean = Store.getToken().isNotEmpty() && Store.getUserId() != 0
+
+    fun logout() {
+        Store.saveUserId(0)
+        Store.saveToken("")
     }
 
     private fun createDir(dir: String) {
