@@ -99,6 +99,7 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
                     Version.INTERNAL
                 })
                 SpUtils.putString(Global.SP_OFFSET, "0")
+                SpUtils.putString(Global.SP_SEARCH_OFFSET, "0")
             }
         }
     }

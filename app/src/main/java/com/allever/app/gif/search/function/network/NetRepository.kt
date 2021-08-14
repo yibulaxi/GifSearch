@@ -35,6 +35,17 @@ object NetRepository {
         }
     }
 
+    suspend fun search(keyword: String, token: String, userId: String, lastFeed: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<SearchGifFunResponse> {
+        val param = listOf(token, keyword)
+        return getGifFunData(failureTask, "搜索Gif成功") {
+            if (lastFeed.isEmpty() || lastFeed == "0") {
+                gifFunApiService.search(keyword, userId, token, AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+            } else {
+                gifFunApiService.searchWithLastFeed(keyword, userId, token, lastFeed, AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+            }
+        }
+    }
+
     suspend fun getAuthorizedUrl(token: String, userId: String, feedId: String, url: String,  failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<AuthorizeUrlResponse> {
         val param = listOf(feedId, userId, token)
         return getGifFunData(failureTask, "获取GifUrl成功") {

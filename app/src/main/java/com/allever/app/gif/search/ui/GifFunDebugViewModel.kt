@@ -25,6 +25,8 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
     val nickname by lazy { MutableLiveData<String>() }
 
     val lastFeed by lazy { MutableLiveData<String>() }
+
+    val keyword by lazy { MutableLiveData<String>() }
     override fun onCreated() {
         phone.value = "13434334310"
     }
@@ -51,6 +53,23 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
 
             response.let {
                 it.data?.feeds?.let {
+                    it.map {
+                        log("feedId: ${it.feedId} -> ${it.gif}")
+                    }
+                    lastFeed.value = it.last().feedId.toString()
+                }
+            }
+        }
+    }
+
+    fun onClickSearch() {
+        viewModelScope.launch {
+            val lastFeetValue = lastFeed.value?:""
+            val response = NetRepository.search(keyword.value!!, Store.getToken(), Store.getUserId().toString(), lastFeetValue)
+            debugText.value = "搜索Gif：${response.errorCode} -> ${response.errorMsg}"
+
+            response.let {
+                it.data?.data?.let {
                     it.map {
                         log("feedId: ${it.feedId} -> ${it.gif}")
                     }

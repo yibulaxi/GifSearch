@@ -22,6 +22,8 @@ import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.databinding.ActivitySearchBinding
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.store.Repository
+import com.allever.app.gif.search.function.store.Store
+import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.adapter.GifAdapter
 import com.allever.app.gif.search.ui.search.model.SearchViewModel
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
@@ -178,6 +180,7 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
+            mBinding.ivRetry.visibility = View.GONE
 
             if (!isLoadMore) {
                 mViewModel.gifDataList.clear()
@@ -187,12 +190,19 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
 
             mAdapter?.notifyDataSetChanged()
 
-            offset = if (mViewModel.gifDataList.size < count) {
-                "0"
+            offset = if (Store.getVersion() == Version.INTERNATIONAL) {
+                if (mViewModel.gifDataList.size < count) {
+                    "0"
+                } else {
+                    (offset.toInt() + count + 1).toString()
+                }
             } else {
-                (offset.toInt() + count + 1).toString()
+                if (gifItemList.isEmpty()) {
+                    "0"
+                } else {
+                    gifItemList.last().id
+                }
             }
-
 
             SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
 

@@ -18,6 +18,8 @@ import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.databinding.FragmentSearchBinding
 import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.store.Repository
+import com.allever.app.gif.search.function.store.Store
+import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.adapter.GifAdapter
 import com.allever.app.gif.search.ui.mvp.view.ISearchView
 import com.allever.app.gif.search.ui.search.model.SearchViewModel
@@ -121,6 +123,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
         mViewModel.viewModelScope.launch(Dispatchers.Main) {
             val gifItemList = Repository.search(keyword, offset)
             hideLoadingProgressDialog()
+            mBinding.ivRetry.visibility = View.VISIBLE
             if (mDetailInsertAd != null) {
                 HandlerHelper.mainHandler.postDelayed({
                     toast(R.string.loading_ad_tips)
@@ -130,6 +133,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
+            mBinding.ivRetry.visibility = View.GONE
 
             if (!isLoadMore) {
                 mViewModel.gifDataList.clear()
@@ -139,12 +143,19 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
             mAdapter?.notifyDataSetChanged()
 
-            offset = if (mViewModel.gifDataList.size < count) {
-                "0"
+            offset = if (Store.getVersion() == Version.INTERNATIONAL) {
+                if (mViewModel.gifDataList.size < count) {
+                    "0"
+                } else {
+                    (offset.toInt() + count + 1).toString()
+                }
             } else {
-                (offset.toInt() + count + 1).toString()
+                if (gifItemList.isEmpty()) {
+                    "0"
+                } else {
+                    gifItemList.last().id
+                }
             }
-
 
             SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
 

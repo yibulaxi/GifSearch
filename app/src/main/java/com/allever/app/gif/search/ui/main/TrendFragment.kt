@@ -133,6 +133,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
+            mBinding.ivRetry.visibility = View.GONE
 
             if (!isLoadMore) {
                 mViewModel.gifDataList.clear()

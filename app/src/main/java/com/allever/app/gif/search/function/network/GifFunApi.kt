@@ -81,6 +81,37 @@ interface GifFunApi {
         @Query(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
     ): FetchWorldResponse
 
+    @FormUrlEncoded
+    @POST("/search/feeds")
+    suspend fun search(
+        @Field(NetworkConst.KEYWORD) keyword: String,
+        @Field(NetworkConst.UID) userId: String,
+        @Field(NetworkConst.TOKEN) token: String,
+        @Header(NetworkConst.VERIFY) params: String,
+        @Header(NetworkConst.HEADER_USER_AGENT) agent: String = NetworkConst.HEADER_USER_AGENT_VALUE,
+        @Header(NetworkConst.HEADER_APP_VERSION ) appVersion: String = Utility.appVersion,
+        @Header(NetworkConst.HEADER_APP_SIGN) sign: String = Utility.appSign,
+        @Field(NetworkConst.DEVICE_NAME) deviceName: String = Utility.deviceName,
+        @Field(NetworkConst.DEVICE_SERIAL) serial: String = Utility.getDeviceSerial(),
+        @Field(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
+    ): SearchGifFunResponse
+
+    @FormUrlEncoded
+    @POST("/search/feeds")
+    suspend fun searchWithLastFeed(
+        @Field(NetworkConst.KEYWORD) keyword: String,
+        @Field(NetworkConst.UID) userId: String,
+        @Field(NetworkConst.TOKEN) token: String,
+        @Field(NetworkConst.LAST_FEED) lastFeed: String,
+        @Header(NetworkConst.VERIFY) params: String,
+        @Header(NetworkConst.HEADER_USER_AGENT) agent: String = NetworkConst.HEADER_USER_AGENT_VALUE,
+        @Header(NetworkConst.HEADER_APP_VERSION ) appVersion: String = Utility.appVersion,
+        @Header(NetworkConst.HEADER_APP_SIGN) sign: String = Utility.appSign,
+        @Field(NetworkConst.DEVICE_NAME) deviceName: String = Utility.deviceName,
+        @Field(NetworkConst.DEVICE_SERIAL) serial: String = Utility.getDeviceSerial(),
+        @Field(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
+    ): SearchGifFunResponse
+
     /**
      *
      */
