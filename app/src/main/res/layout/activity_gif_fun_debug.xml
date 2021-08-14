@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="gifFunDebugViewModel"
+            type="com.allever.app.gif.search.ui.GifFunDebugViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="初始化"
+                android:onClick="@{()->gifFunDebugViewModel.onClickInit()}"/>
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={gifFunDebugViewModel.phone}" />
+
+            <Button
+                android:id="@+id/btnFetchVCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->gifFunDebugViewModel.onClickFetchVCode()}"
+                android:text="发送验证码" />
+
+            <EditText
+                android:id="@+id/etVCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="验证码"
+                android:text="@={gifFunDebugViewModel.vCode}" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->gifFunDebugViewModel.onClickLogin()}"
+                android:text="登录" />
+
+            <EditText
+                android:id="@+id/etNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={gifFunDebugViewModel.nickname}" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="注册"
+                android:onClick="@{()->gifFunDebugViewModel.onClickRegister()}" />
+
+            <EditText
+                android:id="@+id/etLastFeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={gifFunDebugViewModel.lastFeed}" />
+
+            <Button
+                android:id="@+id/btnFetchWorld"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="获取Gif"
+                android:onClick="@{()->gifFunDebugViewModel.onClickFetchWorld()}" />
+
+
+            <TextView
+                android:id="@+id/tvDebug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{gifFunDebugViewModel.debugText}" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

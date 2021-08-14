@@ -22,8 +22,9 @@ import com.allever.app.gif.search.ui.mvp.view.TrendView
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
 import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
+import com.allever.lib.ad.chain.AdChainListener
 import com.allever.lib.ad.chain.IAd
-import com.allever.lib.ad.chain.SimpleAdChainListener
+//import com.allever.lib.ad.chain.SimpleAdChainListener
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.loge
 import com.allever.lib.common.util.toast
@@ -207,9 +208,20 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
     }
 
     private fun loadDetailInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : SimpleAdChainListener {
+        return
+        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
             override fun onLoaded(ad: IAd?) {
                 mDetailInsertAd = ad
+            }
+
+            override fun onFailed(msg: String) {
+
+            }
+
+            override fun onShowed() {
+            }
+
+            override fun onDismiss() {
             }
         })
     }

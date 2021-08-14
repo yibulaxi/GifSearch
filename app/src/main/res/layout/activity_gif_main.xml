@@ -48,7 +48,8 @@
                     android:src="@drawable/recommend_ic_gift"
                     android:scaleType="center"
                     android:layout_centerVertical="true"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    android:onClick="@{()->gifMainViewModel.onClickRecommend()}"/>
 
                 <com.allever.lib.common.ui.widget.tab.TabLayout
                     android:id="@+id/tab_layout"

@@ -18,6 +18,7 @@ class TrendViewModel: BaseViewModelKt<IBaseView>() {
 
 
     override fun onCreated() {
+        return
         viewModelScope.launch {
             val response = NetRepository.getTrendList(0) {
                 loge(it)
@@ -25,6 +26,28 @@ class TrendViewModel: BaseViewModelKt<IBaseView>() {
             response.data?.let {
                 log(it.toString())
             }
+
+            try {
+
+                val initResponse = NetRepository.initGifFun("", "")
+                if (initResponse.status == 0) {
+                    log("初始化成功: ${initResponse.status} -> ${initResponse.msg}" )
+                } else {
+                    loge("初始化失败: ${initResponse.status} -> ${initResponse.msg}" )
+                }
+
+                val vCodeResponse = NetRepository.fetchVCode("13434334310")
+                if (vCodeResponse.status == 0) {
+                    log("获取验证码成功: ${vCodeResponse.status} -> ${vCodeResponse.msg}" )
+                } else {
+                    loge("获取验证码失败: ${vCodeResponse.status} -> ${vCodeResponse.msg}" )
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                log("获取验证码失败：${e.message}")
+            }
+
         }
     }
 }

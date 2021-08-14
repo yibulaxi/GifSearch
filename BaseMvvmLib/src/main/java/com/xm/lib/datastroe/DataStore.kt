@@ -28,6 +28,11 @@ object DataStore : IDataStore {
     }
 
     override fun getInt(key: String) = mmkv.decodeInt(key)
+    override fun putLong(key: String, value: Long) {
+        mmkv.encode(key, value)
+    }
+
+    override fun getLong(key: String): Long = mmkv.decodeLong(key)
 
     override fun putFloat(key: String, value: Float) {
         mmkv.encode(key, value)

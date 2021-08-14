@@ -1,8 +1,10 @@
 package com.allever.app.gif.search.function.network
 
 import com.allever.app.gif.search.bean.TrendingResponse
-import com.allever.app.gif.search.function.network.response.BannerData
-import com.allever.app.gif.search.function.network.response.PageData
+import com.allever.app.gif.search.function.network.response.*
+import com.allever.app.gif.search.function.network.response.giffun.*
+import com.allever.app.gif.search.giffun.AuthUtil
+import com.allever.app.gif.search.util.Utility
 import com.xm.lib.util.log
 import com.xm.lib.util.loge
 
@@ -12,16 +14,77 @@ object NetRepository {
         ServiceCreator.create(Api::class.java)
     }
 
+    private val gifFunApiService by lazy {
+        GifFunServiceCreator.create(GifFunApi::class.java)
+    }
+
+    suspend fun initGifFun(token: String, userId: String): InitResponse {
+        val param = listOf(userId, token)
+        return gifFunApiService.init(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+    }
+
+    suspend fun fetchWorld(token: String, userId: String, lastFeed: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<FetchWorldResponse> {
+        val param = listOf(userId, token)
+        return getGifFunData(failureTask, "获取Gif列表成功") {
+            if (lastFeed.isEmpty()) {
+                gifFunApiService.fetchWorld(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+            } else {
+                gifFunApiService.fetchWorldWithLastFeed(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()), lastFeed)
+            }
+        }
+    }
+
+    suspend fun fetchVCode(phone: String): VCodeResponse {
+        val param = listOf(Utility.deviceName, phone, Utility.getDeviceSerial())
+        val response = gifFunApiService.fetchVCode(number = param[1], params = AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        return response
+    }
+
+    suspend fun login(phone: String, code: String) : LoginResponse {
+        val response = gifFunApiService.login(phone, code)
+        return response
+    }
+
+    suspend fun register(phone: String, code: String, nickname: String) : RegisterResponse {
+        val response = gifFunApiService.register(phone, code, nickname)
+        return response
+    }
+
     suspend fun getTrendList(
         pageNum: Int,
         failureTask: (errorMsg: String) -> Unit
     ): BaseResponse<TrendingResponse> {
-        return getData2(failureTask, "获取Gif列表成功") {
+        return getGiphyData(failureTask, "获取Gif列表成功") {
             apiService.trendingGif(offset = pageNum.toString(), limit = 10.toString())
         }
     }
 
-    suspend fun <T> getData2(
+    suspend fun <T> getGifFunData(
+        failureTask: (errorMsg: String) -> Unit,
+        successMsg: String = "获取数据成功",
+        block: suspend () ->  GifFunResponse
+    ): BaseResponse<T> {
+        val response = BaseResponse<T>()
+        try {
+            val data = block()
+            response.errorCode = data.status
+            response.errorMsg = data.msg
+            if (data.status == 0) {
+                response.data = data as T
+                log(successMsg)
+            } else {
+                failureTask("${data.javaClass.simpleName}: ${data.status} -> ${data.msg}")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            response.errorCode = -1
+            response.errorMsg = e.message ?: ""
+            failureTask(response.errorMsg)
+        }
+        return response
+    }
+
+    suspend fun <T> getGiphyData(
         failureTask: (errorMsg: String) -> Unit,
         successMsg: String = "获取数据成功",
         block: suspend () -> T

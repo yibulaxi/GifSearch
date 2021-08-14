@@ -215,16 +215,13 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                 }
 
             }
-            R.id.ivRecommend -> {
-                RecommendActivity.start(this, UMeng.getChannel())
-            }
         }
     }
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        val currentFragment = mFragmentList[mVp.currentItem] as BaseFragment
-        if (currentFragment.onKeyDown(keyCode, event)) {
+        val currentFragment = mFragmentList[mVp.currentItem] as? BaseFragment
+        if (currentFragment?.onKeyDown(keyCode, event) == true) {
             return true
         }
 
