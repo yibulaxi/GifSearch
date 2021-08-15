@@ -34,11 +34,11 @@ class GifFunDebugViewModel : BaseViewModelKt<IBaseView>() {
     fun onClickInit() {
         viewModelScope.launch {
             val response = NetRepository.initGifFun(Store.getToken(), Store.getUserId().toString())
-            debugText.value = "初始化：${response.status} -> ${response.msg}"
-            if (response.status == 0) {
-                val token = response.token
+            debugText.value = "初始化：${response.errorCode} -> ${response.errorMsg}"
+            response.data?.let {
+                val token = it.token
                 if (token.isNotEmpty()) {
-                    Store.saveToken(response.token)
+                    Store.saveToken(it.token)
                     debugText.value = "初始化 token = $token"
                 }
             }

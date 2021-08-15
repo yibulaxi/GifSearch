@@ -19,9 +19,11 @@ object NetRepository {
         GifFunServiceCreator.create(GifFunApi::class.java)
     }
 
-    suspend fun initGifFun(token: String, userId: String): InitResponse {
+    suspend fun initGifFun(token: String, userId: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<InitResponse> {
         val param = listOf(userId, token)
-        return gifFunApiService.init(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        return getGifFunData(failureTask, "初始化成功") {
+            gifFunApiService.init(param[0], param[1], AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        }
     }
 
     suspend fun fetchWorld(token: String, userId: String, lastFeed: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<FetchWorldResponse> {

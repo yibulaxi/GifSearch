@@ -3,15 +3,22 @@ package com.allever.app.gif.search.app
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.ad.AdFactory
+import com.allever.app.gif.search.function.network.NetRepository
+import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.common.app.App
+import com.allever.lib.common.util.log
+import com.allever.lib.common.util.loge
 import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.umeng.UMeng
 import com.xm.lib.BaseApp
 import com.xm.lib.base.config.NetConfig
 import com.xm.lib.datastroe.DataStore
 import com.xm.netmodel.config.HttpConfig
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.litepal.LitePal
 
 
@@ -42,6 +49,20 @@ class MyApp : BaseApp() {
             .builder("https://www.wanandroid.com/", 100)
 
         DataStore.init(this)
+
+        GlobalScope.launch {
+            delay(3000)
+            val response = NetRepository.initGifFun(Store.getToken(), Store.getUserId().toString()) {
+                loge(it)
+            }
+            response.data?.let {
+                val token = it.token
+                if (token.isNotEmpty()) {
+                    Store.saveToken(it.token)
+                    log("初始化成功： ${it.token}")
+                }
+            }
+        }
 
     }
 
