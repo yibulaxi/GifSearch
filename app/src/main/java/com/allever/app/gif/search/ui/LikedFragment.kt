@@ -19,8 +19,10 @@ import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.app.gif.search.ui.mvp.presenter.LikedPresenter
 import com.allever.app.gif.search.ui.mvp.view.LikedView
 import com.allever.app.gif.search.util.DBHelper
+import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.toast
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_liked.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -51,6 +53,8 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
         EventBus.getDefault().register(this)
 
 
+
+
         mBottomBar = root.findViewById(R.id.rlBottomToolBar)
         mCbSelectAll = root.findViewById(R.id.cbBottomBarCheckAll)
         mCbSelectAll.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -78,6 +82,10 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
                 }
             }
         }
+
+        val layoutParams = mRv.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.topMargin = layoutParams.topMargin + SystemUtils.getStatusBarHeight(context!!)
+        mRv.layoutParams = layoutParams
     }
 
     override fun onClick(v: View?) {

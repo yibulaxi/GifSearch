@@ -59,10 +59,13 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
     private var mBannerAd: IAd? = null
     private var mExitInsertAd: IAd? = null
 
+    override fun isPaddingTop(): Boolean = false
+    override fun statusColor(): Int = R.color.trans
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_gif_main, BR.gifMainViewModel)
 
     override fun initDataAndEvent() {
+        addStatusBar(mBinding.rootLayout, mBinding.topBarContainer)
         ivRight.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
         mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)

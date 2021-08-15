@@ -9,6 +9,7 @@
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
@@ -23,13 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_alignParentTop="true">
+            android:background="@color/color_11_white">
 
             <RelativeLayout
                 android:id="@+id/topBar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:background="@color/color_11_white"
+
                 >
 
                 <ImageView

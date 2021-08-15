@@ -2,9 +2,13 @@ package com.allever.app.gif.search.app
 
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import com.allever.app.gif.search.R
+import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.inters.IBaseView
 import com.xm.lib.base.model.BaseViewModel
@@ -64,6 +68,22 @@ abstract class BaseDataActivity2<DB : ViewDataBinding, T : BaseViewModel<IBaseVi
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
+        }
+    }
+
+    protected fun addStatusBar(rootLayout: ViewGroup, toolBar: View) {
+        val statusBarView = View(this)
+        statusBarView.id = statusBarView.hashCode()
+        statusBarView.setBackgroundResource(R.drawable.top_bar_bg)
+        val statusBarHeight = SystemUtils.getStatusBarHeight(this)
+        val lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight)
+
+        if (rootLayout is RelativeLayout) {
+            rootLayout.addView(statusBarView, lp)
+            val topBarLp = toolBar.layoutParams as? RelativeLayout.LayoutParams
+            topBarLp?.addRule(RelativeLayout.BELOW, statusBarView.id)
+        } else if (rootLayout is LinearLayout) {
+            rootLayout.addView(statusBarView, 0, lp)
         }
     }
 }

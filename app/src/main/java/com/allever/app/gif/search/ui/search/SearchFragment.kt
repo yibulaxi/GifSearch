@@ -3,6 +3,7 @@ package com.allever.app.gif.search.ui.search
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -28,6 +29,7 @@ import com.allever.app.gif.search.util.ImageLoader
 import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
 import com.allever.lib.ad.chain.IAd
+import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
@@ -53,6 +55,10 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
     override fun initDataAndEvent() {
         EventBus.getDefault().register(this)
+
+        val layoutParams = mBinding.searchViewContainer.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.topMargin = layoutParams.topMargin + SystemUtils.getStatusBarHeight(context!!)
+        mBinding.searchViewContainer.layoutParams = layoutParams
 
         mKeyword = arguments?.getString(EXTRA_KEY_WORD) ?: ""
 
