@@ -26,6 +26,20 @@ object NetRepository {
         }
     }
 
+    suspend fun getUserInfo(token: String, userId: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<UserInfoResponse> {
+        val param = listOf(Utility.getDeviceSerial(), token)
+        return getGifFunData(failureTask, "获取用户信息成功") {
+            gifFunApiService.getUserInfo2(userId, userId, token, AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        }
+    }
+
+    suspend fun fetchUserFeed(token: String, userId: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<FetchUserFeedsResponse> {
+        val param = listOf(token, userId)
+        return getGifFunData(failureTask, "获取用户信息成功") {
+            gifFunApiService.fetchUserFeeds(userId, userId, token, AuthUtil.getServerVerifyCode(*param.toTypedArray()))
+        }
+    }
+
     suspend fun fetchWorld(token: String, userId: String, lastFeed: String, failureTask: (errorMsg: String) -> Unit = {}): BaseResponse<FetchWorldResponse> {
         val param = listOf(userId, token)
         return getGifFunData(failureTask, "获取Gif列表成功") {

@@ -186,4 +186,34 @@ interface GifFunApi {
         @Field(NetworkConst.DEVICE_NAME) deviceName : String= Utility.deviceName
     ): RegisterResponse
 
+    ///user/baseinfo
+    @GET("/feeds/user")
+    suspend fun fetchUserFeeds(
+        @Query(NetworkConst.USER_ID) userId: String,
+        @Query(NetworkConst.UID) uid: String,
+        @Query(NetworkConst.TOKEN) token: String,
+        @Header(NetworkConst.VERIFY) params: String,
+        @Header(NetworkConst.HEADER_USER_AGENT) agent: String = NetworkConst.HEADER_USER_AGENT_VALUE,
+        @Header(NetworkConst.HEADER_APP_VERSION ) appVersion: String = Utility.appVersion,
+        @Header(NetworkConst.HEADER_APP_SIGN) sign: String = Utility.appSign,
+//        @Query(NetworkConst.DEVICE_NAME) deviceName: String = Utility.deviceName,
+        @Query(NetworkConst.DEVICE_SERIAL) serial: String = Utility.getDeviceSerial(),
+//        @Query(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
+    ): FetchUserFeedsResponse
+
+    ///user/baseinfo
+    @GET("/user/baseinfo")
+    suspend fun getUserInfo2(
+        @Query(NetworkConst.USER_ID) userId: String,
+        @Query(NetworkConst.UID) uid: String,
+        @Query(NetworkConst.TOKEN) token: String,
+        @Header(NetworkConst.VERIFY) params: String,
+        @Header(NetworkConst.HEADER_USER_AGENT) agent: String = NetworkConst.HEADER_USER_AGENT_VALUE,
+        @Header(NetworkConst.HEADER_APP_VERSION ) appVersion: String = Utility.appVersion,
+        @Header(NetworkConst.HEADER_APP_SIGN) sign: String = Utility.appSign,
+//        @Query(NetworkConst.DEVICE_NAME) deviceName: String = Utility.deviceName,
+        @Query(NetworkConst.DEVICE_SERIAL) serial: String = Utility.getDeviceSerial(),
+//        @Query(NetworkConst.CLIENT_VERSION) clientVersion: String = GlobalUtil.appVersionCode.toString()
+    ): UserInfoResponse
+
 }

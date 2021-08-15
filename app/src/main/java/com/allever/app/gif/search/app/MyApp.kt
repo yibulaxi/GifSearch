@@ -17,7 +17,6 @@ import com.xm.lib.base.config.NetConfig
 import com.xm.lib.datastroe.DataStore
 import com.xm.netmodel.config.HttpConfig
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.litepal.LitePal
 
@@ -48,10 +47,10 @@ class MyApp : BaseApp() {
             .setVerify(true)
             .builder("https://www.wanandroid.com/", 100)
 
-        DataStore.init(this)
+
 
         GlobalScope.launch {
-            delay(3000)
+            DataStore.init(App.context)
             val response = NetRepository.initGifFun(Store.getToken(), Store.getUserId().toString()) {
                 loge(it)
             }

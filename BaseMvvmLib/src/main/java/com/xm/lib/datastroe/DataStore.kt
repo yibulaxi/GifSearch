@@ -17,10 +17,8 @@ object DataStore : IDataStore {
      * 初始化
      */
     fun init(context: Context) {
-        CoroutineHelper.ioCoroutine.launch {
-            MMKV.initialize(context)
-            mmkv = MMKV.defaultMMKV()
-        }
+        MMKV.initialize(context)
+        mmkv = MMKV.defaultMMKV()
     }
 
     override fun putInt(key: String, value: Int) {
