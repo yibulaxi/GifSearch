@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="mineViewModel"
-            type="com.allever.app.gif.search.ui.user.model.MineViewModel" />
+            name="userCenterViewModel"
+            type="com.allever.app.gif.search.ui.user.model.UserCenterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:text="@{mineViewModel.phone, default = 13800138000}"
+            android:text="@{userCenterViewModel.phone, default = 13800138000}"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:text="@{mineViewModel.nickname, default = 昵称}"
+            android:text="@{userCenterViewModel.nickname, default = 昵称}"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -64,7 +64,7 @@
             android:text="@string/logout"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:onClick="@{() -> mineViewModel.onClickLogout()}"
+            android:onClick="@{() -> userCenterViewModel.onClickLogout()}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

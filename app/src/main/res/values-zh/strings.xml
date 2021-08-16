@@ -65,5 +65,6 @@
     <string name="register">注册</string>
     <string name="logout">退出</string>
     <string name="mine">我的</string>
+    <string name="choose_video">Choose Video</string>
 
 </resources>

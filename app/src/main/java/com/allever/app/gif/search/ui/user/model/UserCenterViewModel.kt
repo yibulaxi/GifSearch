@@ -12,7 +12,7 @@ import com.xm.lib.util.loge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MineViewModel: BaseViewModelKt<IBaseView>() {
+class UserCenterViewModel: BaseViewModelKt<IBaseView>() {
     val nickname = MutableLiveData<String>()
     val phone = MutableLiveData<String>()
 

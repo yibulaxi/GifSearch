@@ -65,5 +65,6 @@
     <string name="register">Register</string>
     <string name="logout">Logout</string>
     <string name="mine">Mine</string>
+    <string name="choose_video">Choose Video</string>
 
 </resources>

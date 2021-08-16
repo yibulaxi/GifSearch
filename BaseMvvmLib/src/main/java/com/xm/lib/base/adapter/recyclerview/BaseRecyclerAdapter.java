@@ -12,6 +12,8 @@ import androidx.paging.PagingDataAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -39,12 +41,32 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
     }
 
     public BaseRecyclerAdapter() {
-        super(null);
+        super(new DiffUtil.ItemCallback<T>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull @NotNull T oldItem, @NonNull @NotNull T newItem) {
+                return false;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull @NotNull T oldItem, @NonNull @NotNull T newItem) {
+                return false;
+            }
+        });
         initObservableList();
     }
 
     public BaseRecyclerAdapter(List<T> mData) {
-        super(null);
+        super(new DiffUtil.ItemCallback<T>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull @NotNull T oldItem, @NonNull @NotNull T newItem) {
+                return false;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull @NotNull T oldItem, @NonNull @NotNull T newItem) {
+                return false;
+            }
+        });
         initObservableList();
         if (null != mData) {
             mObservableList.addAll(mData);
@@ -114,7 +136,13 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         if (null != holder) {
-            holder.onConvert(getItem(position), position);
+            if (usePaging) {
+                holder.onConvert(getItem(position), position);
+            } else {
+                if (!getData().isEmpty()) {
+                    holder.onConvert(getData().get(position), position);
+                }
+            }
         }
     }
 

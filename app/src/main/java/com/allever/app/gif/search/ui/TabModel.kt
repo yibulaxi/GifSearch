@@ -30,6 +30,7 @@ import java.util.Locale
 import android.view.View.LAYOUT_DIRECTION_RTL
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.ui.main.TrendFragment
+import com.allever.app.gif.search.ui.maker.MineFragment
 import com.allever.app.gif.search.ui.search.SearchFragment
 
 /**
@@ -52,7 +53,8 @@ internal object TabModel {
          */
         MAIN(TrendFragment::class.java, R.drawable.ic_tab_main, R.string.tab_trend),
         SEARCH(SearchFragment::class.java, R.drawable.ic_tab_guide, R.string.tab_search),
-        LIKED(LikedFragment::class.java, R.drawable.ic_setting, R.string.tab_liked);
+        LIKED(LikedFragment::class.java, R.drawable.ic_setting, R.string.tab_liked),
+        MINE(MineFragment::class.java, R.drawable.ic_setting, R.string.mine);
 
         val fragmentClassName: String
         var drawable: Drawable? = null

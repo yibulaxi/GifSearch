@@ -58,7 +58,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.user.RegisterActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.user.MineActivity"
+        <activity android:name=".ui.user.UserCenterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.maker.PickActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.GifFunDebugActivity"/>
 

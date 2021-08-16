@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="mineViewModel"
+            type="com.allever.app.gif.search.ui.maker.model.MineViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
+        <ImageView
+            android:id="@+id/gallery_btn_pick"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/circle"
+            android:onClick="@{() -> mineViewModel.onClickChooseVideo()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_add"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+
+
+</layout>

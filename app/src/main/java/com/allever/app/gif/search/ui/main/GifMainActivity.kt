@@ -21,6 +21,7 @@ import com.allever.app.gif.search.ui.*
 import com.allever.app.gif.search.ui.TabModel
 import com.allever.app.gif.search.ui.adapter.ViewPagerAdapter
 import com.allever.app.gif.search.ui.main.model.GifMainViewModel
+import com.allever.app.gif.search.ui.maker.MineFragment
 import com.allever.app.gif.search.ui.search.SearchFragment
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
@@ -96,6 +97,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         mFragmentList.add(TrendFragment())
         mFragmentList.add(SearchFragment())
         mFragmentList.add(LikedFragment())
+        mFragmentList.add(MineFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
 

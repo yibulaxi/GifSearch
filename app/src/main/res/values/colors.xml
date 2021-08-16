@@ -29,4 +29,8 @@
 
     <color name="word_item_bottom_background">#313131</color>
 
+    <!-- 相册单个item -->
+    <color name="item_cell_tv_duration_text_color">@color/white</color>
+    <color name="item_cell_mask_color">#99000000</color>
+
 </resources>
