@@ -14,6 +14,12 @@ object Store {
         DataStore.putInt(CacheKey.USER_ID, userId)
     }
 
+    fun savePhone(token: String) {
+        DataStore.putString(CacheKey.PHONE, token)
+    }
+
+    fun getPhone(): String = DataStore.getString(CacheKey.PHONE)
+
     fun getUserId(): Int = DataStore.getInt(CacheKey.USER_ID)
 
     fun saveVersion(version: Int) {

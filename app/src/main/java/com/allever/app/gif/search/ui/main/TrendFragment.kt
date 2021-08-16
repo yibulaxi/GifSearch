@@ -21,6 +21,7 @@ import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.adapter.GifAdapter
 import com.allever.app.gif.search.ui.main.model.TrendViewModel
 import com.allever.app.gif.search.ui.mvp.view.TrendView
+import com.allever.app.gif.search.ui.user.LoginActivity
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
 import com.allever.app.gif.search.util.SpUtils
 import com.allever.lib.ad.chain.AdChainHelper
@@ -29,6 +30,7 @@ import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.manager.IntentManager
 import com.xm.lib.permission.PermissionCompat
 import com.xm.lib.util.CoroutineHelper
 import com.xm.lib.util.HandlerHelper
@@ -113,10 +115,19 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
     }
 
     private fun getData(isLoadMore: Boolean = false) {
-        val count = Global.SHOW_COUNT
-        var offset = SpUtils.getString(Global.SP_OFFSET, "0")
-        log("offset = $offset")
         CoroutineHelper.mainCoroutine.launch {
+            if (Store.getVersion() == Version.INTERNAL && !Global.checkLogin()) {
+                mBinding.gifRecyclerView.visibility = View.GONE
+                mBinding.ivRetry.visibility = View.VISIBLE
+                IntentManager.startActivity(mCxt, LoginActivity::class.java)
+                toast("未登录")
+                return@launch
+            }
+
+            val count = Global.SHOW_COUNT
+            var offset = SpUtils.getString(Global.SP_OFFSET, "0")
+            log("offset = $offset")
+
             showLoadingProgressDialog(getString(R.string.loading))
             val gifItemList = Repository.getGifItemList(offset)
             hideLoadingProgressDialog()

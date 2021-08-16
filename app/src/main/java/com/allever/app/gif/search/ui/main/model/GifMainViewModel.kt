@@ -10,6 +10,9 @@ import com.xm.lib.manager.IntentManager
 class GifMainViewModel: BaseViewModelKt<IBaseView>() {
     override fun onCreated() {
 
+
+
+
     }
 
     fun onClickRecommend() {

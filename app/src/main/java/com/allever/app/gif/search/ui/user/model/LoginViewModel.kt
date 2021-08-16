@@ -77,13 +77,11 @@ class LoginViewModel : BaseViewModelKt<IBaseView>() {
     fun onClickLogin() {
         if (TextUtils.isEmpty(phone.value)) {
             toast("输入手机号")
-            Toast.makeText(mCxt, "hhh", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (TextUtils.isEmpty(vCode.value)) {
             toast("输入验证码")
-            Toast.makeText(mCxt, "hhh", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -95,6 +93,7 @@ class LoginViewModel : BaseViewModelKt<IBaseView>() {
             response.data?.let {
                 Store.saveToken(it.token)
                 Store.saveUserId(it.userId.toInt())
+                Store.savePhone(phone.value!!)
                 finish()
             }
 

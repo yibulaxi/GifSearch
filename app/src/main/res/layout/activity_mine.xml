@@ -32,6 +32,18 @@
             tools:ignore="UnknownIdInLayout" />
 
         <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@{mineViewModel.phone, default = 13800138000}"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivHeader" />
+
+        <TextView
             android:id="@+id/tvNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +53,7 @@
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
 
         <Button
             android:id="@+id/logOut"

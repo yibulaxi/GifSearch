@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class MineViewModel: BaseViewModelKt<IBaseView>() {
     val nickname = MutableLiveData<String>()
+    val phone = MutableLiveData<String>()
 
     override fun onCreated() {
         viewModelScope.launch(Dispatchers.Main) {
@@ -24,6 +25,7 @@ class MineViewModel: BaseViewModelKt<IBaseView>() {
 
             response.data?.let {
                 nickname.value = it.nickname
+                phone.value = Store.getPhone()
             }
         }
     }
