@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
@@ -47,7 +46,7 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         this.mAdapter = mAdapter;
     }
 
-    protected <V extends View> V getItemView() {
+    public  <V extends View> V getItemView() {
         return (V) mView;
     }
 

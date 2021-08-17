@@ -8,9 +8,9 @@
 
 	<!-- 相册单个item -->
 	<dimen name="item_cell_image_height">85dp</dimen>
-	<dimen name="item_cell_space_width">4dp</dimen>
+	<dimen name="item_cell_space_width">2dp</dimen>
 	<dimen name="item_cell_space_middle">2dp</dimen>
-	<dimen name="item_cell_space_top">10dp</dimen>
+	<dimen name="item_cell_space_top">2dp</dimen>
 	<dimen name="item_cell_iv_select_flag_width">40dp</dimen>
 	<dimen name="item_cell_iv_select_flag_height">@dimen/item_cell_iv_select_flag_width</dimen>
 	<dimen name="item_cell_tv_duration_height">30dp</dimen>
