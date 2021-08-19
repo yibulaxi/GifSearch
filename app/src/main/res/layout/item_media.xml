@@ -38,8 +38,7 @@
             android:layout_height="@dimen/item_cell_iv_select_flag_height"
             android:layout_alignParentEnd="true"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_album_select"
-            android:visibility="gone"/>
+            android:src="@{mediaItemViewModel.selected ? @drawable/icon_album_select: @drawable/icon_album_unselected}" />
 
         <TextView
             android:id="@+id/tv_video_duration"

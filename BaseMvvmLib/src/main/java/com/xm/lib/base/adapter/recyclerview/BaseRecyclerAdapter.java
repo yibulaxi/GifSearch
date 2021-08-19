@@ -31,6 +31,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
     private ObservableList<T> mObservableList;
     protected RecyclerView mRvView;
     private OnItemClickedListener<T> onItemClickedListener;
+    private OnItemLongClickedListener<T> onItemLongClickedListener;
     private OnItemChildViewClickedListener<T> onItemChildViewClickedListener;
     private boolean usePaging = false;
 
@@ -268,6 +269,10 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
         this.onItemClickedListener = onItemClickedListener;
     }
 
+    public void setOnItemLongClickedListener(OnItemLongClickedListener<T> onItemLongClickedListener) {
+        this.onItemLongClickedListener = onItemLongClickedListener;
+    }
+
     public void setOnItemChildViewClickedListener(OnItemChildViewClickedListener<T> onItemChildViewClickedListener) {
         this.onItemChildViewClickedListener = onItemChildViewClickedListener;
     }
@@ -280,8 +285,29 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
      */
     public void callItemClicked(View v, int position) {
         if (null != onItemClickedListener) {
-            onItemClickedListener.onItemClicked(v, position, getItem(position));
+            if (usePaging) {
+                onItemClickedListener.onItemClicked(v, position, getItem(position));
+            } else {
+                onItemClickedListener.onItemClicked(v, position, getData().get(position));
+            }
         }
+    }
+
+    /**
+     * 设置item的点击事件回调
+     *
+     * @param v
+     * @param position
+     */
+    public boolean callItemLongClicked(View v, int position) {
+        if (null != onItemLongClickedListener) {
+            if (usePaging) {
+                return onItemLongClickedListener.onItemLongClicked(v, position, getItem(position));
+            } else {
+                return onItemLongClickedListener.onItemLongClicked(v, position, getData().get(position));
+            }
+        }
+        return false;
     }
 
     /**
@@ -292,13 +318,22 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
      */
     public void callChildViewClicked(View v, int position) {
         if (null != onItemChildViewClickedListener) {
-            onItemChildViewClickedListener.onChildViewClicked(v, position, getItem(position));
+            if (usePaging) {
+                onItemChildViewClickedListener.onChildViewClicked(v, position, getItem(position));
+            } else {
+                onItemChildViewClickedListener.onChildViewClicked(v, position, getData().get(position));
+            }
         }
     }
 
     public interface OnItemClickedListener<T> {
         //        void onItemClicked(BaseRecyclerAdapter rvAdapter, View v, int position);
         void onItemClicked(View v, int position, T item);
+    }
+
+    public interface OnItemLongClickedListener<T> {
+        //        void onItemClicked(BaseRecyclerAdapter rvAdapter, View v, int position);
+        boolean onItemLongClicked(View v, int position, T item);
     }
 
     public interface OnItemChildViewClickedListener<T> {

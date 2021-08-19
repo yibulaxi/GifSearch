@@ -3,6 +3,8 @@ package com.allever.app.gif.search.app
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.ad.AdFactory
+import com.allever.app.gif.search.function.media.FolderBean
+import com.allever.app.gif.search.function.media.MediaHelper
 import com.allever.app.gif.search.function.network.NetRepository
 import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.util.ImageLoader
@@ -59,6 +61,17 @@ class MyApp : BaseApp() {
                 if (token.isNotEmpty()) {
                     Store.saveToken(it.token)
                     log("初始化成功： ${it.token}")
+                }
+            }
+
+            val folderInfo = MediaHelper.getAllFolder(this@MyApp, MediaHelper.TYPE_VIDEO)
+            folderInfo.add(FolderBean())
+            folderInfo.map {
+                log(it.dir)
+
+                val mediaItemList = MediaHelper.getVideoMedia(this@MyApp, it.dir, 0)
+                mediaItemList.map {
+                    log("视频：${it.path}")
                 }
             }
         }

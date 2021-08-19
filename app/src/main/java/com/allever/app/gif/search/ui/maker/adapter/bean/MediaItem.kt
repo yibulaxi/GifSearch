@@ -1,4 +1,8 @@
 package com.allever.app.gif.search.ui.maker.adapter.bean
 
-class MediaItem {
+import com.allever.app.gif.search.function.media.MediaBean
+
+class MediaItem{
+    var data: MediaBean? = null
+    var selected: Boolean = false
 }
