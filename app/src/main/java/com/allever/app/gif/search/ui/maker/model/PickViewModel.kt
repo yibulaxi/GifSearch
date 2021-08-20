@@ -3,6 +3,7 @@ package com.allever.app.gif.search.ui.maker.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.allever.app.gif.search.event.GifMakeEvent
 import com.allever.app.gif.search.function.maker.GifMakeHelper
 import com.allever.app.gif.search.function.media.MediaHelper
 import com.allever.app.gif.search.ui.maker.adapter.MediaItemAdapter
@@ -14,6 +15,7 @@ import com.xm.lib.base.inters.IBaseView
 import com.xm.lib.base.model.BaseViewModelKt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 class PickViewModel: BaseViewModelKt<IBaseView>() {
@@ -75,7 +77,10 @@ class PickViewModel: BaseViewModelKt<IBaseView>() {
                         log("$current/$total")
                     }
                     log("完成：$result -> $toFile" )
-                    if (!result) {
+                    if (result) {
+                        EventBus.getDefault().post(GifMakeEvent())
+                        finish()
+                    } else  {
                         com.android.absbase.utils.FileUtils.delete(File(toFile), true)
                     }
                     confirmClickAble.value = true

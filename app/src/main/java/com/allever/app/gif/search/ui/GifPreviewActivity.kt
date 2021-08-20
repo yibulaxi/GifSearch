@@ -58,6 +58,19 @@ class GifPreviewActivity : BaseActivity() {
 
         item ?: return
 
+        val gifImageView = findViewById<GifImageView>(R.id.gifImageView)
+
+        if (!item.url.startsWith("http")) {
+            Glide.with(App.context)
+                .load(item.url)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(
+                    DiskCacheStrategy.NONE
+                )
+                .into(gifImageView!!)
+            return
+        }
+
 
         val gifId = item.id
         val gifUrl = item.url
@@ -74,7 +87,6 @@ class GifPreviewActivity : BaseActivity() {
         var drawable: GifDrawable? = null
         var downloaded = FileUtils.checkExist(tempPath)
 
-        val gifImageView = findViewById<GifImageView>(R.id.gifImageView)
         val ivPlay = findViewById<ImageView>(R.id.ivPlay)
         val ivRetry = findViewById<ImageView>(R.id.ivRetry)
         val progressLoading = findViewById<ProgressBar>(R.id.progressCircle)

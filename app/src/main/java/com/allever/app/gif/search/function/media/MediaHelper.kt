@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
+import androidx.test.internal.util.LogUtil
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.log
 import com.android.absbase.utils.FileUtils.isExistFile
@@ -376,6 +377,8 @@ object MediaHelper {
                         )
                     )
                     val thumbPath = cursor.getString(pathIndex)
+                    log("Gif: $thumbPath" )
+
                     if (checkImageError(thumbPath)) {
                         continue
                     }

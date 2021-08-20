@@ -23,6 +23,7 @@ import com.allever.app.gif.search.ui.adapter.ViewPagerAdapter
 import com.allever.app.gif.search.ui.like.LikedFragment
 import com.allever.app.gif.search.ui.main.model.GifMainViewModel
 import com.allever.app.gif.search.ui.maker.MineFragment
+import com.allever.app.gif.search.ui.maker.PickActivity
 import com.allever.app.gif.search.ui.search.SearchFragment
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.lib.ad.chain.AdChainHelper
@@ -40,6 +41,7 @@ import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.ui.widget.ShakeHelper
 import com.allever.lib.umeng.UMeng
 import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.manager.IntentManager
 import com.xm.lib.util.HandlerHelper
 import kotlinx.android.synthetic.main.activity_gif_main.*
 import kotlinx.coroutines.GlobalScope
@@ -103,7 +105,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
     }
 
     private fun initViewPager() {
-        mVp.offscreenPageLimit = 3
+        mVp.offscreenPageLimit = 4
         mVp.adapter = mViewPagerAdapter
 
         mVp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -133,6 +135,11 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                     }
                     2 -> {
                         ivRight.setImageResource(R.drawable.ic_backup)
+                        topBarContainer.visibility = View.VISIBLE
+                        bannerContainer.visibility = View.GONE
+                    }
+                    3 -> {
+                        ivRight.setImageResource(R.drawable.icon_add)
                         topBarContainer.visibility = View.VISIBLE
                         bannerContainer.visibility = View.GONE
                     }
@@ -216,8 +223,10 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
             R.id.ivRight -> {
                 if (mVp.currentItem == 0) {
                     ActivityCollector.startActivity(this, SettingActivity::class.java)
-                } else {
+                } else if (mVp.currentItem == 2){
                     ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
+                } else if (mVp.currentItem == 3) {
+                    IntentManager.startActivity(this, PickActivity::class.java)
                 }
 
             }

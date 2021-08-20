@@ -1,9 +1,13 @@
 package com.allever.app.gif.search.function.store
 
 import com.allever.app.gif.search.app.Global
+import com.allever.app.gif.search.function.maker.GifMakeHelper
 import com.allever.app.gif.search.function.network.NetRepository
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
 import com.allever.lib.common.util.log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
 
 object Repository {
 
@@ -95,5 +99,19 @@ object Repository {
         }
 
         return gifItemList
+    }
+
+    suspend fun getMyGif() = withContext(Dispatchers.IO) {
+        val gifItemList = mutableListOf<GifItem>()
+        val dirFile = File(GifMakeHelper.gifDir)
+        val list = dirFile.listFiles()
+        list.map {
+            if (it.path.endsWith("gif")) {
+                val gifItem = GifItem()
+                gifItem.url = it.path
+                gifItemList.add(gifItem)
+            }
+        }
+        gifItemList
     }
 }
