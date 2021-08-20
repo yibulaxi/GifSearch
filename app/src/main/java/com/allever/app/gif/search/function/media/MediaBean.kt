@@ -9,8 +9,8 @@ class MediaBean {
             val array = value.split("/")
             if (array.isNotEmpty()){
                 fileName = array[array.size - 1]
-                if (fileName.contains("\\.")) {
-                    fileName = fileName.split("\\.")[0]
+                if (fileName.contains(".")) {
+                    fileName = "${fileName.split(".")[0]}.gif"
                 }
             }
             this.name = fileName

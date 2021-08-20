@@ -62,7 +62,7 @@ class PickViewModel: BaseViewModelKt<IBaseView>() {
 
     fun onClickConfirm() {
         val item = mediaItemList[lastPosition]
-        val toFile = "${GifMakeHelper.gifDir}${item.data?.name}.gif"
+        val toFile = "${GifMakeHelper.gifDir}${File.separator}${item.data?.name}"
         if (FileUtils.checkExist(toFile)) {
             log("${toFile}已存在")
             return

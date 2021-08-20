@@ -3,6 +3,7 @@ package com.allever.app.gif.search.app
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.ad.AdFactory
+import com.allever.app.gif.search.function.maker.GifMakeHelper
 import com.allever.app.gif.search.function.media.FolderBean
 import com.allever.app.gif.search.function.media.MediaHelper
 import com.allever.app.gif.search.function.network.NetRepository
@@ -73,6 +74,11 @@ class MyApp : BaseApp() {
                 mediaItemList.map {
                     log("视频：${it.path}")
                 }
+            }
+
+            val result = MediaHelper.getImageMedia(App.context, GifMakeHelper.gifDir)
+            result.map {
+                log("Gif: ${it.path}")
             }
         }
 

@@ -2,9 +2,11 @@ package com.allever.app.gif.search.function.maker
 
 import android.content.Context
 import android.net.Uri
+import com.allever.app.gif.search.function.media.MediaHelper
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FileUtil
 import com.allever.lib.common.util.FileUtils
+import com.allever.lib.common.util.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

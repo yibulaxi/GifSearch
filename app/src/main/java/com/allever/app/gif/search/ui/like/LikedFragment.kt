@@ -1,73 +1,62 @@
-package com.allever.app.gif.search.ui
+package com.allever.app.gif.search.ui.like
 
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.app.BaseFragment
+import com.allever.app.gif.search.app.BaseFragment2
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
 import com.allever.app.gif.search.bean.event.LikeEvent
 import com.allever.app.gif.search.bean.event.RemoveLikeListEvent
 import com.allever.app.gif.search.bean.event.RestoreLikeEvent
-import com.allever.app.gif.search.ui.adapter.GifLikedAdapter
+import com.allever.app.gif.search.databinding.FragmentLikedBinding
+import com.allever.app.gif.search.ui.GifPreviewActivity
 import com.allever.app.gif.search.ui.adapter.bean.GifItem
-import com.allever.app.gif.search.ui.mvp.presenter.LikedPresenter
-import com.allever.app.gif.search.ui.mvp.view.LikedView
+import com.allever.app.gif.search.ui.like.adapter.GifLikedAdapter
+import com.allever.app.gif.search.ui.like.model.LikedViewModel
 import com.allever.app.gif.search.util.DBHelper
 import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.toast
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_liked.*
+import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.base.ui.BaseFragmentKt
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View.OnClickListener {
+class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), View.OnClickListener {
 
-
-    private lateinit var mRv: RecyclerView
     private lateinit var mAdapter: GifLikedAdapter
 
     private var mEditMode = false
         set(value) {
             field = value
-            mBottomBar.visibility = if (value) View.VISIBLE else View.GONE
+            mBinding.rlBottomToolBar.visibility = if (value) View.VISIBLE else View.GONE
             mAdapter.editMode = value
         }
 
     private var mData = mutableListOf<GifItem>()
     private var mCurrentItem: GifItem? = null
 
-    private lateinit var mBottomBar: ViewGroup
-    private lateinit var mCbSelectAll: CheckBox
+    override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_liked, BR.likedViewModel)
 
-    override fun getContentView(): Int = R.layout.fragment_liked
-
-    override fun initView(root: View) {
-
+    override fun initDataAndEvent() {
         EventBus.getDefault().register(this)
 
-
-
-
-        mBottomBar = root.findViewById(R.id.rlBottomToolBar)
-        mCbSelectAll = root.findViewById(R.id.cbBottomBarCheckAll)
-        mCbSelectAll.setOnCheckedChangeListener { buttonView, isChecked ->
+        mBinding.cbBottomBarCheckAll.setOnCheckedChangeListener { buttonView, isChecked ->
             mAdapter.allMode = true
             mAdapter.allCheck = isChecked
         }
-        root.findViewById<View>(R.id.ivBottomBarBack).setOnClickListener(this)
-        root.findViewById<View>(R.id.ivBottomBarDelete).setOnClickListener(this)
+        mBinding.ivBottomBarBack.setOnClickListener(this)
+        mBinding.ivBottomBarDelete.setOnClickListener(this)
 
         mAdapter = GifLikedAdapter(context!!, R.layout.item_liked, mData)
-        mRv = root.findViewById(R.id.rvLiked)
-        mRv.layoutManager = GridLayoutManager(context, 3)
-        mRv.adapter = mAdapter
+        mBinding.rvLiked.layoutManager = GridLayoutManager(context, 3)
+        mBinding.rvLiked.adapter = mAdapter
         val gson = Gson()
         mAdapter.itemOptionListener = object : GifLikedAdapter.OnItemOptionClick {
             override fun onItemClicked(position: Int) {
@@ -83,9 +72,15 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
             }
         }
 
-        val layoutParams = mRv.layoutParams as ViewGroup.MarginLayoutParams
+        val layoutParams = mBinding.rvLiked.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.topMargin = layoutParams.topMargin + SystemUtils.getStatusBarHeight(context!!)
-        mRv.layoutParams = layoutParams
+        mBinding.rvLiked.layoutParams = layoutParams
+
+        getLikedData()
+    }
+
+    override fun destroyView() {
+        EventBus.getDefault().unregister(this)
     }
 
     override fun onClick(v: View?) {
@@ -130,24 +125,10 @@ class LikedFragment : BaseFragment<LikedView, LikedPresenter>(), LikedView, View
         return false
     }
 
-
-    override fun initData() {
-        getLikedData()
-    }
-
-    override fun createPresenter(): LikedPresenter = LikedPresenter()
-
     private fun initEditMode() {
         mAdapter.selectedItem.clear()
         mEditMode = false
     }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        EventBus.getDefault().unregister(this)
-    }
-
     private fun getLikedData() {
         initEditMode()
         val datas = DBHelper.getLikedList()

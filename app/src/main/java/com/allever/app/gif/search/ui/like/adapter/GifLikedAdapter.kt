@@ -1,4 +1,4 @@
-package com.allever.app.gif.search.ui.adapter
+package com.allever.app.gif.search.ui.like.adapter
 
 import android.content.Context
 import android.view.View

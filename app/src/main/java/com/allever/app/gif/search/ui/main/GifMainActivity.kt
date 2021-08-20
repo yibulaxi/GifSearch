@@ -20,6 +20,7 @@ import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.ui.*
 import com.allever.app.gif.search.ui.TabModel
 import com.allever.app.gif.search.ui.adapter.ViewPagerAdapter
+import com.allever.app.gif.search.ui.like.LikedFragment
 import com.allever.app.gif.search.ui.main.model.GifMainViewModel
 import com.allever.app.gif.search.ui.maker.MineFragment
 import com.allever.app.gif.search.ui.search.SearchFragment
