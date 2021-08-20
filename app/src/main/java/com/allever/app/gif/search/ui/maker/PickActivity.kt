@@ -21,6 +21,7 @@ class PickActivity : BaseDataActivity2<ActivityPickBinding, PickViewModel>(){
             finish()
         }
 
+
         val spacingInPixels = ResourcesUtils.getDimension(R.dimen.item_cell_space_width).toInt()
         val firstTopSpacing = ResourcesUtils.getDimension(R.dimen.item_cell_space_top).toInt()
         val bottomSpacing = ResourcesUtils.getDimension(R.dimen.item_cell_space_width).toInt()

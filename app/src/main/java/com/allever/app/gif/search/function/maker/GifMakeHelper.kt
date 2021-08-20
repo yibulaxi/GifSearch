@@ -2,10 +2,26 @@ package com.allever.app.gif.search.function.maker
 
 import android.content.Context
 import android.net.Uri
+import com.allever.lib.common.app.App
+import com.allever.lib.common.util.FileUtil
+import com.allever.lib.common.util.FileUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 object GifMakeHelper {
+
+    var gifDir = "${App.context.externalCacheDir}${File.separator}gif"
+
+    init {
+        GlobalScope.launch {
+            if (!FileUtils.checkExist(gifDir)) {
+                FileUtil.createDir(gifDir)
+            }
+        }
+    }
 
     /**
      * Handle action Foo in the provided background thread with the provided
