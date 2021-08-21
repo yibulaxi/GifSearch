@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.allever.app.gif.search.event.GifMakeEvent
 import com.allever.app.gif.search.function.maker.GifMakeHelper
 import com.allever.app.gif.search.function.media.MediaHelper
+import com.allever.app.gif.search.ui.maker.GifMakerActivity
 import com.allever.app.gif.search.ui.maker.adapter.MediaItemAdapter
 import com.allever.app.gif.search.ui.maker.adapter.bean.MediaItem
 import com.allever.lib.common.util.FileUtils
@@ -64,7 +65,14 @@ class PickViewModel: BaseViewModelKt<IBaseView>() {
 
     fun onClickConfirm() {
         val item = mediaItemList[lastPosition]
-        val toFile = "${GifMakeHelper.gifDir}${File.separator}${item.data?.name}"
+        GifMakerActivity.start(mCxt, item.data?:return)
+        return
+
+        val fileName = item.data?.name?:""
+        val gifName = if (fileName.contains(".")) {
+            "${fileName.split(".")[0]}.gif"
+        }
+        val toFile = "${GifMakeHelper.gifDir}${File.separator}${gifName}"
         if (FileUtils.checkExist(toFile)) {
             log("${toFile}已存在")
             return

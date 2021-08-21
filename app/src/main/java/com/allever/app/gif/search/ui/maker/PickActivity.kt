@@ -7,15 +7,20 @@ import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.BaseDataActivity2
 import com.allever.app.gif.search.databinding.ActivityPickBinding
+import com.allever.app.gif.search.event.GifMakeEvent
 import com.allever.app.gif.search.ui.maker.model.PickViewModel
 import com.android.absbase.utils.ResourcesUtils
 import com.xm.lib.base.config.DataBindingConfig
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class PickActivity : BaseDataActivity2<ActivityPickBinding, PickViewModel>(){
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_pick, BR.pickViewModel)
 
     override fun initDataAndEvent() {
+        EventBus.getDefault().register(this)
         mBinding.includeTopBar.tvLabel.text = getStringRes(R.string.choose_video)
         mBinding.includeTopBar.ivLeft.setOnClickListener {
             finish()
@@ -44,6 +49,11 @@ class PickActivity : BaseDataActivity2<ActivityPickBinding, PickViewModel>(){
     }
 
     override fun destroyView() {
+        EventBus.getDefault().unregister(this)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLikeUpdate(gifMakeEvent: GifMakeEvent) {
+        finish()
+    }
 }

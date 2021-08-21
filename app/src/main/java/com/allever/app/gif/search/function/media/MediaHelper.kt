@@ -292,7 +292,7 @@ object MediaHelper {
                     MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC" + ", " + MediaStore.Images.ImageColumns._ID + " ASC"
                 )
             }
-            if (c1.moveToFirst()) {
+            if (c1?.moveToFirst() == true) {
                 val idIndex = c1.getColumnIndex(MediaStore.Images.ImageColumns._ID)
                 val pathIndex = c1.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
                 val dateIndex = c1.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN)

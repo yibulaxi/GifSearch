@@ -62,6 +62,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.maker.PickActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.maker.GifMakerActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.GifFunDebugActivity"/>
 
         <meta-data

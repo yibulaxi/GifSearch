@@ -60,7 +60,12 @@ class GifPreviewActivity : BaseActivity() {
 
         val gifImageView = findViewById<GifImageView>(R.id.gifImageView)
 
+        val ivShare = findViewById<ImageView>(R.id.ivShare)
+
         if (!item.url.startsWith("http")) {
+            ivShare?.setOnClickListener {
+                ShareHelper.shareImage(this, item.url)
+            }
             Glide.with(App.context)
                 .load(item.url)
                 .skipMemoryCache(true)
@@ -104,7 +109,6 @@ class GifPreviewActivity : BaseActivity() {
         Glide.with(App.context).load(headerUrl).into(ivHeader!!)
 
         val ivLike = findViewById<ImageView>(R.id.ivLike)
-        val ivShare = findViewById<ImageView>(R.id.ivShare)
         val ivDownload = findViewById<ImageView>(R.id.ivDownload)
         val ivMore = findViewById<ImageView>(R.id.ivMore)
         if (FileUtils.checkExist(savePath)) {

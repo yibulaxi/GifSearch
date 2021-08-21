@@ -67,4 +67,6 @@
     <string name="mine">我的</string>
     <string name="choose_video">Choose Video</string>
 
+    <string name="preview_video_unavailable_tips">Can not play this video.</string>
+
 </resources>

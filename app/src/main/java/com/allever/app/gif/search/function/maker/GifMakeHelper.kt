@@ -7,6 +7,7 @@ import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FileUtil
 import com.allever.lib.common.util.FileUtils
 import com.allever.lib.common.util.log
+import com.xm.lib.util.loge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,7 +43,8 @@ object GifMakeHelper {
         maker.setOnGifListener { current, total ->
             progress(current, total)
         }
-        maker.makeGifFromVideo(
+        val start = System.currentTimeMillis()
+        val result = maker.makeGifFromVideo(
             context,
             Uri.parse(fromFile),
             fromPosition.toLong(),
@@ -50,6 +52,9 @@ object GifMakeHelper {
             period.toLong(),
             toFile
         )
+        val end = System.currentTimeMillis()
+        loge("转换${(toPosition - fromPosition) / 1000f}秒耗时${(end - start) / 1000}秒")
+        result
     }
 
 }

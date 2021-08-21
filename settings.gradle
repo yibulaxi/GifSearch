@@ -31,3 +31,4 @@ project(':circleimageview').projectDir = new File(settingsDir, '../AndroidUIKit/
 
 include ':widget'
 project(':widget').projectDir = new File(settingsDir, '../AndroidUIKit/widget')
+include ':RangeSeekBar'
