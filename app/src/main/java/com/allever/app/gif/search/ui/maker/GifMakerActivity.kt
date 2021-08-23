@@ -63,7 +63,7 @@ class GifMakerActivity : BaseDataActivity2<ActivityGifMakerBinding, GifMakerView
             }
 
             override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
-                mVideoViewHolder.play()
+                mVideoViewHolder.play(mViewModel.endPosition)
             }
 
         })

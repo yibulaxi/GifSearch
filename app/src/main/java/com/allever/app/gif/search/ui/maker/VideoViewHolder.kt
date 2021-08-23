@@ -7,6 +7,9 @@ import android.database.Cursor
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.view.MotionEvent
@@ -14,6 +17,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.VideoView
 import com.allever.app.gif.search.R
+import com.allever.lib.common.util.log
 import com.android.absbase.App
 import com.android.absbase.utils.ResourcesUtils
 import com.android.absbase.utils.ToastUtils
@@ -29,8 +33,32 @@ class VideoViewHolder
     private var mIvPlay: ImageView? = null
     private var mVideoView: VideoView? = null
     private var mPath: String? = null
+    private var mMediaPlayer: MediaPlayer? = null
 
     private var mAlphaAnimator: ObjectAnimator? = null
+
+    private var mEndPlayPosition = -1
+    private var mStartPlayPosition = 100
+
+    private val MSG_PLAY_PROGRESS = 0x01
+    private val MSG_PLAY_PROGRESS_DELAY = 100L
+
+    private val mHandler = object :Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            when(msg.what) {
+                MSG_PLAY_PROGRESS -> {
+                    val currentPosition = mVideoView?.currentPosition?:0
+                    log("VideoView: currentPosition = $currentPosition")
+                    if (currentPosition >= mEndPlayPosition && mEndPlayPosition != -1) {
+                        pause()
+                        seekTo(mStartPlayPosition)
+                    } else {
+                        sendEmptyMessageDelayed(MSG_PLAY_PROGRESS, MSG_PLAY_PROGRESS_DELAY)
+                    }
+                }
+            }
+        }
+    }
 
     private var mAnimListener = object : Animator.AnimatorListener{
         override fun onAnimationRepeat(animation: Animator?) {
@@ -75,6 +103,7 @@ class VideoViewHolder
         mAlphaAnimator?.startDelay = 1000
         mAlphaAnimator?.duration = 1000
         mAlphaAnimator?.addListener(mAnimListener)
+
     }
 
     fun initVideo(videoView: VideoView?, path: String?, ivPlay: ImageView?) {
@@ -84,14 +113,22 @@ class VideoViewHolder
         initVideoView()
     }
 
+
     fun play() {
 //        mVideoView?.start()
 //        mVideoView?.visibility = View.VISIBLE
 //        mIvPlay?.visibility = View.GONE
+        mEndPlayPosition = -1
+        checkAndPlay()
+    }
+
+    fun play(endPosition: Int) {
+        mEndPlayPosition = endPosition
         checkAndPlay()
     }
 
     fun seekTo(position: Int) {
+        mStartPlayPosition = position
         mVideoView?.seekTo(position)
     }
 
@@ -101,17 +138,20 @@ class VideoViewHolder
         mIvPlay?.setImageResource(R.drawable.icon_album_video_preview_play)
         mIvPlay?.alpha = ALPHA_VALUE_OPAQUE
         mAlphaAnimator?.cancel()
+        mHandler.removeMessages(MSG_PLAY_PROGRESS)
     }
 
     fun stop() {
         mVideoView?.stopPlayback()
         mAlphaAnimator?.cancel()
+        mHandler.removeMessages(MSG_PLAY_PROGRESS)
     }
 
     fun destroy() {
         mIvPlay = null
         mVideoView = null
         mAlphaAnimator = null
+        mHandler.removeMessages(MSG_PLAY_PROGRESS)
     }
 
     private fun checkAndPlay() {
@@ -127,6 +167,7 @@ class VideoViewHolder
 //                    mIvPlay?.visibility = View.GONE
                     mIvPlay?.setImageResource(R.drawable.icon_album_video_preview_pause)
                     mAlphaAnimator?.start()
+                    mHandler.sendEmptyMessageDelayed(MSG_PLAY_PROGRESS, MSG_PLAY_PROGRESS_DELAY)
                 } else {
                     ToastUtils.show(ResourcesUtils.getString(R.string.preview_video_unavailable_tips))
                 }
@@ -152,7 +193,7 @@ class VideoViewHolder
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        mVideoView?.seekTo(100)
+        mVideoView?.seekTo(mStartPlayPosition)
         mIvPlay?.visibility = View.VISIBLE
         mIvPlay?.setImageResource(R.drawable.icon_album_video_preview_play)
         mAlphaAnimator?.cancel()
@@ -165,7 +206,7 @@ class VideoViewHolder
                 if (mVideoView?.isPlaying == true) {
                     pause()
                 } else {
-                    play()
+                    play(mEndPlayPosition)
                 }
             }
         }
