@@ -160,4 +160,8 @@ dependencies {
     implementation project(path: ':Net')
     implementation project(path: ':RangeSeekBar')
 
+//    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15'
+//    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.15'
+//    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native-armeabi-v7a:1.0.15'
+//    implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native-arm64-v8a:1.0.15'
 }

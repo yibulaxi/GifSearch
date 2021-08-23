@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.DrawableRes;
 
@@ -22,6 +23,8 @@ import java.util.List;
  */
 public class GifMaker {
 
+    public static final String TAG = GifMaker.class.getSimpleName();
+
     private int mScale = 1;
 
     private OnGifListener mGifListener = null;
@@ -34,6 +37,7 @@ public class GifMaker {
     }
 
     public boolean makeGif (List<Bitmap> source, String outputPath) throws IOException {
+        long start = System.currentTimeMillis();
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         encoder.start(bos);
@@ -68,6 +72,8 @@ public class GifMaker {
         fileOutputStream.write(data);
         fileOutputStream.flush();
         fileOutputStream.close();
+        long end = System.currentTimeMillis();
+        Log.d(TAG, "makeGif: 耗时 -> " + (end - start) / 1000f);
         return file.exists();
     }
 
@@ -105,6 +111,7 @@ public class GifMaker {
 
     public boolean makeGifFromVideo (Context context, Uri uri, long startMillSeconds, long endMillSeconds, long periodMillSeconds, String outputPath) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+
         retriever.setDataSource(context, uri);
         return makeGifWithMediaMetadataRetriever(retriever, startMillSeconds, endMillSeconds, periodMillSeconds, outputPath);
     }
@@ -114,15 +121,24 @@ public class GifMaker {
             throw new IllegalArgumentException("startMillSecodes may < 0 or endMillSeconds or periodMillSeconds may <= 0, or endMillSeconds <= startMillSeconds");
         }
         try {
+            long start = System.currentTimeMillis();
             List<Bitmap> bitmaps = new ArrayList<Bitmap>();
             String durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
 
             long duration = Long.parseLong(durationStr);
             long minDuration = Math.min(duration, endMillSeconds);
+            int count = 1;
             for (long time = startMillSeconds; time < minDuration; time += periodMillSeconds) {
-                bitmaps.add(retriever.getFrameAtTime(time * 1000, MediaMetadataRetriever.OPTION_CLOSEST));
+                long bitmapStart = System.currentTimeMillis();
+                Bitmap bitmap = retriever.getFrameAtTime(time * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
+                long bitmapEnd = System.currentTimeMillis();
+                Log.d(TAG, "makeGifWithMediaMetadataRetriever: getFrameAtTime " + count + " 耗时 -> " + (bitmapEnd - bitmapStart) / 1000f);
+                bitmaps.add(bitmap);
+                count++;
             }
             retriever.release();
+            long end = System.currentTimeMillis();
+            Log.d(TAG, "makeGifWithMediaMetadataRetriever: 耗时 -> " + (end - start) / 1000f);
             return makeGif(bitmaps, outputPath);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.allever.app.gif.search.ui.maker.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.allever.app.gif.search.R
@@ -31,6 +33,7 @@ class GifMakerViewModel: BaseViewModelKt<IBaseView>() {
         confirmText.value = getString(R.string.ok)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun onClickConfirm() {
         mediaBean?.let {
             viewModelScope.launch(Dispatchers.Main) {
