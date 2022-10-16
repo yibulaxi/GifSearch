@@ -66,14 +66,23 @@ class GifPreviewActivity : BaseActivity() {
             ivShare?.setOnClickListener {
                 ShareHelper.shareImage(this, item.url)
             }
+
+            val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
+            val tempPath = "${Global.tempDir}${File.separator}$fileName"
+            val url = if (FileUtils.checkExist(tempPath)) {
+                tempPath
+            } else {
+                item.url
+            }
+
             Glide.with(App.context)
-                .load(item.url)
+                .load(url)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(
                     DiskCacheStrategy.NONE
                 )
                 .into(gifImageView!!)
-            return
+//            return
         }
 
 
@@ -261,6 +270,10 @@ class GifPreviewActivity : BaseActivity() {
         }
 
         log("load url = $gifUrl")
+
+        if (!item.url.startsWith("http")) {
+            return
+        }
 
         if (FileUtils.checkExist(tempPath)) {
             downloadProgressBar?.progress = 100

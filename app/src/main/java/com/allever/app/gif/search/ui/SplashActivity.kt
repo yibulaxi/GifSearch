@@ -1,18 +1,17 @@
 package com.allever.app.gif.search.ui
 
+import android.Manifest
 import android.os.Bundle
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.Global
-import com.allever.app.gif.search.function.maker.GifMakeHelper
-import com.allever.app.gif.search.function.media.MediaHelper
 import com.allever.app.gif.search.function.store.Repository
 import com.allever.app.gif.search.ui.main.GifMainActivity
 import com.allever.app.gif.search.util.SpUtils
-import com.allever.lib.common.app.App
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.log
+import com.allever.lib.permission.PermissionCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -30,6 +29,13 @@ class SplashActivity : BaseActivity() {
         }, 2000)
 
         GlobalScope.launch {
+            if (!PermissionCompat.hasPermission(
+                    this@SplashActivity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                return@launch
+            }
             val result = Repository.getMyGif()
             result.map {
                 log("Gif: ${it.url}")

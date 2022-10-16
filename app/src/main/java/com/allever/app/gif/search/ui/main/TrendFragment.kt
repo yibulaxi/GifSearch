@@ -76,18 +76,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
         mBinding.gifRecyclerView.addOnScrollListener(recyclerViewScrollListener)
 
         mBinding.gifRecyclerView.layoutManager = LinearLayoutManager(context)
-        val pagerSnapHelper = object : PagerSnapHelper() {
-            override fun findTargetSnapPosition(
-                layoutManager: RecyclerView.LayoutManager,
-                velocityX: Int,
-                velocityY: Int
-            ): Int {
-                val position = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-                log("当前页： $position")
-                mBinding.gifRecyclerView.findViewHolderForLayoutPosition(position)
-                return position
-            }
-        }
+        val pagerSnapHelper = PagerSnapHelper()
         pagerSnapHelper.attachToRecyclerView(mBinding.gifRecyclerView)
         mBinding.gifRecyclerView.adapter = mViewModel.adapter
 
