@@ -7,7 +7,7 @@
 
         <variable
             name="pickViewModel"
-            type="com.allever.app.gif.search.ui.maker.model.PickViewModel" />
+            type="com.allever.app.gif.memes.ui.maker.model.PickViewModel" />
 
         <import type="android.view.View" />
     </data>

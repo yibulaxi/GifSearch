@@ -179,7 +179,7 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.allever.app.gif.search.bean.** { *; }
+-keep class com.allever.app.gif.memes.bean.** { *; }
 
 
 # Gson--------------------------------------------------------------------------

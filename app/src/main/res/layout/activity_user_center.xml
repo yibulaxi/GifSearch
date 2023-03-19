@@ -8,7 +8,7 @@
 
         <variable
             name="userCenterViewModel"
-            type="com.allever.app.gif.search.ui.user.model.UserCenterViewModel" />
+            type="com.allever.app.gif.memes.ui.user.model.UserCenterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

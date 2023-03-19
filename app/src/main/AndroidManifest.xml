@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.allever.app.gif.search">
+    package="com.allever.app.gif.memes">
 
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name="com.allever.app.gif.search.app.MyApp"
+        android:name="com.allever.app.gif.memes.app.MyApp"
         android:allowBackup="false"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
@@ -16,7 +16,7 @@
         android:theme="@style/FullScreenStyle"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.allever.app.gif.search.ui.SplashActivity"
+            android:name="com.allever.app.gif.memes.ui.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,42 +25,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.allever.app.gif.search.ui.main.GifMainActivity"
+            android:name="com.allever.app.gif.memes.ui.main.GifMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.allever.app.gif.search.ui.search.SearchActivity"
+            android:name="com.allever.app.gif.memes.ui.search.SearchActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.allever.app.gif.search.ui.GifPreviewActivity"
+            android:name="com.allever.app.gif.memes.ui.GifPreviewActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.allever.app.gif.search.ui.BackupRestoreActivity"
+            android:name="com.allever.app.gif.memes.ui.BackupRestoreActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.allever.app.gif.search.ui.MainActivity"
+            android:name="com.allever.app.gif.memes.ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.allever.app.gif.search.ui.SettingActivity"
+            android:name="com.allever.app.gif.memes.ui.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.allever.app.gif.search.ui.AboutActivity"
+            android:name="com.allever.app.gif.memes.ui.AboutActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.user.LoginActivity"
+        <activity android:name="com.allever.app.gif.memes.ui.user.LoginActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.user.RegisterActivity"
+        <activity android:name="com.allever.app.gif.memes.ui.user.RegisterActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.user.UserCenterActivity"
+        <activity android:name="com.allever.app.gif.memes.ui.user.UserCenterActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.maker.PickActivity"
+        <activity android:name="com.allever.app.gif.memes.ui.maker.PickActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.maker.GifMakerActivity"
+        <activity android:name="com.allever.app.gif.memes.ui.maker.GifMakerActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.GifFunDebugActivity"/>
+        <activity android:name="com.allever.app.gif.memes.ui.GifFunDebugActivity"/>
 
         <meta-data
             android:name="UMENG_APPKEY"

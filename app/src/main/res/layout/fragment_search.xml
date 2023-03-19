@@ -6,7 +6,7 @@
     <data>
         <variable
             name="searchViewModel"
-            type="com.allever.app.gif.search.ui.search.model.SearchViewModel" />
+            type="com.allever.app.gif.memes.ui.search.model.SearchViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
