@@ -6,13 +6,13 @@ import android.view.View
 import android.widget.TextView
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseActivity
 import com.allever.app.gif.search.ui.mvp.presenter.AboutPresenter
 import com.allever.app.gif.search.ui.mvp.view.AboutView
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.SystemUtils
-import com.allever.lib.umeng.UMeng
+//import com.allever.lib.umeng.UMeng
 
 class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 
@@ -23,16 +23,17 @@ class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View
         findViewById<View>(R.id.about_privacy).setOnClickListener(this)
         findViewById<View>(R.id.iv_left).setOnClickListener(this)
         findViewById<TextView>(R.id.tv_label).text = getString(R.string.about)
-        val channel = UMeng.getChannel()
+//        val channel = UMeng.getChannel()
+        val channel = "google"
         val last = if (BuildConfig.DEBUG) {
             "(Debug)-$channel\n" +
-                    "${App.context.packageName}\n" +
-                    "AdMob-${AdConstants.ADMOB_APP_ID}"
+                    "${App.context.packageName}\n"
+//                    "AdMob-${AdConstants.ADMOB_APP_ID}"
         } else {
             if (channel == "ad") {
                 "(Release)-$channel\n" +
-                        "${App.context.packageName}\n" +
-                        "AdMob-${AdConstants.ADMOB_APP_ID}"
+                        "${App.context.packageName}\n"
+//                        "AdMob-${AdConstants.ADMOB_APP_ID}"
             } else {
                 ""
             }

@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseActivity
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.function.store.Store
@@ -18,20 +18,20 @@ import com.allever.app.gif.search.function.store.Version
 import com.allever.app.gif.search.ui.mvp.presenter.SettingPresenter
 import com.allever.app.gif.search.ui.mvp.view.SettingView
 import com.allever.app.gif.search.util.SpUtils
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.AdChainListener
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.AdChainListener
+//import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.*
-import com.allever.lib.recommend.RecommendGlobal
+//import com.allever.lib.recommend.RecommendGlobal
 import kotlinx.android.synthetic.main.activity_setting.*
 
 class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
     SettingView, View.OnClickListener {
 
-    private var mBannerAd: IAd? = null
-    private var mVideoAd: IAd? = null
-    private var mInsertAd: IAd? = null
+//    private var mBannerAd: IAd? = null
+//    private var mVideoAd: IAd? = null
+//    private var mInsertAd: IAd? = null
 
     private lateinit var mSwitchVersion: SwitchCompat
 
@@ -51,16 +51,16 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
     }
 
     override fun initData() {
-        val bannerContainer = findViewById<ViewGroup>(R.id.bannerContainer)
-        AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, bannerContainer, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mBannerAd = ad
-            }
-
-            override fun onFailed(msg: String) {}
-            override fun onShowed() {}
-            override fun onDismiss() {}
-        })
+//        val bannerContainer = findViewById<ViewGroup>(R.id.bannerContainer)
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, bannerContainer, object : AdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mBannerAd = ad
+//            }
+//
+//            override fun onFailed(msg: String) {}
+//            override fun onShowed() {}
+//            override fun onDismiss() {}
+//        })
     }
 
     override fun createPresenter(): SettingPresenter =
@@ -69,7 +69,7 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.setting_tv_share -> {
-                var url = RecommendGlobal.getUrl(App.context.packageName)
+                var url = ""
                 if (TextUtils.isEmpty(url)) {
                     url = "https://play.google.com/store/apps/details?id=${App.context.packageName}"
                 }
@@ -106,18 +106,18 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
 
     override fun onResume() {
         super.onResume()
-        mBannerAd?.onAdResume()
+//        mBannerAd?.onAdResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mBannerAd?.onAdPause()
+//        mBannerAd?.onAdPause()
     }
 
     override fun onDestroy() {
-        mVideoAd?.destroy()
-        mInsertAd?.destroy()
-        mBannerAd?.destroy()
+//        mVideoAd?.destroy()
+//        mInsertAd?.destroy()
+//        mBannerAd?.destroy()
         super.onDestroy()
     }
 
@@ -129,7 +129,7 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
             .setPositiveButton("立即观看") { dialog, which ->
                 dialog.dismiss()
                 //流程加载视频  -> 下载 -> 插屏
-                loadEncourageVideoAd()
+//                loadEncourageVideoAd()
 //                loadInsert()
             }
             .setNegativeButton("残忍拒绝") { dialog, which ->
@@ -140,52 +140,52 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
             .show()
     }
 
-    private fun loadEncourageVideoAd() {
-        mVideoAd?.destroy()
-        mVideoAd = null
-        AdChainHelper.loadAd(AdConstants.AD_NAME_VIDEO, null, object :
-            AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mVideoAd = ad
-                mVideoAd?.show()
-            }
-
-            override fun onShowed() {
-            }
-
-            override fun onDismiss() {
-            }
-
-            override fun onFailed(msg: String) {
-                loadInsert()
-            }
-
-        })
-    }
-
-    private fun loadInsert() {
-        AdChainHelper.loadAd(
-            AdConstants.AD_NAME_EXIT_INSERT,
-            window?.decorView as ViewGroup,
-            object :
-                AdChainListener {
-                override fun onLoaded(ad: IAd?) {
-                    mInsertAd = ad
-                    mInsertAd?.show()
-                }
-
-                override fun onShowed() {
-                }
-
-                override fun onDismiss() {
-                }
-
-                override fun onFailed(msg: String) {
-                    toast("请求失败, 您可以点击下方小广告，也是对我们的一种支持。")
-                }
-
-            })
-    }
+//    private fun loadEncourageVideoAd() {
+//        mVideoAd?.destroy()
+//        mVideoAd = null
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_VIDEO, null, object :
+//            AdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mVideoAd = ad
+//                mVideoAd?.show()
+//            }
+//
+//            override fun onShowed() {
+//            }
+//
+//            override fun onDismiss() {
+//            }
+//
+//            override fun onFailed(msg: String) {
+//                loadInsert()
+//            }
+//
+//        })
+//    }
+//
+//    private fun loadInsert() {
+//        AdChainHelper.loadAd(
+//            AdConstants.AD_NAME_EXIT_INSERT,
+//            window?.decorView as ViewGroup,
+//            object :
+//                AdChainListener {
+//                override fun onLoaded(ad: IAd?) {
+//                    mInsertAd = ad
+//                    mInsertAd?.show()
+//                }
+//
+//                override fun onShowed() {
+//                }
+//
+//                override fun onDismiss() {
+//                }
+//
+//                override fun onFailed(msg: String) {
+//                    toast("请求失败, 您可以点击下方小广告，也是对我们的一种支持。")
+//                }
+//
+//            })
+//    }
 
     companion object {
         fun start(context: Context) {

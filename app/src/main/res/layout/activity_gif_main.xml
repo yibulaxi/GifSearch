@@ -43,15 +43,15 @@
                     android:layout_centerVertical="true"
                     app:tint="@color/white" />
 
-                <ImageView
-                    android:id="@+id/ivRecommend"
-                    android:layout_width="@dimen/default_icon_width"
-                    android:layout_height="@dimen/default_icon_height"
-                    android:src="@drawable/recommend_ic_gift"
-                    android:scaleType="center"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:onClick="@{()->gifMainViewModel.onClickRecommend()}"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivRecommend"-->
+<!--                    android:layout_width="@dimen/default_icon_width"-->
+<!--                    android:layout_height="@dimen/default_icon_height"-->
+<!--                    android:src="@drawable/recommend_ic_gift"-->
+<!--                    android:scaleType="center"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:onClick="@{()->gifMainViewModel.onClickRecommend()}"/>-->
 
                 <com.allever.lib.common.ui.widget.tab.TabLayout
                     android:id="@+id/tab_layout"
@@ -63,13 +63,13 @@
 
             </RelativeLayout>
 
-            <com.allever.lib.ad.chain.BannerLayout
-                android:id="@+id/bannerContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"/>
+<!--            <com.allever.lib.ad.chain.BannerLayout-->
+<!--                android:id="@+id/bannerContainer"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:gravity="center"-->
+<!--                android:visibility="gone"/>-->
         </LinearLayout>
 
     </RelativeLayout>

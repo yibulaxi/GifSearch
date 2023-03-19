@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.allever.app.gif.search.R
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.app.App
 import com.allever.lib.common.app.BaseFragment
 
 class GuideFragment : BaseFragment() {
-    private var mBannerAd: IAd? = null
+//    private var mBannerAd: IAd? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,7 +41,7 @@ class GuideFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        mBannerAd?.destroy()
+//        mBannerAd?.destroy()
         super.onDestroy()
     }
 }

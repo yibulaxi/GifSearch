@@ -91,11 +91,11 @@
 			<include layout="@layout/include_divider_line" />
 
 
-			<com.allever.lib.ad.chain.BannerLayout
-				android:id="@+id/bannerContainer"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:visibility="gone"/>
+<!--			<com.allever.lib.ad.chain.BannerLayout-->
+<!--				android:id="@+id/bannerContainer"-->
+<!--				android:layout_width="match_parent"-->
+<!--				android:layout_height="wrap_content"-->
+<!--				android:visibility="gone"/>-->
 
 		</LinearLayout>
 

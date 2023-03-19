@@ -9,11 +9,11 @@ import com.allever.app.gif.search.R
 import com.allever.app.gif.search.app.BaseActivity
 import com.allever.app.gif.search.ui.mvp.presenter.MainPresenter
 import com.allever.app.gif.search.ui.mvp.view.MainView
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.IAd
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, View.OnClickListener {
 
-    private var mInsertAd: IAd? = null
+//    private var mInsertAd: IAd? = null
 
     override fun getContentView(): Any = R.layout.activity_main
 

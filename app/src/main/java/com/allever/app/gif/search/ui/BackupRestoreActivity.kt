@@ -8,13 +8,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseActivity
 import com.allever.app.gif.search.ui.mvp.presenter.BackupRestorePresenter
 import com.allever.app.gif.search.ui.mvp.view.BackupRestoreView
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.AdChainListener
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.AdChainListener
+//import com.allever.lib.ad.chain.IAd
 
 class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePresenter>(),
     BackupRestoreView,
@@ -24,8 +24,8 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
     private lateinit var mBtnRestore: Button
     private lateinit var mBtnDelBackup: Button
 
-    private var mBannerAd: IAd? = null
-    private var mInsertAd: IAd? = null
+//    private var mBannerAd: IAd? = null
+//    private var mInsertAd: IAd? = null
 
     override fun getContentView(): Any = R.layout.activity_backup_restore
 
@@ -41,7 +41,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
     }
 
     override fun initData() {
-        loadAndShowBanner()
+//        loadAndShowBanner()
     }
 
     override fun createPresenter(): BackupRestorePresenter = BackupRestorePresenter()
@@ -61,7 +61,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                         mBtnBackup.isClickable = false
                         mPresenter?.backup(Runnable {
                             mBtnBackup.isClickable = true
-                            loadAndShowInsert()
+//                            loadAndShowInsert()
                         })
                         dialog.dismiss()
                     }
@@ -76,7 +76,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                 mBtnRestore.isClickable = false
                 mPresenter?.restore(Runnable {
                     mBtnRestore.isClickable = true
-                    loadAndShowInsert()
+//                    loadAndShowInsert()
                 })
             }
 
@@ -90,7 +90,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
                         mBtnDelBackup.isClickable = false
                         mPresenter?.delBackup(Runnable {
                             mBtnDelBackup.isClickable = true
-                            loadAndShowInsert()
+//                            loadAndShowInsert()
                         })
                         dialog.dismiss()
                     }
@@ -107,51 +107,51 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
 
     override fun onResume() {
         super.onResume()
-        mBannerAd?.onAdResume()
+//        mBannerAd?.onAdResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mBannerAd?.onAdPause()
+//        mBannerAd?.onAdPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mBannerAd?.destroy()
-        mInsertAd?.destroy()
+//        mBannerAd?.destroy()
+//        mInsertAd?.destroy()
         setResult(Activity.RESULT_OK)
     }
 
-    private fun loadAndShowBanner() {
-        val container = findViewById<ViewGroup>(R.id.adContainer)
-        AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mBannerAd = ad
-            }
-
-            override fun onFailed(msg: String) {}
-            override fun onShowed() {}
-            override fun onDismiss() {}
-
-        })
-    }
-
-    private fun loadAndShowInsert() {
-        AdChainHelper.loadAd(
-            AdConstants.AD_NAME_EXIT_INSERT,
-            window.decorView as ViewGroup,
-            object : AdChainListener {
-                override fun onLoaded(ad: IAd?) {
-                    mInsertAd = ad
-                    ad?.show()
-                }
-
-                override fun onFailed(msg: String) {}
-                override fun onShowed() {}
-                override fun onDismiss() {}
-
-            })
-    }
+//    private fun loadAndShowBanner() {
+//        val container = findViewById<ViewGroup>(R.id.adContainer)
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mBannerAd = ad
+//            }
+//
+//            override fun onFailed(msg: String) {}
+//            override fun onShowed() {}
+//            override fun onDismiss() {}
+//
+//        })
+//    }
+//
+//    private fun loadAndShowInsert() {
+//        AdChainHelper.loadAd(
+//            AdConstants.AD_NAME_EXIT_INSERT,
+//            window.decorView as ViewGroup,
+//            object : AdChainListener {
+//                override fun onLoaded(ad: IAd?) {
+//                    mInsertAd = ad
+//                    ad?.show()
+//                }
+//
+//                override fun onFailed(msg: String) {}
+//                override fun onShowed() {}
+//                override fun onDismiss() {}
+//
+//            })
+//    }
 
     companion object {
         val RC_RESULT = 0X01

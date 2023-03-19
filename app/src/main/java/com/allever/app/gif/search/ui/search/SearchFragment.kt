@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
-import com.allever.app.gif.search.ad.SimpleAdChainListener
+//import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.SimpleAdChainListener
 import com.allever.app.gif.search.app.BaseFragment2
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
@@ -28,8 +28,8 @@ import com.allever.app.gif.search.ui.search.model.SearchViewModel
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.app.gif.search.util.SpUtils
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
@@ -51,7 +51,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
     private lateinit var mKeyword: String
 
-    private var mDetailInsertAd: IAd? = null
+//    private var mDetailInsertAd: IAd? = null
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_search, BR.searchViewModel)
 
@@ -105,7 +105,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
     override fun destroyView() {
         DownloadManager.getInstance().cancelAllTask()
         ImageLoader.clearMemoryCache()
-        mDetailInsertAd?.destroy()
+//        mDetailInsertAd?.destroy()
         EventBus.getDefault().unregister(this)
     }
 
@@ -130,12 +130,12 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
             val gifItemList = Repository.search(keyword, offset)
             hideLoadingProgressDialog()
             mBinding.ivRetry.visibility = View.VISIBLE
-            if (mDetailInsertAd != null) {
-                HandlerHelper.mainHandler.postDelayed({
-                    toast(R.string.loading_ad_tips)
-                    mDetailInsertAd?.show()
-                }, 200)
-            }
+//            if (mDetailInsertAd != null) {
+//                HandlerHelper.mainHandler.postDelayed({
+//                    toast(R.string.loading_ad_tips)
+//                    mDetailInsertAd?.show()
+//                }, 200)
+//            }
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
@@ -165,7 +165,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
             SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
 
-            loadDetailInsert()
+//            loadDetailInsert()
 
             if (gifItemList.isEmpty()) {
                 recyclerViewScrollListener.setLoadDataStatus(false)
@@ -177,13 +177,13 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
         }
     }
 
-    private fun loadDetailInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : SimpleAdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mDetailInsertAd = ad
-            }
-        })
-    }
+//    private fun loadDetailInsert() {
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : SimpleAdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mDetailInsertAd = ad
+//            }
+//        })
+//    }
 
     private fun showLoadingProgressDialog(msg: String) {
         if (!mProgressDialog.isShowing) {

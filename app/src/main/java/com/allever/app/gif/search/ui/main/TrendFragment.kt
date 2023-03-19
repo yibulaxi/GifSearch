@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseFragment2
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.bean.event.DownloadFinishEvent
@@ -24,9 +24,9 @@ import com.allever.app.gif.search.ui.mvp.view.TrendView
 import com.allever.app.gif.search.ui.user.LoginActivity
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
 import com.allever.app.gif.search.util.SpUtils
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.AdChainListener
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.AdChainListener
+//import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
@@ -45,7 +45,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 
-    private var mDetailInsertAd: IAd? = null
+//    private var mDetailInsertAd: IAd? = null
     private var mIsDetailAdShowed = false
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_trend, BR.trendViewModel)
@@ -84,7 +84,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
     }
 
     override fun destroyView() {
-        mDetailInsertAd?.destroy()
+//        mDetailInsertAd?.destroy()
         EventBus.getDefault().unregister(this)
     }
 
@@ -121,13 +121,13 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
             val gifItemList = Repository.getGifItemList(offset)
             hideLoadingProgressDialog()
             //成功
-            if (mDetailInsertAd != null) {
-                HandlerHelper.mainHandler.postDelayed({
-                    toast(R.string.loading_ad_tips)
-                    mDetailInsertAd?.show()
-                    mIsDetailAdShowed = true
-                }, 200)
-            }
+//            if (mDetailInsertAd != null) {
+//                HandlerHelper.mainHandler.postDelayed({
+//                    toast(R.string.loading_ad_tips)
+//                    mDetailInsertAd?.show()
+//                    mIsDetailAdShowed = true
+//                }, 200)
+//            }
 
             delay(500)
 
@@ -159,7 +159,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
 
             SpUtils.putString(Global.SP_OFFSET, offset)
 
-            loadDetailInsert()
+//            loadDetailInsert()
 
             //失败
             if (gifItemList.isEmpty()) {
@@ -206,22 +206,22 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
         }
     }
 
-    private fun loadDetailInsert() {
-        return
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mDetailInsertAd = ad
-            }
-
-            override fun onFailed(msg: String) {
-
-            }
-
-            override fun onShowed() {
-            }
-
-            override fun onDismiss() {
-            }
-        })
-    }
+//    private fun loadDetailInsert() {
+//        return
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : AdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mDetailInsertAd = ad
+//            }
+//
+//            override fun onFailed(msg: String) {
+//
+//            }
+//
+//            override fun onShowed() {
+//            }
+//
+//            override fun onDismiss() {
+//            }
+//        })
+//    }
 }

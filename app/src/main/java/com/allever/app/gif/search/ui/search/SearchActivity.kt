@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.BuildConfig
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
-import com.allever.app.gif.search.ad.SimpleAdChainListener
+//import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.SimpleAdChainListener
 import com.allever.app.gif.search.app.BaseDataActivity2
 import com.allever.app.gif.search.app.Global
 import com.allever.app.gif.search.databinding.ActivitySearchBinding
@@ -30,8 +30,8 @@ import com.allever.app.gif.search.ui.search.model.SearchViewModel
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
 import com.allever.app.gif.search.util.ImageLoader
 import com.allever.app.gif.search.util.SpUtils
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
@@ -48,7 +48,7 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
 
     private lateinit var mKeyword: String
 
-    private var mDetailInsertAd: IAd? = null
+//    private var mDetailInsertAd: IAd? = null
 
     override fun isPaddingTop(): Boolean = false
     override fun statusColor(): Int = R.color.trans
@@ -140,7 +140,7 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
         }
         DownloadManager.getInstance().cancel(urls)
         ImageLoader.clearMemoryCache()
-        mDetailInsertAd?.destroy()
+//        mDetailInsertAd?.destroy()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -177,12 +177,12 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
         mViewModel.viewModelScope.launch(Dispatchers.Main) {
             val gifItemList = Repository.search(keyword, offset)
             hideLoadingProgressDialog()
-            if (mDetailInsertAd != null) {
-                HandlerHelper.mainHandler.postDelayed({
-                    toast(R.string.loading_ad_tips)
-                    mDetailInsertAd?.show()
-                }, 200)
-            }
+//            if (mDetailInsertAd != null) {
+//                HandlerHelper.mainHandler.postDelayed({
+//                    toast(R.string.loading_ad_tips)
+//                    mDetailInsertAd?.show()
+//                }, 200)
+//            }
 
             recyclerViewScrollListener.setLoadDataStatus(false)
             mBinding.gifRecyclerView.visibility = View.VISIBLE
@@ -212,7 +212,7 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
 
             SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
 
-            loadDetailInsert()
+//            loadDetailInsert()
 
             if (gifItemList.isEmpty()) {
                 recyclerViewScrollListener.setLoadDataStatus(false)
@@ -225,16 +225,16 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
     }
 
 
-    private fun loadDetailInsert() {
-        AdChainHelper.loadAd(
-            AdConstants.AD_NAME_DETAIL_INSERT,
-            null,
-            object : SimpleAdChainListener {
-                override fun onLoaded(ad: IAd?) {
-                    mDetailInsertAd = ad
-                }
-            })
-    }
+//    private fun loadDetailInsert() {
+//        AdChainHelper.loadAd(
+//            AdConstants.AD_NAME_DETAIL_INSERT,
+//            null,
+//            object : SimpleAdChainListener {
+//                override fun onLoaded(ad: IAd?) {
+//                    mDetailInsertAd = ad
+//                }
+//            })
+//    }
 
     private fun showLoadingProgressDialog(msg: String) {
         if (!mProgressDialog.isShowing) {

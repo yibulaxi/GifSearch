@@ -46,8 +46,7 @@
             android:scaleType="centerInside"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:visibility="visible"
-            android:src="@drawable/recommend_ic_gift"/>
+            android:visibility="visible"/>
     </RelativeLayout>
 
     <androidx.viewpager.widget.ViewPager

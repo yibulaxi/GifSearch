@@ -10,7 +10,7 @@ import com.xm.netmodel.impl.HttpRequestImpl
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import rx.Observable
+//import rx.Observable
 
 interface Api {
 
@@ -31,15 +31,15 @@ interface Api {
 
     //https://api.giphy.com/v1/gifs/random?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8
     @GET("gifs/random?")
-    fun getRandomGif(
+    suspend fun getRandomGif(
         @Query("api_key") api_key: String = API_KEY
-    ): Observable<RandomResponse>
+    ): RandomResponse
 
     //https://api.giphy.com/v1/gifs/random?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8
     @GET("stickers/random?")
-    fun getRandomSticker(
+    suspend fun getRandomSticker(
         @Query("api_key") api_key: String = API_KEY
-    ): Observable<RandomResponse>
+    ): RandomResponse
 
 
     //https://api.giphy.com/v1/gifs/search?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&q=cat&offset=0&limit=1
@@ -63,10 +63,10 @@ interface Api {
 
     //https://api.giphy.com/v1/gifs/translate?api_key=gdsqQrQq2mEOPm7Q5ZQ2jHRNX91kwYG8&s=cat
     @GET("gifs/translate?")
-    fun translateGif(
+    suspend fun translateGif(
         @Query("s") s: String,
         @Query("api_key") api_key: String = API_KEY
-    ): Observable<TranslateResponse>
+    ): TranslateResponse
 
 
 

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.allever.app.gif.search.BR
 import com.allever.app.gif.search.R
-import com.allever.app.gif.search.ad.AdConstants
+//import com.allever.app.gif.search.ad.AdConstants
 import com.allever.app.gif.search.app.BaseDataActivity2
 import com.allever.app.gif.search.databinding.ActivityGifMainBinding
 import com.allever.app.gif.search.function.download.DownloadManager
@@ -27,20 +27,20 @@ import com.allever.app.gif.search.ui.maker.MineFragment
 import com.allever.app.gif.search.ui.maker.PickActivity
 import com.allever.app.gif.search.ui.search.SearchFragment
 import com.allever.app.gif.search.util.ImageLoader
-import com.allever.lib.ad.chain.AdChainHelper
-import com.allever.lib.ad.chain.AdChainListener
-import com.allever.lib.ad.chain.IAd
-import com.allever.lib.comment.CommentHelper
-import com.allever.lib.comment.CommentListener
+//import com.allever.lib.ad.chain.AdChainHelper
+//import com.allever.lib.ad.chain.AdChainListener
+//import com.allever.lib.ad.chain.IAd
+//import com.allever.lib.comment.CommentHelper
+//import com.allever.lib.comment.CommentListener
 import com.allever.lib.common.app.BaseFragment
 import com.allever.lib.common.ui.widget.tab.TabLayout
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.DisplayUtils
-import com.allever.lib.recommend.RecommendDialogHelper
-import com.allever.lib.recommend.RecommendDialogListener
-import com.allever.lib.recommend.RecommendGlobal
+//import com.allever.lib.recommend.RecommendDialogHelper
+//import com.allever.lib.recommend.RecommendDialogListener
+//import com.allever.lib.recommend.RecommendGlobal
 import com.allever.lib.ui.widget.ShakeHelper
-import com.allever.lib.umeng.UMeng
+//import com.allever.lib.umeng.UMeng
 import com.xm.lib.base.config.DataBindingConfig
 import com.xm.lib.manager.IntentManager
 import com.xm.lib.manager.statusbar.BarUtils
@@ -62,8 +62,8 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
 
     private var mShakeAnimator: ObjectAnimator? = null
 
-    private var mBannerAd: IAd? = null
-    private var mExitInsertAd: IAd? = null
+//    private var mBannerAd: IAd? = null
+//    private var mExitInsertAd: IAd? = null
 
     override fun isPaddingTop(): Boolean = false
     override fun statusColor(): Int = R.color.trans
@@ -73,9 +73,9 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
     override fun initDataAndEvent() {
         ViewHelper.setMarginTop(mBinding.topBar, BarUtils.getStatusBarHeight())
         ivRight.setOnClickListener(this)
-        ivRecommend.setOnClickListener(this)
-        mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)
-        mShakeAnimator?.start()
+//        ivRecommend.setOnClickListener(this)
+//        mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)
+//        mShakeAnimator?.start()
 
         mTab = findViewById(R.id.tab_layout)
         mVp = findViewById(R.id.id_main_vp)
@@ -87,10 +87,10 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         initViewPager()
         initTab()
 
-        HandlerHelper.mainHandler.postDelayed({
-            loadBanner()
-            loadExitInsert()
-        }, 10000)
+//        HandlerHelper.mainHandler.postDelayed({
+//            loadBanner()
+//            loadExitInsert()
+//        }, 10000)
     }
 
 
@@ -123,11 +123,11 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                 when (position) {
                     0 -> {
                         topBarContainer.visibility = View.VISIBLE
-                        if (mBannerAd != null) {
-                            bannerContainer.visibility = View.VISIBLE
-                        } else {
-                            bannerContainer.visibility = View.GONE
-                        }
+//                        if (mBannerAd != null) {
+//                            bannerContainer.visibility = View.VISIBLE
+//                        } else {
+//                            bannerContainer.visibility = View.GONE
+//                        }
                         ivRight.setImageResource(R.drawable.ic_setting)
 //                        mTvTitle.text = getString(R.string.app_name)
                         ivRight.setColorFilter(resources.getColor(R.color.black, null))
@@ -142,12 +142,12 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                         ivRight.setImageResource(R.drawable.ic_backup)
                         ivRight.setColorFilter(resources.getColor(R.color.black, null))
                         topBarContainer.visibility = View.VISIBLE
-                        bannerContainer.visibility = View.GONE
+//                        bannerContainer.visibility = View.GONE
                     }
                     3 -> {
                         ivRight.setImageResource(R.drawable.icon_add)
                         topBarContainer.visibility = View.VISIBLE
-                        bannerContainer.visibility = View.GONE
+//                        bannerContainer.visibility = View.GONE
                     }
                 }
             }
@@ -253,142 +253,64 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
     override fun onDestroy() {
         super.onDestroy()
         DownloadManager.getInstance().cancelAllTask()
-        mBannerAd?.destroy()
-        mExitInsertAd?.destroy()
+//        mBannerAd?.destroy()
+//        mExitInsertAd?.destroy()
         ImageLoader.clearMemoryCache()
         mShakeAnimator?.cancel()
     }
 
-
-    private fun loadBanner() {
-        HandlerHelper.mainHandler.postDelayed({
-            val container = findViewById<ViewGroup>(R.id.bannerContainer)
-            AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
-                override fun onLoaded(ad: IAd?) {
-                    mBannerAd = ad
-                    if (mVp.currentItem == 0) {
-                        bannerContainer.visibility = View.VISIBLE
-                    } else {
-                        bannerContainer.visibility = View.GONE
-                    }
-                }
-
-                override fun onFailed(msg: String) {}
-                override fun onShowed() {}
-                override fun onDismiss() {}
-
-            })
-        }, 3000)
-    }
+//
+//    private fun loadBanner() {
+//        HandlerHelper.mainHandler.postDelayed({
+//            val container = findViewById<ViewGroup>(R.id.bannerContainer)
+//            AdChainHelper.loadAd(AdConstants.AD_NAME_BANNER, container, object : AdChainListener {
+//                override fun onLoaded(ad: IAd?) {
+//                    mBannerAd = ad
+//                    if (mVp.currentItem == 0) {
+//                        bannerContainer.visibility = View.VISIBLE
+//                    } else {
+//                        bannerContainer.visibility = View.GONE
+//                    }
+//                }
+//
+//                override fun onFailed(msg: String) {}
+//                override fun onShowed() {}
+//                override fun onDismiss() {}
+//
+//            })
+//        }, 3000)
+//    }
 
     private var mIsAdLoaded = false
-    private fun loadExitInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, null, object : AdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mExitInsertAd = ad
-                mIsAdLoaded = true
-            }
-
-            override fun onFailed(msg: String) {}
-            override fun onShowed() {
-                mIsAdLoaded = false
-            }
-
-            override fun onDismiss() {}
-
-        })
-    }
+//    private fun loadExitInsert() {
+//        AdChainHelper.loadAd(AdConstants.AD_NAME_EXIT_INSERT, null, object : AdChainListener {
+//            override fun onLoaded(ad: IAd?) {
+//                mExitInsertAd = ad
+//                mIsAdLoaded = true
+//            }
+//
+//            override fun onFailed(msg: String) {}
+//            override fun onShowed() {
+//                mIsAdLoaded = false
+//            }
+//
+//            override fun onDismiss() {}
+//
+//        })
+//    }
 
     override fun onResume() {
         super.onResume()
-        mBannerAd?.onAdResume()
+//        mBannerAd?.onAdResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mBannerAd?.onAdPause()
+//        mBannerAd?.onAdPause()
     }
 
     override fun onBackPressed() {
-        if (mIsAdLoaded) {
-            mExitInsertAd?.show()
-            mIsAdLoaded = false
-        } else {
-            if (UMeng.getChannel() == "google") {
-                //谷歌渠道，首次评分，其余推荐
-                if (mIsShowComment) {
-                    if (RecommendGlobal.recommendData.isEmpty()) {
-                        showComment()
-                    } else {
-                        showRecommendDialog()
-                    }
-                } else {
-                    showComment()
-                }
-            } else {
-                //其他渠道推荐
-                if (RecommendGlobal.recommendData.isEmpty()) {
-                    checkExit()
-                } else {
-                    showRecommendDialog()
-                }
-            }
-        }
+        checkExit()
     }
-
-    private fun showRecommendDialog() {
-        val dialog =
-            RecommendDialogHelper.createRecommendDialog(this, object : RecommendDialogListener {
-                override fun onMore(dialog: Dialog?) {
-                    dialog?.dismiss()
-                }
-
-                override fun onReject(dialog: Dialog?) {
-                    dialog?.dismiss()
-                    GlobalScope.launch {
-                        delay(200)
-                        finish()
-                    }
-                }
-
-                override fun onBackPress(dialog: Dialog?) {
-                    dialog?.dismiss()
-                    GlobalScope.launch {
-                        delay(200)
-                        finish()
-                    }
-                }
-            })
-        RecommendDialogHelper.show(this, dialog)
-    }
-
-    private var mIsShowComment = false
-    private fun showComment() {
-        val dialog = CommentHelper.createCommentDialog(this, object : CommentListener {
-            override fun onComment(dialog: Dialog?) {
-                dialog?.dismiss()
-            }
-
-            override fun onReject(dialog: Dialog?) {
-                dialog?.dismiss()
-                GlobalScope.launch {
-                    delay(200)
-                    finish()
-                }
-            }
-
-            override fun onBackPress(dialog: Dialog?) {
-                dialog?.dismiss()
-                GlobalScope.launch {
-                    delay(200)
-                    finish()
-                }
-            }
-        })
-
-        CommentHelper.show(this, dialog)
-        mIsShowComment = true
-    }
-
 
 }
