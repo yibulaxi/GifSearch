@@ -11,8 +11,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gifRecyclerView"
@@ -28,22 +27,29 @@
             android:src="@drawable/retry"
             android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/searchViewContainer"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#11ffffff">
-
-            <com.allever.lib.ui.searchview.SearchView
-                android:id="@+id/searchView"
+            android:background="@drawable/shape_home_top_menu_bg">
+            <RelativeLayout
+                android:id="@+id/searchViewContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_height="?actionBarSize"
+                >
 
-        </RelativeLayout>
+                <com.allever.lib.ui.searchview.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp" />
+
+            </RelativeLayout>
+        </FrameLayout>
+
+
 
     </RelativeLayout>
 </layout>

@@ -11,8 +11,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black">
+        android:layout_height="match_parent">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/id_main_vp"
@@ -24,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/color_11_white">
+            android:background="@drawable/shape_home_top_menu_bg">
 
             <RelativeLayout
                 android:id="@+id/topBar"
@@ -34,6 +33,7 @@
                 >
 
                 <ImageView
+                    android:tint="@color/black"
                     android:id="@+id/ivRight"
                     android:layout_width="@dimen/default_icon_width"
                     android:layout_height="@dimen/default_icon_height"
@@ -50,12 +50,13 @@
                     android:src="@drawable/recommend_ic_gift"
                     android:scaleType="center"
                     android:layout_centerVertical="true"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:onClick="@{()->gifMainViewModel.onClickRecommend()}"/>
 
                 <com.allever.lib.common.ui.widget.tab.TabLayout
                     android:id="@+id/tab_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="84dp"
                     android:layout_height="56dp"
                     android:layout_centerInParent="true" />
 

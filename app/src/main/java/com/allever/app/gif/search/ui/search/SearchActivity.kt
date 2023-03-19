@@ -24,6 +24,7 @@ import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.store.Repository
 import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.function.store.Version
+import com.allever.app.gif.search.ui.ViewHelper
 import com.allever.app.gif.search.ui.adapter.GifAdapter
 import com.allever.app.gif.search.ui.search.model.SearchViewModel
 import com.allever.app.gif.search.ui.widget.RecyclerViewScrollListener
@@ -34,9 +35,9 @@ import com.allever.lib.ad.chain.IAd
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.manager.statusbar.BarUtils
 import com.xm.lib.util.HandlerHelper
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>() {
@@ -49,9 +50,14 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
 
     private var mDetailInsertAd: IAd? = null
 
-    override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_search, BR.searchViewModel)
+    override fun isPaddingTop(): Boolean = false
+    override fun statusColor(): Int = R.color.trans
+
+    override fun initDataBindingConfig() =
+        DataBindingConfig(R.layout.activity_search, BR.searchViewModel)
 
     override fun initDataAndEvent() {
+        ViewHelper.setMarginTop(mBinding.topBar, BarUtils.getStatusBarHeight())
         mKeyword = intent?.getStringExtra(EXTRA_KEY_WORD) ?: ""
 
         mProgressDialog = ProgressDialog(this)
@@ -218,14 +224,16 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
         }
     }
 
-    
 
     private fun loadDetailInsert() {
-        AdChainHelper.loadAd(AdConstants.AD_NAME_DETAIL_INSERT, null, object : SimpleAdChainListener {
-            override fun onLoaded(ad: IAd?) {
-                mDetailInsertAd = ad
-            }
-        })
+        AdChainHelper.loadAd(
+            AdConstants.AD_NAME_DETAIL_INSERT,
+            null,
+            object : SimpleAdChainListener {
+                override fun onLoaded(ad: IAd?) {
+                    mDetailInsertAd = ad
+                }
+            })
     }
 
     private fun showLoadingProgressDialog(msg: String) {

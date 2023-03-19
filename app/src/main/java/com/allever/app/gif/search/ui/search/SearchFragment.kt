@@ -21,6 +21,7 @@ import com.allever.app.gif.search.function.download.DownloadManager
 import com.allever.app.gif.search.function.store.Repository
 import com.allever.app.gif.search.function.store.Store
 import com.allever.app.gif.search.function.store.Version
+import com.allever.app.gif.search.ui.ViewHelper
 import com.allever.app.gif.search.ui.adapter.GifAdapter
 import com.allever.app.gif.search.ui.mvp.view.ISearchView
 import com.allever.app.gif.search.ui.search.model.SearchViewModel
@@ -33,6 +34,7 @@ import com.allever.lib.common.util.SystemUtils
 import com.allever.lib.common.util.log
 import com.allever.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
+import com.xm.lib.manager.statusbar.BarUtils
 import com.xm.lib.util.HandlerHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -56,9 +58,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
     override fun initDataAndEvent() {
         EventBus.getDefault().register(this)
 
-        val layoutParams = mBinding.searchViewContainer.layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.topMargin = layoutParams.topMargin + SystemUtils.getStatusBarHeight(context!!)
-        mBinding.searchViewContainer.layoutParams = layoutParams
+        ViewHelper.setMarginTop(mBinding.searchViewContainer, BarUtils.getStatusBarHeight())
 
         mKeyword = arguments?.getString(EXTRA_KEY_WORD) ?: ""
 

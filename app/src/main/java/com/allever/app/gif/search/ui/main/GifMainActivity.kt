@@ -2,6 +2,7 @@ package com.allever.app.gif.search.ui.main
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -42,6 +43,7 @@ import com.allever.lib.ui.widget.ShakeHelper
 import com.allever.lib.umeng.UMeng
 import com.xm.lib.base.config.DataBindingConfig
 import com.xm.lib.manager.IntentManager
+import com.xm.lib.manager.statusbar.BarUtils
 import com.xm.lib.util.HandlerHelper
 import kotlinx.android.synthetic.main.activity_gif_main.*
 import kotlinx.coroutines.GlobalScope
@@ -69,7 +71,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_gif_main, BR.gifMainViewModel)
 
     override fun initDataAndEvent() {
-        addStatusBar(mBinding.rootLayout, mBinding.topBarContainer)
+        ViewHelper.setMarginTop(mBinding.topBar, BarUtils.getStatusBarHeight())
         ivRight.setOnClickListener(this)
         ivRecommend.setOnClickListener(this)
         mShakeAnimator = ShakeHelper.createShakeAnimator(ivRecommend, true)
@@ -78,8 +80,8 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         mTab = findViewById(R.id.tab_layout)
         mVp = findViewById(R.id.id_main_vp)
 
-        mainTabHighlight = resources.getColor(R.color.main_tab_highlight)
-        mainTabUnSelectColor = resources.getColor(R.color.main_tab_unselect_color)
+        mainTabHighlight = resources.getColor(R.color.black)
+        mainTabUnSelectColor = resources.getColor(R.color.gray_66)
 
         initViewPagerData()
         initViewPager()
@@ -100,12 +102,13 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         mFragmentList.add(TrendFragment())
         mFragmentList.add(SearchFragment())
         mFragmentList.add(LikedFragment())
-        mFragmentList.add(MineFragment())
+//        mFragmentList.add(MineFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
 
     private fun initViewPager() {
-        mVp.offscreenPageLimit = 4
+        ivRight.setColorFilter(resources.getColor(R.color.black, null))
+        mVp.offscreenPageLimit = 3
         mVp.adapter = mViewPagerAdapter
 
         mVp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -127,14 +130,17 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                         }
                         ivRight.setImageResource(R.drawable.ic_setting)
 //                        mTvTitle.text = getString(R.string.app_name)
+                        ivRight.setColorFilter(resources.getColor(R.color.black, null))
                     }
                     1 -> {
                         ivRight.setImageResource(R.drawable.ic_setting)
                         topBarContainer.visibility = View.GONE
+                        ivRight.setColorFilter(resources.getColor(R.color.black, null))
 //                        mTvTitle.text = getString(R.string.tab_guide)
                     }
                     2 -> {
                         ivRight.setImageResource(R.drawable.ic_backup)
+                        ivRight.setColorFilter(resources.getColor(R.color.black, null))
                         topBarContainer.visibility = View.VISIBLE
                         bannerContainer.visibility = View.GONE
                     }

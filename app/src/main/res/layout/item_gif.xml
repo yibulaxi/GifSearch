@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black">
+    android:layout_height="match_parent">
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/ivPlay"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/play"
         android:scaleType="centerInside"
-        android:visibility="gone"/>
+        android:src="@drawable/play"
+        android:tint="@color/black"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progressCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/ivRetry"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/retry"
         android:scaleType="centerInside"
-        android:visibility="gone"/>
+        android:src="@drawable/retry"
+        android:tint="@color/black"
+        android:visibility="gone" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#11ffffff"
-        android:layout_above="@+id/downloadProgress">
+        android:layout_above="@+id/downloadProgress"
+        android:background="@drawable/shape_gif_item_bottom_menu_bg"
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:layout_above="@+id/menuPanel"
+            android:layout_margin="5dp"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/ivHeader"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@drawable/ic_logo"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_default" />
 
                 <TextView
                     android:id="@+id/tvDisplayName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
+                    android:text="\@Just"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:text="\@Just"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
-
 
 
             <TextView
@@ -84,8 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDisplayName"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:text="Cat Aww Sticker by Justin"/>
+                android:text="Cat Aww Sticker by Justin"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
@@ -94,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivLike"
@@ -103,8 +103,9 @@
                 android:layout_height="@dimen/default_icon_height"
                 android:layout_weight="1"
                 android:padding="5dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_like"
-                android:scaleType="centerInside" />
+                android:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/ivShare"
@@ -112,16 +113,18 @@
                 android:layout_height="@dimen/default_icon_height"
                 android:layout_weight="1"
                 android:padding="5dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_share_2"
-                android:scaleType="centerInside"/>
+                android:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/ivDownload"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/default_icon_height"
                 android:layout_weight="1"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_download"
-                android:scaleType="centerInside"/>
+                android:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/ivMore"
@@ -129,8 +132,9 @@
                 android:layout_height="@dimen/default_icon_height"
                 android:layout_weight="1"
                 android:padding="5dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_more"
-                android:scaleType="centerInside" />
+                android:tint="@color/black" />
 
         </LinearLayout>
 
@@ -187,6 +191,6 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:progress="0"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:progress="0" />
 </RelativeLayout>
