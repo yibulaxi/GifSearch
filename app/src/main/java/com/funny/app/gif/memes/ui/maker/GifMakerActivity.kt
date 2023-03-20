@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseDataActivity2
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
 import com.funny.app.gif.memes.databinding.ActivityGifMakerBinding
 import com.funny.app.gif.memes.function.media.MediaBean
 import com.funny.app.gif.memes.ui.maker.model.GifMakerViewModel
@@ -13,7 +13,7 @@ import com.jaygoo.widget.RangeSeekBar
 import com.xm.lib.base.config.DataBindingConfig
 import com.xm.lib.manager.IntentManager
 
-class GifMakerActivity : BaseDataActivity2<ActivityGifMakerBinding, GifMakerViewModel>() {
+class GifMakerActivity : BaseAppDataActivity2<ActivityGifMakerBinding, GifMakerViewModel>() {
 
     lateinit var mVideoViewHolder: VideoViewHolder
 

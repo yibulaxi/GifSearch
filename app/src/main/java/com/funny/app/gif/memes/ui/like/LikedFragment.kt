@@ -7,12 +7,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseFragment2
-import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.bean.event.DownloadFinishEvent
-import com.funny.app.gif.memes.bean.event.LikeEvent
-import com.funny.app.gif.memes.bean.event.RemoveLikeListEvent
-import com.funny.app.gif.memes.bean.event.RestoreLikeEvent
+import com.funny.app.gif.memes.app.BaseAppFragment2
+import com.funny.app.gif.memes.app.GlobalObj
+import com.funny.app.gif.memes.bean.event.DownloadGifFinishEvent
+import com.funny.app.gif.memes.bean.event.LikeGifEvent
+import com.funny.app.gif.memes.bean.event.RemoveLikeGifListEvent
+import com.funny.app.gif.memes.bean.event.RestoreLikeGifEvent
 import com.funny.app.gif.memes.databinding.FragmentLikedBinding
 import com.funny.app.gif.memes.ui.GifPreviewActivity
 import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), View.OnClickListener {
+class LikedFragment : BaseAppFragment2<FragmentLikedBinding, LikedViewModel>(), View.OnClickListener {
 
     private lateinit var mAdapter: GifLikedItemAdapter
 
@@ -104,7 +104,7 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
                         }
                         dialog.dismiss()
                         getLikedData()
-                        val removeLikeListEvent = RemoveLikeListEvent()
+                        val removeLikeListEvent = RemoveLikeGifListEvent()
                         removeLikeListEvent.gifIdList = idList
                         EventBus.getDefault().post(removeLikeListEvent)
                     }
@@ -137,7 +137,7 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeUpdate(likeEvent: LikeEvent) {
+    fun onLikeUpdate(likeEvent: LikeGifEvent) {
         val dataBean = likeEvent.dataBean
         if (likeEvent.isLiked) {
             //在后面追加
@@ -146,7 +146,7 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
             }
         } else {
             //移除index
-            val position = Global.getIndex(likeEvent.id, mData)
+            val position = GlobalObj.getIndex(likeEvent.id, mData)
             mData.removeAt(position)
         }
 
@@ -154,12 +154,12 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onDownloadFinishEvent(event: DownloadFinishEvent) {
+    fun onDownloadFinishEvent(event: DownloadGifFinishEvent) {
         getLikedData()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeRestoreEvent(event: RestoreLikeEvent) {
+    fun onLikeRestoreEvent(event: RestoreLikeGifEvent) {
         getLikedData()
     }
 }

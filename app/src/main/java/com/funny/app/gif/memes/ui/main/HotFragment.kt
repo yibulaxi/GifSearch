@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
-import com.funny.app.gif.memes.app.BaseFragment2
-import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.bean.event.DownloadFinishEvent
-import com.funny.app.gif.memes.bean.event.LikeEvent
-import com.funny.app.gif.memes.bean.event.RemoveLikeListEvent
+import com.funny.app.gif.memes.app.BaseAppFragment2
+import com.funny.app.gif.memes.app.GlobalObj
+import com.funny.app.gif.memes.bean.event.DownloadGifFinishEvent
+import com.funny.app.gif.memes.bean.event.LikeGifEvent
+import com.funny.app.gif.memes.bean.event.RemoveLikeGifListEvent
 import com.funny.app.gif.memes.databinding.FragmentTrendBinding
 import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.function.store.Store
@@ -37,7 +37,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
+class HotFragment : BaseAppFragment2<FragmentTrendBinding, HotViewModel>() {
 
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
@@ -94,7 +94,7 @@ class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
             .onSetting("手动设置权限")
             .request { allGranted, grantedList, deniedList ->
                 if (allGranted) {
-                    Global.createDir()
+                    GlobalObj.createDir()
                     getData()
                 }
             }
@@ -102,7 +102,7 @@ class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
 
     private fun getData(isLoadMore: Boolean = false) {
         CoroutineHelper.mainCoroutine.launch {
-            if (Store.getVersion() == Version.INTERNAL && !Global.checkLogin()) {
+            if (Store.getVersion() == Version.INTERNAL && !GlobalObj.checkLogin()) {
                 mBinding.gifRecyclerView.visibility = View.GONE
                 mBinding.ivRetry.visibility = View.VISIBLE
                 IntentManager.startActivity(mCxt, LoginActivity::class.java)
@@ -110,8 +110,8 @@ class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
                 return@launch
             }
 
-            val count = Global.SHOW_COUNT
-            var offset = SpHelper.getString(Global.SP_OFFSET, "0")
+            val count = GlobalObj.SHOW_COUNT
+            var offset = SpHelper.getString(GlobalObj.SP_OFFSET, "0")
             log("offset = $offset")
 
             showLoadingProgressDialog(getString(R.string.loading))
@@ -154,7 +154,7 @@ class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
                 }
             }
 
-            SpHelper.putString(Global.SP_OFFSET, offset)
+            SpHelper.putString(GlobalObj.SP_OFFSET, offset)
 
 //            loadDetailInsert()
 
@@ -184,21 +184,21 @@ class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeUpdate(likeEvent: LikeEvent) {
-        val position = Global.getIndex(likeEvent.id, mViewModel.gifDataList)
+    fun onLikeUpdate(likeEvent: LikeGifEvent) {
+        val position = GlobalObj.getIndex(likeEvent.id, mViewModel.gifDataList)
         mViewModel.adapter.notifyItemChanged(position, position)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onDownloadFinishEvent(event: DownloadFinishEvent) {
-        val position = Global.getIndex(event.id, mViewModel.gifDataList)
+    fun onDownloadFinishEvent(event: DownloadGifFinishEvent) {
+        val position = GlobalObj.getIndex(event.id, mViewModel.gifDataList)
         mViewModel.adapter.notifyItemChanged(position, position)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onRemoveLikeLietEvent(event: RemoveLikeListEvent) {
+    fun onRemoveLikeLietEvent(event: RemoveLikeGifListEvent) {
         event.gifIdList.map {
-            val position = Global.getIndex(it, mViewModel.gifDataList)
+            val position = GlobalObj.getIndex(it, mViewModel.gifDataList)
             mViewModel.adapter.notifyItemChanged(position, position)
         }
     }

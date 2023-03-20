@@ -2,9 +2,9 @@ package com.funny.app.gif.memes.ui.mvp.presenter
 
 import android.Manifest
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.bean.BackupBean
-import com.funny.app.gif.memes.bean.event.RestoreLikeEvent
+import com.funny.app.gif.memes.bean.event.RestoreLikeGifEvent
 import com.funny.app.gif.memes.ui.mvp.view.BackupRestoreView
 import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.app.gif.memes.util.JsonUtils
@@ -17,7 +17,7 @@ import com.google.gson.Gson
 import org.greenrobot.eventbus.EventBus
 
 class BackupRestorePresenter : BasePresenter<BackupRestoreView>() {
-    private val BACKUP_FILE_PATH = Global.backupFilePath
+    private val BACKUP_FILE_PATH = GlobalObj.backupFilePath
 
 
     fun backup(task: Runnable) {
@@ -73,7 +73,7 @@ class BackupRestorePresenter : BasePresenter<BackupRestoreView>() {
                                 DataBaseHelper.liked(it.gifId, it.data)
                             }
                         }
-                        EventBus.getDefault().post(RestoreLikeEvent())
+                        EventBus.getDefault().post(RestoreLikeGifEvent())
                         toast(R.string.restore_success)
                     } catch (e: Exception) {
                         e.printStackTrace()

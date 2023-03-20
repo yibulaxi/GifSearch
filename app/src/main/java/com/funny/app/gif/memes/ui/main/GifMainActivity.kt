@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
-import com.funny.app.gif.memes.app.BaseDataActivity2
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
 import com.funny.app.gif.memes.databinding.ActivityGifMainBinding
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.ui.*
@@ -42,7 +42,7 @@ import com.xm.lib.manager.IntentManager
 import com.xm.lib.manager.statusbar.BarUtils
 import kotlinx.android.synthetic.main.activity_gif_main.*
 
-class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewModel>(), View.OnClickListener, TabLayout.OnTabSelectedListener {
+class GifMainActivity : BaseAppDataActivity2<ActivityGifMainBinding, GifMainViewModel>(), View.OnClickListener, TabLayout.OnTabSelectedListener {
 
     private lateinit var mVp: ViewPager
     private lateinit var mViewPagerAdapter: ViewPagerAdapter

@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.bean.event.DownloadFinishEvent
-import com.funny.app.gif.memes.bean.event.LikeEvent
+import com.funny.app.gif.memes.app.GlobalObj
+import com.funny.app.gif.memes.bean.event.DownloadGifFinishEvent
+import com.funny.app.gif.memes.bean.event.LikeGifEvent
 import com.funny.app.gif.memes.function.download.DownloadCallback
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.download.TaskInfo
@@ -68,7 +68,7 @@ class GifPreviewActivity : BaseActivity() {
             }
 
             val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
-            val tempPath = "${Global.tempDir}${File.separator}$fileName"
+            val tempPath = "${GlobalObj.tempDir}${File.separator}$fileName"
             val url = if (FileUtils.checkExist(tempPath)) {
                 tempPath
             } else {
@@ -95,9 +95,9 @@ class GifPreviewActivity : BaseActivity() {
 
 //        val gifUrl = item.images.fixed_height.url
         val fileName = MD5.getMD5Str(gifId.toString()) + ".gif"
-        val tempPath = "${Global.tempDir}${File.separator}$fileName"
-        val cachePath = "${Global.cacheDir}${File.separator}$fileName"
-        val savePath = "${Global.saveDir}${File.separator}$fileName"
+        val tempPath = "${GlobalObj.tempDir}${File.separator}$fileName"
+        val cachePath = "${GlobalObj.cacheDir}${File.separator}$fileName"
+        val savePath = "${GlobalObj.saveDir}${File.separator}$fileName"
         var drawable: GifDrawable? = null
         var downloaded = FileUtils.checkExist(tempPath)
 
@@ -193,13 +193,13 @@ class GifPreviewActivity : BaseActivity() {
                 ivRetry?.visibility = View.GONE
                 drawable?.start()
             } else {
-                val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+                val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
                 DownloadManager.getInstance().start(task, downloadCallback)
             }
         }
 
         ivRetry?.setOnClickListener {
-            val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+            val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
             DownloadManager.getInstance().start(task, downloadCallback)
         }
 
@@ -213,7 +213,7 @@ class GifPreviewActivity : BaseActivity() {
 
         ivLike?.setOnClickListener {
             val liked = DataBaseHelper.isLiked(gifId.toString())
-            val likeEvent = LikeEvent()
+            val likeEvent = LikeGifEvent()
             likeEvent.id = gifId.toString()
             likeEvent.dataBean = item
             if (liked) {
@@ -301,7 +301,7 @@ class GifPreviewActivity : BaseActivity() {
 //        }
 
         DownloadManager.getInstance().cancel(gifUrl)
-        val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+        val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
         DownloadManager.getInstance().start(task, downloadCallback)
 
     }
@@ -314,7 +314,7 @@ class GifPreviewActivity : BaseActivity() {
         }
 
         if (mIsDownloadFinish) {
-            val event = DownloadFinishEvent()
+            val event = DownloadGifFinishEvent()
             event.id = item.id.toString()
             EventBus.getDefault().post(event)
         }

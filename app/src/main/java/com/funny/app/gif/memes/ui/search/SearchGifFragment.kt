@@ -10,11 +10,11 @@ import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
 //import com.allever.app.gif.search.ad.SimpleAdChainListener
-import com.funny.app.gif.memes.app.BaseFragment2
-import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.bean.event.DownloadFinishEvent
-import com.funny.app.gif.memes.bean.event.LikeEvent
-import com.funny.app.gif.memes.bean.event.RemoveLikeListEvent
+import com.funny.app.gif.memes.app.BaseAppFragment2
+import com.funny.app.gif.memes.app.GlobalObj
+import com.funny.app.gif.memes.bean.event.DownloadGifFinishEvent
+import com.funny.app.gif.memes.bean.event.LikeGifEvent
+import com.funny.app.gif.memes.bean.event.RemoveLikeGifListEvent
 import com.funny.app.gif.memes.databinding.FragmentSearchBinding
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.store.Repository
@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class SearchGifFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
+class SearchGifFragment : BaseAppFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
 
     private var mAdapter: GifItemAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
@@ -118,8 +118,8 @@ class SearchGifFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(
 //        }
 
         mKeyword = keyword
-        val count = Global.SHOW_COUNT
-        var offset = SpHelper.getString(Global.SP_SEARCH_OFFSET, "0")
+        val count = GlobalObj.SHOW_COUNT
+        var offset = SpHelper.getString(GlobalObj.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
         mViewModel.viewModelScope.launch(Dispatchers.Main) {
@@ -159,7 +159,7 @@ class SearchGifFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(
                 }
             }
 
-            SpHelper.putString(Global.SP_SEARCH_OFFSET, offset)
+            SpHelper.putString(GlobalObj.SP_SEARCH_OFFSET, offset)
 
 //            loadDetailInsert()
 
@@ -195,26 +195,26 @@ class SearchGifFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeUpdate(likeEvent: LikeEvent) {
+    fun onLikeUpdate(likeEvent: LikeGifEvent) {
         if (!userVisibleHint) {
-            val position = Global.getIndex(likeEvent.id, mViewModel.gifDataList)
+            val position = GlobalObj.getIndex(likeEvent.id, mViewModel.gifDataList)
             mAdapter?.notifyItemChanged(position, position)
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onDownloadFinishEvent(event: DownloadFinishEvent) {
+    fun onDownloadFinishEvent(event: DownloadGifFinishEvent) {
         if (!userVisibleHint) {
-            val position = Global.getIndex(event.id, mViewModel.gifDataList)
+            val position = GlobalObj.getIndex(event.id, mViewModel.gifDataList)
             mAdapter?.notifyItemChanged(position, position)
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onRemoveLikeLietEvent(event: RemoveLikeListEvent) {
+    fun onRemoveLikeLietEvent(event: RemoveLikeGifListEvent) {
         if (!userVisibleHint) {
             event.gifIdList.map {
-                val position = Global.getIndex(it, mViewModel.gifDataList)
+                val position = GlobalObj.getIndex(it, mViewModel.gifDataList)
                 mAdapter?.notifyItemChanged(position, position)
             }
         }

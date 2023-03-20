@@ -2,12 +2,12 @@ package com.funny.app.gif.memes.ui.user
 
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseDataActivity2
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
 import com.funny.app.gif.memes.databinding.ActivityLoginBinding
 import com.funny.app.gif.memes.ui.user.model.LoginViewModel
 import com.xm.lib.base.config.DataBindingConfig
 
-class LoginActivity : BaseDataActivity2<ActivityLoginBinding, LoginViewModel>() {
+class LoginActivity : BaseAppDataActivity2<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_login, BR.loginViewModel)
 

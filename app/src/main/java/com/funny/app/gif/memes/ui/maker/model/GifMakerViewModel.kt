@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.event.GifMakeEvent
+import com.funny.app.gif.memes.event.MakeGifEvent
 import com.funny.app.gif.memes.function.maker.GifMakeHelper
 import com.funny.app.gif.memes.function.media.MediaBean
 import com.funny.lib.common.util.FileUtils
@@ -57,7 +57,7 @@ class GifMakerViewModel: BaseViewModelKt<IBaseView>() {
                 }
                 log("完成：$result -> $toFile" )
                 if (result) {
-                    EventBus.getDefault().post(GifMakeEvent())
+                    EventBus.getDefault().post(MakeGifEvent())
                     delay(1000)
                     finish()
                 } else  {

@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
@@ -46,7 +46,7 @@ class GifLikedItemAdapter(context: Context, resId: Int, data: MutableList<GifIte
 
     override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItemBean) {
         val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
-        val tempPath = "${Global.tempDir}${File.separator}$fileName"
+        val tempPath = "${GlobalObj.tempDir}${File.separator}$fileName"
         val url = if (FileUtils.checkExist(tempPath)) {
             tempPath
         } else {

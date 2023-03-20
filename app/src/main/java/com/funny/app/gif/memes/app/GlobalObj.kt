@@ -8,7 +8,7 @@ import com.funny.lib.common.util.FileUtil
 import com.funny.lib.common.util.FileUtils
 import java.io.File
 
-object Global {
+object GlobalObj {
 
     //备份
     val backFileDir =

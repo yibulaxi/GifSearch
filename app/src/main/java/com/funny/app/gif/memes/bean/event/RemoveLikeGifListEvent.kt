@@ -1,5 +1,5 @@
 package com.funny.app.gif.memes.bean.event
 
-class RemoveLikeListEvent {
+class RemoveLikeGifListEvent {
     var gifIdList = mutableListOf<String>()
 }

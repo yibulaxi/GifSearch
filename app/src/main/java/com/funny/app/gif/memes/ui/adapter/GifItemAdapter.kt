@@ -9,8 +9,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.bean.event.LikeEvent
+import com.funny.app.gif.memes.app.GlobalObj
+import com.funny.app.gif.memes.bean.event.LikeGifEvent
 import com.funny.app.gif.memes.function.download.DownloadCallback
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.download.TaskInfo
@@ -47,9 +47,9 @@ class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean
 
         val gifUrl = item.url
         val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
-        val tempPath = "${Global.tempDir}${File.separator}$fileName"
-        val cachePath = "${Global.cacheDir}${File.separator}$fileName"
-        val savePath = "${Global.saveDir}${File.separator}$fileName"
+        val tempPath = "${GlobalObj.tempDir}${File.separator}$fileName"
+        val cachePath = "${GlobalObj.cacheDir}${File.separator}$fileName"
+        val savePath = "${GlobalObj.saveDir}${File.separator}$fileName"
         var drawable: GifDrawable? = null
         var downloaded = FileUtils.checkExist(tempPath)
 
@@ -155,13 +155,13 @@ class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean
                 ivRetry?.visibility = GONE
                 drawable?.start()
             } else {
-                val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+                val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
                 DownloadManager.getInstance().start(task, downloadCallback, true)
             }
         }
 
         ivRetry?.setOnClickListener {
-            val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+            val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
             DownloadManager.getInstance().start(task, downloadCallback)
         }
 
@@ -175,7 +175,7 @@ class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean
 
         ivLike?.setOnClickListener {
             val liked = DataBaseHelper.isLiked(item.id.toString())
-            val likeEvent = LikeEvent()
+            val likeEvent = LikeGifEvent()
             likeEvent.id = item.id.toString()
             likeEvent.type = item.type
             likeEvent.dataBean = item
@@ -264,7 +264,7 @@ class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean
 //            return
 //        }
 
-        val task = TaskInfo(fileName, Global.cacheDir, gifUrl)
+        val task = TaskInfo(fileName, GlobalObj.cacheDir, gifUrl)
         if (gifUrl.isNotEmpty()) {
             DownloadManager.getInstance().start(task, downloadCallback, true)
         }

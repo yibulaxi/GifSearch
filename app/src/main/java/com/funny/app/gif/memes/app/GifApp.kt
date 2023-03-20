@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import org.litepal.LitePal
 
 
-class MyApp : BaseApp() {
+class GifApp : BaseApp() {
     override fun initThreadPackage() {
 
         App.context = this
@@ -60,12 +60,12 @@ class MyApp : BaseApp() {
                 }
             }
 
-            val folderInfo = MediaHelper.getAllFolder(this@MyApp, MediaHelper.TYPE_VIDEO)
+            val folderInfo = MediaHelper.getAllFolder(this@GifApp, MediaHelper.TYPE_VIDEO)
             folderInfo.add(FolderBean())
             folderInfo.map {
                 log(it.dir)
 
-                val mediaItemList = MediaHelper.getVideoMedia(this@MyApp, it.dir, 0)
+                val mediaItemList = MediaHelper.getVideoMedia(this@GifApp, it.dir, 0)
                 mediaItemList.map {
                     log("视频：${it.path}")
                 }

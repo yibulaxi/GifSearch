@@ -5,9 +5,9 @@ import android.graphics.Rect
 import android.view.View
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseDataActivity2
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
 import com.funny.app.gif.memes.databinding.ActivityPickBinding
-import com.funny.app.gif.memes.event.GifMakeEvent
+import com.funny.app.gif.memes.event.MakeGifEvent
 import com.funny.app.gif.memes.ui.maker.model.PickViewModel
 import com.android.absbase.utils.ResourcesUtils
 import com.xm.lib.base.config.DataBindingConfig
@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class PickActivity : BaseDataActivity2<ActivityPickBinding, PickViewModel>(){
+class PickActivity : BaseAppDataActivity2<ActivityPickBinding, PickViewModel>(){
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.activity_pick, BR.pickViewModel)
 
@@ -53,7 +53,7 @@ class PickActivity : BaseDataActivity2<ActivityPickBinding, PickViewModel>(){
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeUpdate(gifMakeEvent: GifMakeEvent) {
+    fun onLikeUpdate(gifMakeEvent: MakeGifEvent) {
         finish()
     }
 }

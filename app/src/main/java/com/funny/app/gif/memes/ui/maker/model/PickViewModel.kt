@@ -3,7 +3,7 @@ package com.funny.app.gif.memes.ui.maker.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.funny.app.gif.memes.event.GifMakeEvent
+import com.funny.app.gif.memes.event.MakeGifEvent
 import com.funny.app.gif.memes.function.maker.GifMakeHelper
 import com.funny.app.gif.memes.function.media.MediaHelper
 import com.funny.app.gif.memes.ui.maker.GifMakerActivity
@@ -86,7 +86,7 @@ class PickViewModel: BaseViewModelKt<IBaseView>() {
                     }
                     log("完成：$result -> $toFile" )
                     if (result) {
-                        EventBus.getDefault().post(GifMakeEvent())
+                        EventBus.getDefault().post(MakeGifEvent())
                         finish()
                     } else  {
                         com.android.absbase.utils.FileUtils.delete(File(toFile), true)

@@ -2,7 +2,7 @@ package com.funny.app.gif.memes.ui.user.model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.function.network.NetRepository
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.lib.common.util.toast
@@ -31,7 +31,7 @@ class UserCenterViewModel: BaseViewModelKt<IBaseView>() {
     }
 
     fun onClickLogout() {
-        Global.logout()
+        GlobalObj.logout()
         finish()
     }
 }

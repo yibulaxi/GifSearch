@@ -6,7 +6,7 @@ import com.funny.lib.common.mvp.BaseMvpActivity
 import com.funny.lib.common.mvp.BasePresenter
 import java.lang.RuntimeException
 
-abstract class BaseActivity<V, P : BasePresenter<V>> : BaseMvpActivity<V, P>() {
+abstract class BaseAppActivity<V, P : BasePresenter<V>> : BaseMvpActivity<V, P>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

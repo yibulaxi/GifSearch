@@ -8,14 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
-import com.funny.app.gif.memes.app.BaseActivity
+import com.funny.app.gif.memes.app.BaseAppActivity
 import com.funny.app.gif.memes.ui.mvp.presenter.BackupRestorePresenter
 import com.funny.app.gif.memes.ui.mvp.view.BackupRestoreView
 
 
 
 
-class BackupRestoreGifActivity : BaseActivity<BackupRestoreView, BackupRestorePresenter>(),
+class BackupRestoreGifActivity : BaseAppActivity<BackupRestoreView, BackupRestorePresenter>(),
     BackupRestoreView,
     View.OnClickListener {
 

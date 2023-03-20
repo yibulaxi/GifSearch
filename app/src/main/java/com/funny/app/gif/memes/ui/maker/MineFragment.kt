@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseFragment2
+import com.funny.app.gif.memes.app.BaseAppFragment2
 import com.funny.app.gif.memes.databinding.FragmentMineBinding
-import com.funny.app.gif.memes.event.GifMakeEvent
+import com.funny.app.gif.memes.event.MakeGifEvent
 import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.ui.GifPreviewActivity
 import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
-class MineFragment: BaseFragment2<FragmentMineBinding, MineViewModel>(), View.OnClickListener {
+class MineFragment: BaseAppFragment2<FragmentMineBinding, MineViewModel>(), View.OnClickListener {
 
 
     private lateinit var mAdapter: MyGifAdapter
@@ -141,7 +141,7 @@ class MineFragment: BaseFragment2<FragmentMineBinding, MineViewModel>(), View.On
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLikeUpdate(gifMakeEvent: GifMakeEvent) {
+    fun onLikeUpdate(gifMakeEvent: MakeGifEvent) {
         getLikedData()
     }
 }

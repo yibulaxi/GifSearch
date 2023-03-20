@@ -10,8 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
-import com.funny.app.gif.memes.app.BaseActivity
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.BaseAppActivity
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.function.store.Version
 import com.funny.app.gif.memes.ui.mvp.presenter.SettingPresenter
@@ -25,7 +25,7 @@ import com.funny.lib.common.util.*
 //import com.allever.lib.recommend.RecommendGlobal
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity : BaseActivity<SettingView, SettingPresenter>(), View.OnClickListener {
+class SettingActivity : BaseAppActivity<SettingView, SettingPresenter>(), View.OnClickListener {
 
 //    private var mBannerAd: IAd? = null
 //    private var mVideoAd: IAd? = null
@@ -96,8 +96,8 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(), View.OnCl
                 } else {
                     Version.INTERNAL
                 })
-                SpHelper.putString(Global.SP_OFFSET, "0")
-                SpHelper.putString(Global.SP_SEARCH_OFFSET, "0")
+                SpHelper.putString(GlobalObj.SP_OFFSET, "0")
+                SpHelper.putString(GlobalObj.SP_SEARCH_OFFSET, "0")
             }
         }
     }

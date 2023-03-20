@@ -17,8 +17,8 @@ import com.funny.app.gif.memes.BuildConfig
 import com.funny.app.gif.memes.R
 //import com.allever.app.gif.search.ad.AdConstants
 //import com.allever.app.gif.search.ad.SimpleAdChainListener
-import com.funny.app.gif.memes.app.BaseDataActivity2
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.databinding.ActivitySearchBinding
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.store.Repository
@@ -39,7 +39,7 @@ import com.xm.lib.manager.statusbar.BarUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchGifActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>() {
+class SearchGifActivity : BaseAppDataActivity2<ActivitySearchBinding, SearchViewModel>() {
 
     private var mAdapter: GifItemAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
@@ -168,8 +168,8 @@ class SearchGifActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewMod
 
         hideKeyboard()
         mKeyword = keyword
-        val count = Global.SHOW_COUNT
-        var offset = SpHelper.getString(Global.SP_SEARCH_OFFSET, "0")
+        val count = GlobalObj.SHOW_COUNT
+        var offset = SpHelper.getString(GlobalObj.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
 
@@ -209,7 +209,7 @@ class SearchGifActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewMod
                 }
             }
 
-            SpHelper.putString(Global.SP_SEARCH_OFFSET, offset)
+            SpHelper.putString(GlobalObj.SP_SEARCH_OFFSET, offset)
 
 //            loadDetailInsert()
 

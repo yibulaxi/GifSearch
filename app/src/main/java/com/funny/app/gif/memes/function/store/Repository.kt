@@ -1,6 +1,6 @@
 package com.funny.app.gif.memes.function.store
 
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.function.maker.GifMakeHelper
 import com.funny.app.gif.memes.function.network.NetRepository
 import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
@@ -36,7 +36,7 @@ object Repository {
             }
         } else {
             //国外版本
-            val response = NetRepository.getTrendList(last.toInt(), Global.SHOW_COUNT)
+            val response = NetRepository.getTrendList(last.toInt(), GlobalObj.SHOW_COUNT)
             //成功
             response.data?.let {
                 val data = it.data
@@ -80,7 +80,7 @@ object Repository {
                 }
             }
         } else {
-            val response = NetRepository.search(keyword, last.toInt(), Global.SHOW_COUNT)
+            val response = NetRepository.search(keyword, last.toInt(), GlobalObj.SHOW_COUNT)
             response.data?.let {
                 val data = it.data
                 data?.map {

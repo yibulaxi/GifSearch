@@ -4,13 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import com.funny.app.gif.memes.BR
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseDataActivity2
+import com.funny.app.gif.memes.app.BaseAppDataActivity2
 import com.funny.app.gif.memes.databinding.ActivityRegisterBinding
 import com.funny.app.gif.memes.ui.user.model.RegisterViewModel
 import com.xm.lib.base.config.DataBindingConfig
 import com.xm.lib.manager.IntentManager
 
-class RegisterActivity: BaseDataActivity2<ActivityRegisterBinding, RegisterViewModel>() {
+class RegisterActivity: BaseAppDataActivity2<ActivityRegisterBinding, RegisterViewModel>() {
 
     companion object {
         private const val EXTRA_PHONE = "EXTRA_PHONE"

@@ -1,6 +1,6 @@
 package com.funny.app.gif.memes.ui.main.model
 
-import com.funny.app.gif.memes.app.Global
+import com.funny.app.gif.memes.app.GlobalObj
 import com.funny.app.gif.memes.ui.user.LoginActivity
 import com.funny.app.gif.memes.ui.user.UserCenterActivity
 import com.xm.lib.base.inters.IBaseView
@@ -16,7 +16,7 @@ class GifMainViewModel: BaseViewModelKt<IBaseView>() {
     }
 
     fun onClickRecommend() {
-        if (Global.checkLogin()) {
+        if (GlobalObj.checkLogin()) {
             IntentManager.startActivity(mCxt, UserCenterActivity::class.java)
         } else {
             IntentManager.startActivity(mCxt, LoginActivity::class.java)

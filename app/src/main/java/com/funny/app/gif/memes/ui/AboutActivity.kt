@@ -6,13 +6,13 @@ import android.view.View
 import android.widget.TextView
 import com.funny.app.gif.memes.BuildConfig
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.app.BaseActivity
+import com.funny.app.gif.memes.app.BaseAppActivity
 import com.funny.app.gif.memes.ui.mvp.presenter.AboutPresenter
 import com.funny.app.gif.memes.ui.mvp.view.AboutView
 import com.funny.lib.common.app.App
 import com.funny.lib.common.util.SystemUtils
 
-class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
+class AboutActivity : BaseAppActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 
 
     override fun getContentView(): Any = R.layout.activity_about
