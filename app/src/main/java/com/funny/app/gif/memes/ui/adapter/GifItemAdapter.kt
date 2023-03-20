@@ -16,8 +16,8 @@ import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.download.TaskInfo
 import com.funny.app.gif.memes.function.network.NetRepository
 import com.funny.app.gif.memes.function.store.Store
-import com.funny.app.gif.memes.ui.search.SearchActivity
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.search.SearchGifActivity
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.app.App
@@ -34,11 +34,11 @@ import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
 
-class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
-    BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
+class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean>) :
+    BaseRecyclerViewAdapter<GifItemBean>(context, resId, data) {
 
     @SuppressLint("SetTextI18n")
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
+    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItemBean) {
         //debug
         val tvLoadUrl = holder.getView<TextView>(R.id.tvUrl)
         val tvSize = holder.getView<TextView>(R.id.tvSize)
@@ -230,7 +230,7 @@ class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
             }
 
             log("搜索关键字： $searchContent")
-            SearchActivity.start(App.context, searchContent)
+            SearchGifActivity.start(App.context, searchContent)
         }
 
 

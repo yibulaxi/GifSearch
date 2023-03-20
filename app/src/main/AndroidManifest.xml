@@ -29,7 +29,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.funny.app.gif.memes.ui.search.SearchActivity"
+            android:name="com.funny.app.gif.memes.ui.search.SearchGifActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
@@ -37,7 +37,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.funny.app.gif.memes.ui.BackupRestoreActivity"
+            android:name="com.funny.app.gif.memes.ui.BackupRestoreGifActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity

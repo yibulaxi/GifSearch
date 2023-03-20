@@ -30,9 +30,9 @@ import java.util.Locale
 import android.view.View.LAYOUT_DIRECTION_RTL
 import com.funny.app.gif.memes.R
 import com.funny.app.gif.memes.ui.like.LikedFragment
-import com.funny.app.gif.memes.ui.main.TrendFragment
+import com.funny.app.gif.memes.ui.main.HotFragment
 import com.funny.app.gif.memes.ui.maker.MineFragment
-import com.funny.app.gif.memes.ui.search.SearchFragment
+import com.funny.app.gif.memes.ui.search.SearchGifFragment
 
 /**
  * All tab data is accessed via this model.
@@ -52,8 +52,8 @@ internal object TabModel {
         /**
          *
          */
-        MAIN(TrendFragment::class.java, R.drawable.ic_tab_main, R.string.tab_trend),
-        SEARCH(SearchFragment::class.java, R.drawable.ic_tab_guide, R.string.tab_search),
+        MAIN(HotFragment::class.java, R.drawable.ic_tab_main, R.string.tab_trend),
+        SEARCH(SearchGifFragment::class.java, R.drawable.ic_tab_guide, R.string.tab_search),
         LIKED(LikedFragment::class.java, R.drawable.ic_setting, R.string.tab_liked),
         MINE(MineFragment::class.java, R.drawable.ic_setting, R.string.mine);
 

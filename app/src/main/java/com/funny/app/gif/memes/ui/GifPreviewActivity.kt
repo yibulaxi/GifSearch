@@ -15,8 +15,8 @@ import com.funny.app.gif.memes.bean.event.LikeEvent
 import com.funny.app.gif.memes.function.download.DownloadCallback
 import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.download.TaskInfo
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
-import com.funny.app.gif.memes.ui.search.SearchActivity
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
+import com.funny.app.gif.memes.ui.search.SearchGifActivity
 import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.app.App
@@ -34,7 +34,7 @@ class GifPreviewActivity : BaseActivity() {
 
     private var mIsDownloadFinish = false
 
-    private lateinit var item: GifItem
+    private lateinit var item: GifItemBean
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class GifPreviewActivity : BaseActivity() {
         val dataJson = intent.getStringExtra(EXTRA_DATA_BEAN_JSON) ?: return
 
         try {
-            item = Gson().fromJson(dataJson, GifItem::class.java)
+            item = Gson().fromJson(dataJson, GifItemBean::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
             return
@@ -266,7 +266,7 @@ class GifPreviewActivity : BaseActivity() {
             }
 
             log("搜索关键字： $searchContent")
-            SearchActivity.start(App.context, searchContent)
+            SearchGifActivity.start(App.context, searchContent)
         }
 
         log("load url = $gifUrl")

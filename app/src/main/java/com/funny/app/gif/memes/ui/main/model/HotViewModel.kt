@@ -1,13 +1,13 @@
 package com.funny.app.gif.memes.ui.main.model
 
 import com.funny.app.gif.memes.ui.adapter.GifItemAdapter
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.xm.lib.base.inters.IBaseView
 import com.xm.lib.base.model.BaseViewModelKt
 
-class TrendViewModel: BaseViewModelKt<IBaseView>() {
+class HotViewModel: BaseViewModelKt<IBaseView>() {
 
-    var gifDataList = mutableListOf<GifItem>()
+    var gifDataList = mutableListOf<GifItemBean>()
     lateinit var adapter: GifItemAdapter
 
 

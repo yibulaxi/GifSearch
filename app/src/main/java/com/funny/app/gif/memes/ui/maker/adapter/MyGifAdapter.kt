@@ -5,14 +5,14 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
 import com.funny.app.gif.memes.R
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.funny.lib.common.ui.widget.recycler.BaseViewHolder
 import com.funny.lib.common.util.log
 import com.bumptech.glide.Glide
 
-class MyGifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
-    BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
+class MyGifAdapter(context: Context, resId: Int, data: MutableList<GifItemBean>) :
+    BaseRecyclerViewAdapter<GifItemBean>(context, resId, data) {
 
     var itemOptionListener: OnItemOptionClick? = null
     var editMode = false
@@ -37,10 +37,10 @@ class MyGifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
                 selectedItem.clear()
             }
         }
-    var selectedItem = mutableSetOf<GifItem>()
+    var selectedItem = mutableSetOf<GifItemBean>()
 
 
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
+    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItemBean) {
         val url = item.url
         log("LikedAdapter: url = ${item.url}")
         val ivGif = holder.getView<ImageView>(R.id.ivGif)
@@ -84,7 +84,7 @@ class MyGifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
         }
     }
 
-    private fun handleCheck(holder: BaseViewHolder, item: GifItem, cb: CheckBox?) {
+    private fun handleCheck(holder: BaseViewHolder, item: GifItemBean, cb: CheckBox?) {
         allMode = false
         item.checked = !item.checked
         holder.setChecked(R.id.cbSelect, item.checked)

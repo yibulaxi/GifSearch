@@ -18,7 +18,7 @@ import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.function.store.Version
 import com.funny.app.gif.memes.ui.adapter.GifItemAdapter
-import com.funny.app.gif.memes.ui.main.model.TrendViewModel
+import com.funny.app.gif.memes.ui.main.model.HotViewModel
 import com.funny.app.gif.memes.ui.user.LoginActivity
 import com.funny.app.gif.memes.ui.widget.RecyclerViewScrollListener
 import com.funny.app.gif.memes.util.SpHelper
@@ -37,7 +37,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>() {
+class HotFragment : BaseFragment2<FragmentTrendBinding, HotViewModel>() {
 
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener

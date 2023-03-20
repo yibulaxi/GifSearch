@@ -39,7 +39,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
+class SearchGifFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
 
     private var mAdapter: GifItemAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
@@ -224,8 +224,8 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
         private const val EXTRA_KEY_WORD = "EXTRA_KEY_WORD"
 
-        fun newInstance(keyword: String): SearchFragment {
-            val fragment = SearchFragment()
+        fun newInstance(keyword: String): SearchGifFragment {
+            val fragment = SearchGifFragment()
             val bundle = Bundle()
             bundle.putString(EXTRA_KEY_WORD, keyword)
             fragment.arguments = bundle

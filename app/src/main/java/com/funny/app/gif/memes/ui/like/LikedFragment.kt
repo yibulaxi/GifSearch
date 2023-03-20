@@ -15,8 +15,8 @@ import com.funny.app.gif.memes.bean.event.RemoveLikeListEvent
 import com.funny.app.gif.memes.bean.event.RestoreLikeEvent
 import com.funny.app.gif.memes.databinding.FragmentLikedBinding
 import com.funny.app.gif.memes.ui.GifPreviewActivity
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
-import com.funny.app.gif.memes.ui.like.adapter.GifLikedAdapter
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
+import com.funny.app.gif.memes.ui.like.adapter.GifLikedItemAdapter
 import com.funny.app.gif.memes.ui.like.model.LikedViewModel
 import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.lib.common.util.SystemUtils
@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), View.OnClickListener {
 
-    private lateinit var mAdapter: GifLikedAdapter
+    private lateinit var mAdapter: GifLikedItemAdapter
 
     private var mEditMode = false
         set(value) {
@@ -38,8 +38,8 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
             mAdapter.editMode = value
         }
 
-    private var mData = mutableListOf<GifItem>()
-    private var mCurrentItem: GifItem? = null
+    private var mData = mutableListOf<GifItemBean>()
+    private var mCurrentItem: GifItemBean? = null
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_liked, BR.likedViewModel)
 
@@ -53,11 +53,11 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
         mBinding.ivBottomBarBack.setOnClickListener(this)
         mBinding.ivBottomBarDelete.setOnClickListener(this)
 
-        mAdapter = GifLikedAdapter(context!!, R.layout.item_liked, mData)
+        mAdapter = GifLikedItemAdapter(context!!, R.layout.item_liked, mData)
         mBinding.rvLiked.layoutManager = GridLayoutManager(context, 3)
         mBinding.rvLiked.adapter = mAdapter
         val gson = Gson()
-        mAdapter.itemOptionListener = object : GifLikedAdapter.OnItemOptionClick {
+        mAdapter.itemOptionListener = object : GifLikedItemAdapter.OnItemOptionClick {
             override fun onItemClicked(position: Int) {
                 mCurrentItem = mData[position]
                 val item = mData[position]

@@ -2,7 +2,7 @@ package com.funny.app.gif.memes.app
 
 import android.os.Environment
 import com.funny.app.gif.memes.function.store.Store
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.lib.common.app.App
 import com.funny.lib.common.util.FileUtil
 import com.funny.lib.common.util.FileUtils
@@ -47,7 +47,7 @@ object Global {
         createDir(backFileDir)
     }
 
-    fun getIndex(gifId: String, dataBeanList: MutableList<GifItem>): Int {
+    fun getIndex(gifId: String, dataBeanList: MutableList<GifItemBean>): Int {
         var position = -1
         dataBeanList.mapIndexed { index, dataBean ->
             if (dataBean.id.toString() == gifId) {

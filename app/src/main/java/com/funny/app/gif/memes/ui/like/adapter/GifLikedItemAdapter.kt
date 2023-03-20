@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import com.funny.app.gif.memes.R
 import com.funny.app.gif.memes.app.Global
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
 import com.funny.lib.common.ui.widget.recycler.BaseViewHolder
@@ -15,8 +15,8 @@ import com.funny.lib.common.util.log
 import com.bumptech.glide.Glide
 import java.io.File
 
-class GifLikedAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
-    BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
+class GifLikedItemAdapter(context: Context, resId: Int, data: MutableList<GifItemBean>) :
+    BaseRecyclerViewAdapter<GifItemBean>(context, resId, data) {
 
     var itemOptionListener: OnItemOptionClick? = null
     var editMode = false
@@ -41,10 +41,10 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<GifItem>) 
                 selectedItem.clear()
             }
         }
-    var selectedItem = mutableSetOf<GifItem>()
+    var selectedItem = mutableSetOf<GifItemBean>()
 
 
-    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItem) {
+    override fun bindHolder(holder: BaseViewHolder, position: Int, item: GifItemBean) {
         val fileName = MD5.getMD5Str(item.id.toString()) + ".gif"
         val tempPath = "${Global.tempDir}${File.separator}$fileName"
         val url = if (FileUtils.checkExist(tempPath)) {
@@ -95,7 +95,7 @@ class GifLikedAdapter(context: Context, resId: Int, data: MutableList<GifItem>) 
         }
     }
 
-    private fun handleCheck(holder: BaseViewHolder, item: GifItem, cb: CheckBox?) {
+    private fun handleCheck(holder: BaseViewHolder, item: GifItemBean, cb: CheckBox?) {
         allMode = false
         item.checked = !item.checked
         holder.setChecked(R.id.cbSelect, item.checked)

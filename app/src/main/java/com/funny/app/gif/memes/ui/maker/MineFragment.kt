@@ -13,7 +13,7 @@ import com.funny.app.gif.memes.databinding.FragmentMineBinding
 import com.funny.app.gif.memes.event.GifMakeEvent
 import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.ui.GifPreviewActivity
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.app.gif.memes.ui.maker.adapter.MyGifAdapter
 import com.funny.app.gif.memes.ui.maker.model.MineViewModel
 import com.funny.lib.common.util.SystemUtils
@@ -41,8 +41,8 @@ class MineFragment: BaseFragment2<FragmentMineBinding, MineViewModel>(), View.On
             mAdapter.editMode = value
         }
 
-    private var mData = mutableListOf<GifItem>()
-    private var mCurrentItem: GifItem? = null
+    private var mData = mutableListOf<GifItemBean>()
+    private var mCurrentItem: GifItemBean? = null
 
     override fun initDataBindingConfig() = DataBindingConfig(R.layout.fragment_mine, BR.mineViewModel)
 

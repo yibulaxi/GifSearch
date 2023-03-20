@@ -1,7 +1,7 @@
 package com.funny.app.gif.memes.util
 
 import com.funny.app.gif.memes.bean.LikedItem
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.google.gson.Gson
 import org.litepal.LitePal
 
@@ -19,18 +19,18 @@ object DataBaseHelper {
         return null
     }
 
-    fun getLikedList(): MutableList<GifItem> {
+    fun getLikedList(): MutableList<GifItemBean> {
         val list = LitePal.findAll(LikedItem::class.java)
-        val result = mutableListOf<GifItem>()
+        val result = mutableListOf<GifItemBean>()
         val gson = Gson()
         list.map {
-            val dataBean = gson.fromJson(it.data, GifItem::class.java)
+            val dataBean = gson.fromJson(it.data, GifItemBean::class.java)
             result.add(dataBean)
         }
         return result
     }
 
-    fun liked(gifId: String, dataBean: GifItem) {
+    fun liked(gifId: String, dataBean: GifItemBean) {
         val data = LitePal.where("gifId = ?", gifId).find<LikedItem>(LikedItem::class.java)
         if (data.isEmpty()) {
             val newLike = LikedItem()

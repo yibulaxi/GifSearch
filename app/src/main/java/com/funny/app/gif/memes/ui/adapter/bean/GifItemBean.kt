@@ -1,6 +1,6 @@
 package com.funny.app.gif.memes.ui.adapter.bean
 
-class GifItem {
+class GifItemBean {
     var type: Int = 0
     var id: String = "0"
     var url: String = ""

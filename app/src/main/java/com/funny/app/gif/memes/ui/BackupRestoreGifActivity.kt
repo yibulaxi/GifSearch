@@ -15,7 +15,7 @@ import com.funny.app.gif.memes.ui.mvp.view.BackupRestoreView
 
 
 
-class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePresenter>(),
+class BackupRestoreGifActivity : BaseActivity<BackupRestoreView, BackupRestorePresenter>(),
     BackupRestoreView,
     View.OnClickListener {
 
@@ -155,7 +155,7 @@ class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePrese
     companion object {
         val RC_RESULT = 0X01
         fun start(activity: Activity) {
-            val intent = Intent(activity, BackupRestoreActivity::class.java)
+            val intent = Intent(activity, BackupRestoreGifActivity::class.java)
             activity.startActivityForResult(intent, RC_RESULT)
         }
     }

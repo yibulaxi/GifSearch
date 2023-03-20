@@ -22,7 +22,7 @@ import com.funny.app.gif.memes.ui.like.LikedFragment
 import com.funny.app.gif.memes.ui.main.model.GifMainViewModel
 import com.funny.app.gif.memes.ui.maker.MineFragment
 import com.funny.app.gif.memes.ui.maker.PickActivity
-import com.funny.app.gif.memes.ui.search.SearchFragment
+import com.funny.app.gif.memes.ui.search.SearchGifFragment
 import com.funny.app.gif.memes.util.ImgLoader
 
 
@@ -91,8 +91,8 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
 
 
     private fun initViewPagerData() {
-        mFragmentList.add(TrendFragment())
-        mFragmentList.add(SearchFragment())
+        mFragmentList.add(HotFragment())
+        mFragmentList.add(SearchGifFragment())
         mFragmentList.add(LikedFragment())
         mFragmentList.add(MineFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
@@ -223,7 +223,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                 if (mVp.currentItem == 0) {
                     ActivityCollector.startActivity(this, SettingActivity::class.java)
                 } else if (mVp.currentItem == 2){
-                    ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
+                    ActivityCollector.startActivity(this, BackupRestoreGifActivity::class.java)
                 } else if (mVp.currentItem == 3) {
                     IntentManager.startActivity(this, PickActivity::class.java)
                 }

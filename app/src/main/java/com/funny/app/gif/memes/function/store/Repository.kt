@@ -3,7 +3,7 @@ package com.funny.app.gif.memes.function.store
 import com.funny.app.gif.memes.app.Global
 import com.funny.app.gif.memes.function.maker.GifMakeHelper
 import com.funny.app.gif.memes.function.network.NetRepository
-import com.funny.app.gif.memes.ui.adapter.bean.GifItem
+import com.funny.app.gif.memes.ui.adapter.bean.GifItemBean
 import com.funny.lib.common.util.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,8 +11,8 @@ import java.io.File
 
 object Repository {
 
-    suspend fun getGifItemList(last: String): MutableList<GifItem> {
-        val gifItemList = mutableListOf<GifItem>()
+    suspend fun getGifItemList(last: String): MutableList<GifItemBean> {
+        val gifItemList = mutableListOf<GifItemBean>()
         if (Store.getVersion() == Version.INTERNAL) {
             //国内版本
             val response = NetRepository.fetchWorld(Store.getToken(), Store.getUserId().toString(), last)
@@ -21,7 +21,7 @@ object Repository {
                 it.data?.feeds?.let {
                     it.map {
                         log("feedId: ${it.feedId} -> ${it.gif}")
-                        val gifItem = GifItem()
+                        val gifItem = GifItemBean()
                         gifItem.id = it.feedId.toString()
                         gifItem.type = Version.INTERNAL
                         gifItem.avatar = it.avatar
@@ -42,7 +42,7 @@ object Repository {
                 val data = it.data
                 data?.map {
                     log("trending = ${it.images.original.url}")
-                    val gifItem = GifItem()
+                    val gifItem = GifItemBean()
                     gifItem.id = it.id
                     gifItem.type = Version.INTERNATIONAL
                     gifItem.avatar = it?.user?.avatar_url ?: ""
@@ -57,8 +57,8 @@ object Repository {
         return gifItemList
     }
 
-    suspend fun search(keyword: String, last: String): MutableList<GifItem> {
-        val gifItemList = mutableListOf<GifItem>()
+    suspend fun search(keyword: String, last: String): MutableList<GifItemBean> {
+        val gifItemList = mutableListOf<GifItemBean>()
         if (Store.getVersion() == Version.INTERNAL) {
             //国内版本
             val response = NetRepository.search(keyword, Store.getToken(), Store.getUserId().toString(), last)
@@ -66,7 +66,7 @@ object Repository {
                 it.data?.data?.let {
                     it.map {
                         log("feedId: ${it.feedId} -> ${it.gif}")
-                        val gifItem = GifItem()
+                        val gifItem = GifItemBean()
                         gifItem.id = it.feedId.toString()
                         gifItem.type = Version.INTERNAL
                         gifItem.avatar = it.avatar
@@ -85,7 +85,7 @@ object Repository {
                 val data = it.data
                 data?.map {
                     log("trending = ${it.images.original.url}")
-                    val gifItem = GifItem()
+                    val gifItem = GifItemBean()
                     gifItem.id = it.id
                     gifItem.type = Version.INTERNATIONAL
                     gifItem.avatar = it?.user?.avatar_url ?: ""
@@ -102,12 +102,12 @@ object Repository {
     }
 
     suspend fun getMyGif() = withContext(Dispatchers.IO) {
-        val gifItemList = mutableListOf<GifItem>()
+        val gifItemList = mutableListOf<GifItemBean>()
         val dirFile = File(GifMakeHelper.gifDir)
         val list = dirFile.listFiles()
         list.map {
             if (it.path.endsWith("gif")) {
-                val gifItem = GifItem()
+                val gifItem = GifItemBean()
                 gifItem.url = it.path
                 gifItemList.add(gifItem)
             }

@@ -39,7 +39,7 @@ import com.xm.lib.manager.statusbar.BarUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>() {
+class SearchGifActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>() {
 
     private var mAdapter: GifItemAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
@@ -262,7 +262,7 @@ class SearchActivity : BaseDataActivity2<ActivitySearchBinding, SearchViewModel>
         private const val EXTRA_KEY_WORD = "EXTRA_KEY_WORD"
 
         fun start(context: Context, keyword: String) {
-            val intent = Intent(context, SearchActivity::class.java)
+            val intent = Intent(context, SearchGifActivity::class.java)
             intent.putExtra(EXTRA_KEY_WORD, keyword)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)

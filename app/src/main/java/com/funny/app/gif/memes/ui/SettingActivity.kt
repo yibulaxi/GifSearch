@@ -88,7 +88,7 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(), View.OnCl
 //                Tool.openInGooglePlay(this, App.context.packageName)
             }
             R.id.setting_tv_backup -> {
-                ActivityCollector.startActivity(this, BackupRestoreActivity::class.java)
+                ActivityCollector.startActivity(this, BackupRestoreGifActivity::class.java)
             }
             R.id.switchVersion -> {
                 Store.saveVersion(if (mSwitchVersion.isChecked) {
