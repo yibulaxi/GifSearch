@@ -15,7 +15,7 @@ import android.util.Log
 import android.widget.Toast
 import com.funny.app.gif.memes.R
 
-object SystemUtils {
+object SystemHelper {
     private val isDebug = true
     fun log(message: String) {
         if (isDebug) {

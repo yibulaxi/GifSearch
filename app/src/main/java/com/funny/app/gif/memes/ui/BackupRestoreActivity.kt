@@ -11,9 +11,9 @@ import com.funny.app.gif.memes.R
 import com.funny.app.gif.memes.app.BaseActivity
 import com.funny.app.gif.memes.ui.mvp.presenter.BackupRestorePresenter
 import com.funny.app.gif.memes.ui.mvp.view.BackupRestoreView
-//import com.allever.lib.ad.chain.AdChainHelper
-//import com.allever.lib.ad.chain.AdChainListener
-//import com.allever.lib.ad.chain.IAd
+
+
+
 
 class BackupRestoreActivity : BaseActivity<BackupRestoreView, BackupRestorePresenter>(),
     BackupRestoreView,

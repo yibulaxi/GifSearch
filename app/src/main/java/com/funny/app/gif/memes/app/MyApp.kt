@@ -7,8 +7,8 @@ import com.funny.app.gif.memes.function.media.FolderBean
 import com.funny.app.gif.memes.function.media.MediaHelper
 import com.funny.app.gif.memes.function.network.NetRepository
 import com.funny.app.gif.memes.function.store.Store
-import com.funny.app.gif.memes.util.ImageLoader
-//import com.allever.lib.ad.chain.AdChainHelper
+import com.funny.app.gif.memes.util.ImgLoader
+
 import com.funny.lib.common.app.App
 import com.funny.lib.common.util.log
 import com.funny.lib.common.util.loge
@@ -87,16 +87,16 @@ class MyApp : BaseApp() {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        ImageLoader.onLowMemory()
+        ImgLoader.onLowMemory()
     }
 
     override fun onTerminate() {
         super.onTerminate()
-        ImageLoader.clearMemoryCache()
+        ImgLoader.clearMemoryCache()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        ImageLoader.onTrimMemroy(level)
+        ImgLoader.onTrimMemroy(level)
     }
 }

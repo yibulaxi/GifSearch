@@ -18,7 +18,7 @@ import com.funny.app.gif.memes.ui.GifPreviewActivity
 import com.funny.app.gif.memes.ui.adapter.bean.GifItem
 import com.funny.app.gif.memes.ui.like.adapter.GifLikedAdapter
 import com.funny.app.gif.memes.ui.like.model.LikedViewModel
-import com.funny.app.gif.memes.util.DBHelper
+import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.lib.common.util.SystemUtils
 import com.funny.lib.common.util.toast
 import com.google.gson.Gson
@@ -99,7 +99,7 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
                         //                        mPresenter.removeLikes(mAdapter.selectedItem)
                         val idList = mutableListOf<String>()
                         mAdapter.selectedItem.map {
-                            DBHelper.unLiked(it.id.toString())
+                            DataBaseHelper.unLiked(it.id.toString())
                             idList.add(it.id.toString())
                         }
                         dialog.dismiss()
@@ -130,7 +130,7 @@ class LikedFragment : BaseFragment2<FragmentLikedBinding, LikedViewModel>(), Vie
     }
     private fun getLikedData() {
         initEditMode()
-        val datas = DBHelper.getLikedList()
+        val datas = DataBaseHelper.getLikedList()
         mData.clear()
         mData.addAll(datas)
         mAdapter.notifyDataSetChanged()

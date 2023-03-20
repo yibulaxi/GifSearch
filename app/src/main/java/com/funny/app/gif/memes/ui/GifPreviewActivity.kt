@@ -17,7 +17,7 @@ import com.funny.app.gif.memes.function.download.DownloadManager
 import com.funny.app.gif.memes.function.download.TaskInfo
 import com.funny.app.gif.memes.ui.adapter.bean.GifItem
 import com.funny.app.gif.memes.ui.search.SearchActivity
-import com.funny.app.gif.memes.util.DBHelper
+import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.app.App
 import com.funny.lib.common.app.BaseActivity
@@ -204,7 +204,7 @@ class GifPreviewActivity : BaseActivity() {
         }
 
 
-        val liked = DBHelper.isLiked(gifId.toString())
+        val liked = DataBaseHelper.isLiked(gifId.toString())
         if (liked) {
             ivLike?.setColorFilter(resources.getColor(R.color.default_theme_color))
         } else {
@@ -212,17 +212,17 @@ class GifPreviewActivity : BaseActivity() {
         }
 
         ivLike?.setOnClickListener {
-            val liked = DBHelper.isLiked(gifId.toString())
+            val liked = DataBaseHelper.isLiked(gifId.toString())
             val likeEvent = LikeEvent()
             likeEvent.id = gifId.toString()
             likeEvent.dataBean = item
             if (liked) {
                 ivLike.colorFilter = null
-                DBHelper.unLiked(gifId.toString())
+                DataBaseHelper.unLiked(gifId.toString())
                 likeEvent.isLiked = false
             } else {
                 ivLike.setColorFilter(resources.getColor(R.color.default_theme_color))
-                DBHelper.liked(gifId.toString(), item)
+                DataBaseHelper.liked(gifId.toString(), item)
                 likeEvent.isLiked = true
             }
 

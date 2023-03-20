@@ -17,15 +17,14 @@ import com.funny.app.gif.memes.databinding.FragmentTrendBinding
 import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.function.store.Version
-import com.funny.app.gif.memes.ui.adapter.GifAdapter
+import com.funny.app.gif.memes.ui.adapter.GifItemAdapter
 import com.funny.app.gif.memes.ui.main.model.TrendViewModel
-import com.funny.app.gif.memes.ui.mvp.view.TrendView
 import com.funny.app.gif.memes.ui.user.LoginActivity
 import com.funny.app.gif.memes.ui.widget.RecyclerViewScrollListener
-import com.funny.app.gif.memes.util.SpUtils
-//import com.allever.lib.ad.chain.AdChainHelper
-//import com.allever.lib.ad.chain.AdChainListener
-//import com.allever.lib.ad.chain.IAd
+import com.funny.app.gif.memes.util.SpHelper
+
+
+
 import com.funny.lib.common.util.log
 import com.funny.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
@@ -38,7 +37,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), TrendView {
+class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>() {
 
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
@@ -57,7 +56,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
             mBinding.ivRetry.visibility = View.GONE
         }
 
-        mViewModel.adapter = GifAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
+        mViewModel.adapter = GifItemAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
 
         recyclerViewScrollListener = RecyclerViewScrollListener(object :
             RecyclerViewScrollListener.OnRecycleRefreshListener {
@@ -112,7 +111,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
             }
 
             val count = Global.SHOW_COUNT
-            var offset = SpUtils.getString(Global.SP_OFFSET, "0")
+            var offset = SpHelper.getString(Global.SP_OFFSET, "0")
             log("offset = $offset")
 
             showLoadingProgressDialog(getString(R.string.loading))
@@ -155,7 +154,7 @@ class TrendFragment : BaseFragment2<FragmentTrendBinding, TrendViewModel>(), Tre
                 }
             }
 
-            SpUtils.putString(Global.SP_OFFSET, offset)
+            SpHelper.putString(Global.SP_OFFSET, offset)
 
 //            loadDetailInsert()
 

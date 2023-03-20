@@ -6,7 +6,7 @@ import com.funny.lib.common.app.App
 /**
  * SharedPreferences 工具类
  */
-object SpUtils {
+object SpHelper {
 
     /** SharedPreferences 文件名 */
     private val SP_FILE_NAME = "default_sp_name"

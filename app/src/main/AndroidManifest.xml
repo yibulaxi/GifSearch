@@ -41,10 +41,6 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.funny.app.gif.memes.ui.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.funny.app.gif.memes.ui.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -60,7 +56,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.funny.app.gif.memes.ui.maker.GifMakerActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.funny.app.gif.memes.ui.GifFunDebugActivity"/>
 
         <meta-data
             android:name="UMENG_APPKEY"

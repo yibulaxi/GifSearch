@@ -18,7 +18,7 @@ import com.funny.app.gif.memes.function.network.NetRepository
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.ui.search.SearchActivity
 import com.funny.app.gif.memes.ui.adapter.bean.GifItem
-import com.funny.app.gif.memes.util.DBHelper
+import com.funny.app.gif.memes.util.DataBaseHelper
 import com.funny.app.gif.memes.util.MD5
 import com.funny.lib.common.app.App
 import com.funny.lib.common.ui.widget.recycler.BaseRecyclerViewAdapter
@@ -34,7 +34,7 @@ import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
 
-class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
+class GifItemAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
     BaseRecyclerViewAdapter<GifItem>(context, resId, data) {
 
     @SuppressLint("SetTextI18n")
@@ -166,7 +166,7 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
         }
 
 
-        val liked = DBHelper.isLiked(item.id.toString())
+        val liked = DataBaseHelper.isLiked(item.id.toString())
         if (liked) {
             ivLike?.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
         } else {
@@ -174,18 +174,18 @@ class GifAdapter(context: Context, resId: Int, data: MutableList<GifItem>) :
         }
 
         ivLike?.setOnClickListener {
-            val liked = DBHelper.isLiked(item.id.toString())
+            val liked = DataBaseHelper.isLiked(item.id.toString())
             val likeEvent = LikeEvent()
             likeEvent.id = item.id.toString()
             likeEvent.type = item.type
             likeEvent.dataBean = item
             if (liked) {
                 ivLike.colorFilter = null
-                DBHelper.unLiked(item.id.toString())
+                DataBaseHelper.unLiked(item.id.toString())
                 likeEvent.isLiked = false
             } else {
                 ivLike.setColorFilter(mContext.resources.getColor(R.color.default_theme_color))
-                DBHelper.liked(item.id.toString(), item)
+                DataBaseHelper.liked(item.id.toString(), item)
                 likeEvent.isLiked = true
             }
 

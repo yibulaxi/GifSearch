@@ -6,8 +6,8 @@ import com.funny.app.gif.memes.app.Global
 import com.funny.app.gif.memes.bean.BackupBean
 import com.funny.app.gif.memes.bean.event.RestoreLikeEvent
 import com.funny.app.gif.memes.ui.mvp.view.BackupRestoreView
-import com.funny.app.gif.memes.util.DBHelper
-import com.funny.app.gif.memes.util.JsonHelper
+import com.funny.app.gif.memes.util.DataBaseHelper
+import com.funny.app.gif.memes.util.JsonUtils
 
 import com.funny.lib.common.mvp.BasePresenter
 import com.funny.lib.common.util.*
@@ -25,7 +25,7 @@ class BackupRestorePresenter : BasePresenter<BackupRestoreView>() {
         PermissionManager.request(object : PermissionListener {
             override fun onGranted(grantedList: MutableList<String>) {
                 kotlin.run {
-                    val likeList = DBHelper.getAllLikeItem()
+                    val likeList = DataBaseHelper.getAllLikeItem()
                     if (likeList.isEmpty()) {
                         toast(R.string.no_backup_data)
                         task.run()
@@ -65,12 +65,12 @@ class BackupRestorePresenter : BasePresenter<BackupRestoreView>() {
                     }
 
                     try {
-                        val backupBean = JsonHelper.json2Object(data, BackupBean::class.java)
+                        val backupBean = JsonUtils.json2Object(data, BackupBean::class.java)
                         val likeList = backupBean?.data
                         likeList?.map {
-                            val likeItem = DBHelper.getLikeItem(it.gifId)
+                            val likeItem = DataBaseHelper.getLikeItem(it.gifId)
                             if (likeItem == null) {
-                                DBHelper.liked(it.gifId, it.data)
+                                DataBaseHelper.liked(it.gifId, it.data)
                             }
                         }
                         EventBus.getDefault().post(RestoreLikeEvent())

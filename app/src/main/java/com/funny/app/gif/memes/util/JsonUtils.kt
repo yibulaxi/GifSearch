@@ -3,7 +3,7 @@ package com.funny.app.gif.memes.util
 import com.google.gson.Gson
 
 
-object JsonHelper {
+object JsonUtils {
     /**
      * 将字符串转换为 对象
      *

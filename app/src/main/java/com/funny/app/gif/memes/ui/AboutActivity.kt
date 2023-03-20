@@ -6,13 +6,11 @@ import android.view.View
 import android.widget.TextView
 import com.funny.app.gif.memes.BuildConfig
 import com.funny.app.gif.memes.R
-//import com.allever.app.gif.search.ad.AdConstants
 import com.funny.app.gif.memes.app.BaseActivity
 import com.funny.app.gif.memes.ui.mvp.presenter.AboutPresenter
 import com.funny.app.gif.memes.ui.mvp.view.AboutView
 import com.funny.lib.common.app.App
 import com.funny.lib.common.util.SystemUtils
-//import com.allever.lib.umeng.UMeng
 
 class AboutActivity : BaseActivity<AboutView, AboutPresenter>(), AboutView, View.OnClickListener {
 

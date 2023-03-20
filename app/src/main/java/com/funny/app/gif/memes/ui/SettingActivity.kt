@@ -16,17 +16,16 @@ import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.function.store.Version
 import com.funny.app.gif.memes.ui.mvp.presenter.SettingPresenter
 import com.funny.app.gif.memes.ui.mvp.view.SettingView
-import com.funny.app.gif.memes.util.SpUtils
-//import com.allever.lib.ad.chain.AdChainHelper
-//import com.allever.lib.ad.chain.AdChainListener
-//import com.allever.lib.ad.chain.IAd
+import com.funny.app.gif.memes.util.SpHelper
+
+
+
 import com.funny.lib.common.app.App
 import com.funny.lib.common.util.*
 //import com.allever.lib.recommend.RecommendGlobal
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
-    SettingView, View.OnClickListener {
+class SettingActivity : BaseActivity<SettingView, SettingPresenter>(), View.OnClickListener {
 
 //    private var mBannerAd: IAd? = null
 //    private var mVideoAd: IAd? = null
@@ -97,8 +96,8 @@ class SettingActivity : BaseActivity<SettingView, SettingPresenter>(),
                 } else {
                     Version.INTERNAL
                 })
-                SpUtils.putString(Global.SP_OFFSET, "0")
-                SpUtils.putString(Global.SP_SEARCH_OFFSET, "0")
+                SpHelper.putString(Global.SP_OFFSET, "0")
+                SpHelper.putString(Global.SP_SEARCH_OFFSET, "0")
             }
         }
     }

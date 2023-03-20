@@ -7,7 +7,7 @@ import com.funny.app.gif.memes.R
 import com.funny.app.gif.memes.app.Global
 import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.ui.main.GifMainActivity
-import com.funny.app.gif.memes.util.SpUtils
+import com.funny.app.gif.memes.util.SpHelper
 import com.funny.lib.common.app.BaseActivity
 import com.funny.lib.common.util.ActivityCollector
 import com.funny.lib.common.util.log
@@ -20,8 +20,8 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         if (BuildConfig.DEBUG) {
-            SpUtils.putString(Global.SP_OFFSET, "0")
-            SpUtils.putString(Global.SP_SEARCH_OFFSET, "0")
+            SpHelper.putString(Global.SP_OFFSET, "0")
+            SpHelper.putString(Global.SP_SEARCH_OFFSET, "0")
         }
         mHandler.postDelayed({
             ActivityCollector.startActivity(this, GifMainActivity::class.java)

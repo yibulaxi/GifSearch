@@ -21,14 +21,14 @@ import com.funny.app.gif.memes.function.store.Repository
 import com.funny.app.gif.memes.function.store.Store
 import com.funny.app.gif.memes.function.store.Version
 import com.funny.app.gif.memes.ui.ViewHelper
-import com.funny.app.gif.memes.ui.adapter.GifAdapter
+import com.funny.app.gif.memes.ui.adapter.GifItemAdapter
 import com.funny.app.gif.memes.ui.mvp.view.ISearchView
 import com.funny.app.gif.memes.ui.search.model.SearchViewModel
 import com.funny.app.gif.memes.ui.widget.RecyclerViewScrollListener
-import com.funny.app.gif.memes.util.ImageLoader
-import com.funny.app.gif.memes.util.SpUtils
-//import com.allever.lib.ad.chain.AdChainHelper
-//import com.allever.lib.ad.chain.IAd
+import com.funny.app.gif.memes.util.ImgLoader
+import com.funny.app.gif.memes.util.SpHelper
+
+
 import com.funny.lib.common.util.log
 import com.funny.lib.common.util.toast
 import com.xm.lib.base.config.DataBindingConfig
@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), ISearchView {
 
-    private var mAdapter: GifAdapter? = null
+    private var mAdapter: GifItemAdapter? = null
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 
@@ -71,7 +71,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
             search(it)
         }
 
-        mAdapter = GifAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
+        mAdapter = GifItemAdapter(context!!, R.layout.item_gif, mViewModel.gifDataList)
 
         recyclerViewScrollListener = RecyclerViewScrollListener(object :
             RecyclerViewScrollListener.OnRecycleRefreshListener {
@@ -100,7 +100,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
     override fun destroyView() {
         DownloadManager.getInstance().cancelAllTask()
-        ImageLoader.clearMemoryCache()
+        ImgLoader.clearMemoryCache()
 //        mDetailInsertAd?.destroy()
         EventBus.getDefault().unregister(this)
     }
@@ -119,7 +119,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
 
         mKeyword = keyword
         val count = Global.SHOW_COUNT
-        var offset = SpUtils.getString(Global.SP_SEARCH_OFFSET, "0")
+        var offset = SpHelper.getString(Global.SP_SEARCH_OFFSET, "0")
         log("offset = $offset")
         showLoadingProgressDialog(getString(R.string.searching))
         mViewModel.viewModelScope.launch(Dispatchers.Main) {
@@ -159,7 +159,7 @@ class SearchFragment : BaseFragment2<FragmentSearchBinding, SearchViewModel>(), 
                 }
             }
 
-            SpUtils.putString(Global.SP_SEARCH_OFFSET, offset)
+            SpHelper.putString(Global.SP_SEARCH_OFFSET, offset)
 
 //            loadDetailInsert()
 

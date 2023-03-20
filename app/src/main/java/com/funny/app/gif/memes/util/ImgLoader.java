@@ -23,7 +23,7 @@ import java.lang.ref.WeakReference;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class ImageLoader {
+public class ImgLoader {
 
     public static CopyOnWriteArrayList<BitmapLoadListener> mListener = new CopyOnWriteArrayList<>();
 

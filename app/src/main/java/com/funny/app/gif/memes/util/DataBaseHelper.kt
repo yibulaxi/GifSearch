@@ -5,7 +5,7 @@ import com.funny.app.gif.memes.ui.adapter.bean.GifItem
 import com.google.gson.Gson
 import org.litepal.LitePal
 
-object DBHelper {
+object DataBaseHelper {
 
     fun getAllLikeItem(): MutableList<LikedItem> {
         return LitePal.findAll(LikedItem::class.java)

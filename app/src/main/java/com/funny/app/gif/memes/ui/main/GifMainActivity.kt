@@ -23,10 +23,10 @@ import com.funny.app.gif.memes.ui.main.model.GifMainViewModel
 import com.funny.app.gif.memes.ui.maker.MineFragment
 import com.funny.app.gif.memes.ui.maker.PickActivity
 import com.funny.app.gif.memes.ui.search.SearchFragment
-import com.funny.app.gif.memes.util.ImageLoader
-//import com.allever.lib.ad.chain.AdChainHelper
-//import com.allever.lib.ad.chain.AdChainListener
-//import com.allever.lib.ad.chain.IAd
+import com.funny.app.gif.memes.util.ImgLoader
+
+
+
 //import com.allever.lib.comment.CommentHelper
 //import com.allever.lib.comment.CommentListener
 import com.funny.lib.common.app.BaseFragment
@@ -248,7 +248,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         DownloadManager.getInstance().cancelAllTask()
 //        mBannerAd?.destroy()
 //        mExitInsertAd?.destroy()
-        ImageLoader.clearMemoryCache()
+        ImgLoader.clearMemoryCache()
         mShakeAnimator?.cancel()
     }
 
