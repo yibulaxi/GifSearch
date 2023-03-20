@@ -20,6 +20,7 @@ import com.allever.app.gif.memes.ui.TabModel
 import com.allever.app.gif.memes.ui.adapter.ViewPagerAdapter
 import com.allever.app.gif.memes.ui.like.LikedFragment
 import com.allever.app.gif.memes.ui.main.model.GifMainViewModel
+import com.allever.app.gif.memes.ui.maker.MineFragment
 import com.allever.app.gif.memes.ui.maker.PickActivity
 import com.allever.app.gif.memes.ui.search.SearchFragment
 import com.allever.app.gif.memes.util.ImageLoader
@@ -93,13 +94,13 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
         mFragmentList.add(TrendFragment())
         mFragmentList.add(SearchFragment())
         mFragmentList.add(LikedFragment())
-//        mFragmentList.add(MineFragment())
+        mFragmentList.add(MineFragment())
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, mFragmentList)
     }
 
     private fun initViewPager() {
         ivRight.setColorFilter(resources.getColor(R.color.black, null))
-        mVp.offscreenPageLimit = 3
+        mVp.offscreenPageLimit = 4
         mVp.adapter = mViewPagerAdapter
 
         mVp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -138,6 +139,7 @@ class GifMainActivity : BaseDataActivity2<ActivityGifMainBinding, GifMainViewMod
                     3 -> {
                         ivRight.setImageResource(R.drawable.icon_add)
                         topBarContainer.visibility = View.VISIBLE
+                        ivRight.setColorFilter(resources.getColor(R.color.black, null))
 //                        bannerContainer.visibility = View.GONE
                     }
                 }

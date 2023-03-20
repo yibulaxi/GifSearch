@@ -11,7 +11,7 @@ import com.allever.app.gif.memes.util.SpUtils
 import com.allever.lib.common.app.BaseActivity
 import com.allever.lib.common.util.ActivityCollector
 import com.allever.lib.common.util.log
-import com.allever.lib.permission.PermissionCompat
+import com.allever.lib.permission.PermissionManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -29,7 +29,7 @@ class SplashActivity : BaseActivity() {
         }, 2000)
 
         GlobalScope.launch {
-            if (!PermissionCompat.hasPermission(
+            if (!PermissionManager.hasPermission(
                     this@SplashActivity,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )

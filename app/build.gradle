@@ -129,12 +129,7 @@ dependencies {
     implementation project(':permission')
     implementation project(':common')
     implementation project(':searchview')
-    implementation project(':circleimageview')
-//    implementation project(':comment')
-//    implementation project(':umeng')
-//    implementation project(':recommend')
-    implementation project(':widget')
-//    implementation project(':admob')
+//    implementation project(':widget')
     implementation(name: "Toolkit-1.1", ext: 'aar')
 
 //    implementation('com.giphy.sdk:core:1.0.0@aar') {

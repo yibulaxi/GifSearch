@@ -19,6 +19,7 @@ import com.allever.app.gif.memes.util.SystemUtils
 import com.allever.lib.common.app.App
 import com.allever.lib.common.util.FeedbackHelper
 import com.allever.lib.common.util.toast
+import com.allever.lib.permission.PermissionManager
 import com.allever.lib.permission.PermissionUtil
 
 class SettingFragment : BaseFragment<SettingView, SettingPresenter>(), SettingView,

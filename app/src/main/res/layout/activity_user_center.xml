@@ -20,7 +20,7 @@
             android:id="@+id/includeTapBar"
             layout="@layout/include_top_bar" />
 
-        <com.allever.lib.ui.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/ivHeader"
             android:layout_width="@dimen/dp_90"
             android:layout_height="@dimen/dp_90"

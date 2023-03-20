@@ -3,9 +3,9 @@ include ':BaseMvvmLib'
 include ':app'
 
 include ':permission'
-project(':permission').projectDir = new File(settingsDir, '../AndroidDependencyLib/permission')
+//project(':permission').projectDir = new File(settingsDir, '../AndroidDependencyLib/permission')
 include ':common'
-project(':common').projectDir = new File(settingsDir, '../AndroidDependencyLib/common')
+//project(':common').projectDir = new File(settingsDir, '../AndroidDependencyLib/common')
 //include ':umeng'
 //project(':umeng').projectDir = new File(settingsDir, '../AndroidDependencyLib/umeng')
 
@@ -16,19 +16,16 @@ project(':common').projectDir = new File(settingsDir, '../AndroidDependencyLib/c
 
 //include ':recommend'
 //project(':recommend').projectDir = new File(settingsDir, '../AndroidDependencyLib/recommend')
-include ':httpsglide'
-project(':httpsglide').projectDir = new File(settingsDir, '../AndroidDependencyLib/httpsglide')
+//include ':httpsglide'
+//project(':httpsglide').projectDir = new File(settingsDir, '../AndroidDependencyLib/httpsglide')
 
 //include ':comment'
 //project(':comment').projectDir = new File(settingsDir, '../AndroidDependencyLib/comment')
 
 include ':searchview'
-project(':searchview').projectDir = new File(settingsDir, '../AndroidUIKit/searchview')
-
-include ':circleimageview'
-project(':circleimageview').projectDir = new File(settingsDir, '../AndroidUIKit/circleimageview')
+//project(':searchview').projectDir = new File(settingsDir, '../AndroidUIKit/searchview')
 
 
-include ':widget'
-project(':widget').projectDir = new File(settingsDir, '../AndroidUIKit/widget')
+//include ':widget'
+//project(':widget').projectDir = new File(settingsDir, '../AndroidUIKit/widget')
 include ':RangeSeekBar'
