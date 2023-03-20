@@ -5,7 +5,7 @@
     <data>
         <variable
             name="searchViewModel"
-            type="com.allever.app.gif.memes.ui.search.model.SearchViewModel" />
+            type="com.funny.app.gif.memes.ui.search.model.SearchViewModel" />
     </data>
 
 

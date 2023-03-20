@@ -6,7 +6,7 @@
 
         <variable
             name="gifMakerViewModel"
-            type="com.allever.app.gif.memes.ui.maker.model.GifMakerViewModel" />
+            type="com.funny.app.gif.memes.ui.maker.model.GifMakerViewModel" />
 
     </data>
 

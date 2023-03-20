@@ -5,7 +5,7 @@
 
         <variable
             name="gifFunDebugViewModel"
-            type="com.allever.app.gif.memes.ui.GifFunDebugViewModel" />
+            type="com.funny.app.gif.memes.ui.GifFunDebugViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

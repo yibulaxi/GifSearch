@@ -5,7 +5,7 @@
 
         <variable
             name="mineViewModel"
-            type="com.allever.app.gif.memes.ui.maker.model.MineViewModel" />
+            type="com.funny.app.gif.memes.ui.maker.model.MineViewModel" />
     </data>
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/apk/res-auto"

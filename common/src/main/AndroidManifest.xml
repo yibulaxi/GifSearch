@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.allever.lib.common">
+          package="com.funny.lib.common">
     <application>
         <provider
             android:name="androidx.core.content.FileProvider"

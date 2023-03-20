@@ -6,7 +6,7 @@
 
         <variable
             name="loginViewModel"
-            type="com.allever.app.gif.memes.ui.user.model.LoginViewModel" />
+            type="com.funny.app.gif.memes.ui.user.model.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

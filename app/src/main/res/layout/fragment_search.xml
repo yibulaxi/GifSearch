@@ -6,7 +6,7 @@
     <data>
         <variable
             name="searchViewModel"
-            type="com.allever.app.gif.memes.ui.search.model.SearchViewModel" />
+            type="com.funny.app.gif.memes.ui.search.model.SearchViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,7 +38,7 @@
                 android:layout_height="?actionBarSize"
                 >
 
-                <com.allever.lib.ui.searchview.SearchBar
+                <com.funny.lib.ui.searchview.SearchBar
                     android:id="@+id/searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
